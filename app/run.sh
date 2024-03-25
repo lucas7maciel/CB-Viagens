@@ -3,6 +3,7 @@ cd ./cb_viagens_api
 
 # Run the Django server in the background
 pip install -r requirements.txt
+python manage.py migrate
 py manage.py runserver 3000 &
 
 # Save the PID of the Django server process
