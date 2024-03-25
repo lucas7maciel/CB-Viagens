@@ -1,0 +1,47 @@
+/lixo
+teste.py
+oquefazer.txt
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+*.cache/
+
+# Logs
+log/
+logs/
+
+# Local development settings
+*.env
+
+# SQLite database file
+*.sqlite3
+
+# Media files
+media/
+
+# Static files
+staticfiles/
+
+# Secret key
+*.secret_key
+
+# Environment variables file
+.env
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# Python virtual environment
+venv/
+.env/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
