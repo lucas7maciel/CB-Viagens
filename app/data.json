@@ -1,7 +1,8 @@
-{
-  "transport": [
-    {
-      "id": 1,
+[
+  {
+    "model": "trips.Trip",
+    "pk": 1,
+    "fields": {
       "name": "Expresso Oriente",
       "price_confort": "R$ 52.10",
       "price_econ": "R$ 21.50",
@@ -9,9 +10,12 @@
       "duration": "12h",
       "seat": "12C",
       "bed": "5A"
-    },
-    {
-      "id": 2,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 2,
+    "fields": {
       "name": "Expresso Oriente",
       "price_confort": "R$ 194.20",
       "price_econ": "R$ 43.10",
@@ -19,9 +23,12 @@
       "duration": "18h",
       "seat": "1A",
       "bed": "4B"
-    },
-    {
-      "id": 3,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 3,
+    "fields": {
       "name": "Expresso Oriente",
       "price_confort": "R$ 74.50",
       "price_econ": "R$ 92.20",
@@ -29,9 +36,12 @@
       "duration": "18h",
       "seat": "22A",
       "bed": "7C"
-    },
-    {
-      "id": 4,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 4,
+    "fields": {
       "name": "Expresso Oriente",
       "price_confort": "R$ 776.30",
       "price_econ": "R$ 383.60",
@@ -39,9 +49,12 @@
       "duration": "48h",
       "seat": "9D",
       "bed": "4B"
-    },
-    {
-      "id": 5,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 5,
+    "fields": {
       "name": "Expresso Oriente",
       "price_confort": "R$ 311.30",
       "price_econ": "R$ 270.95",
@@ -49,9 +62,12 @@
       "duration": "12h",
       "seat": "16A",
       "bed": "7C"
-    },
-    {
-      "id": 6,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 6,
+    "fields": {
       "name": "ZazTraz",
       "price_confort": "R$ 82.09",
       "price_econ": "R$ 71.19",
@@ -59,9 +75,12 @@
       "duration": "8h",
       "seat": "20B",
       "bed": "6A"
-    },
-    {
-      "id": 7,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 7,
+    "fields": {
       "name": "ZazTraz",
       "price_confort": "R$ 213.20",
       "price_econ": "R$ 521.21",
@@ -69,9 +88,12 @@
       "duration": "18h",
       "seat": "19C",
       "bed": "1B"
-    },
-    {
-      "id": 8,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 8,
+    "fields": {
       "name": "ZazTraz",
       "price_confort": "R$ 226.50",
       "price_econ": "R$ 164.32",
@@ -79,9 +101,12 @@
       "duration": "18h",
       "seat": "14C",
       "bed": "3D"
-    },
-    {
-      "id": 9,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 9,
+    "fields": {
       "name": "ZazTraz",
       "price_confort": "R$ 235.80",
       "price_econ": "R$ 75.80",
@@ -89,9 +114,12 @@
       "duration": "36h",
       "seat": "7D",
       "bed": "8A"
-    },
-    {
-      "id": 10,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 10,
+    "fields": {
       "name": "ZazTraz",
       "price_confort": "R$ 190.50",
       "price_econ": "R$ 145.50",
@@ -99,9 +127,12 @@
       "duration": "16h",
       "seat": "25D",
       "bed": "4C"
-    },
-    {
-      "id": 11,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 11,
+    "fields": {
       "name": "ZazTraz",
       "price_confort": "R$ 42.35",
       "price_econ": "R$ 18.95",
@@ -109,9 +140,12 @@
       "duration": "12h",
       "seat": "25A",
       "bed": "2B"
-    },
-    {
-      "id": 12,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 12,
+    "fields": {
       "name": "Rapido Jacutinga",
       "price_confort": "R$ 318.25",
       "price_econ": "R$ 116.75",
@@ -119,9 +153,12 @@
       "duration": "4h",
       "seat": "17D",
       "bed": "7C"
-    },
-    {
-      "id": 13,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 13,
+    "fields": {
       "name": "Rapido Jacutinga",
       "price_confort": "R$ 214.87",
       "price_econ": "R$ 128.20",
@@ -129,9 +166,12 @@
       "duration": "2h",
       "seat": "9A",
       "bed": "1A"
-    },
-    {
-      "id": 14,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 14,
+    "fields": {
       "name": "Rapido Jacutinga",
       "price_confort": "R$ 315.72",
       "price_econ": "R$ 218.14",
@@ -139,9 +179,12 @@
       "duration": "2h",
       "seat": "20B",
       "bed": "4C"
-    },
-    {
-      "id": 15,
+    }
+  },
+  {
+    "model": "trips.Trip",
+    "pk": 15,
+    "fields": {
       "name": "Rapido Jacutinga",
       "price_confort": "R$ 913.67",
       "price_econ": "R$ 412.14",
@@ -149,16 +192,6 @@
       "duration": "3h",
       "seat": "20A",
       "bed": "2C"
-    },
-    {
-      "id": 16,
-      "name": "Rapido Jacutinga",
-      "price_confort": "R$ 141.50",
-      "price_econ": "R$ 102.20",
-      "city": "Recife",
-      "duration": "5h",
-      "seat": "13D",
-      "bed": "6B"
     }
-  ]
-}
+  }
+]
