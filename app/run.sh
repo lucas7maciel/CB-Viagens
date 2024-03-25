@@ -1,5 +1,5 @@
 
-cd ../cb_viagens_api
+cd ./cb_viagens_api
 
 # Run the Django server in the background
 pip install -r requirements.txt
