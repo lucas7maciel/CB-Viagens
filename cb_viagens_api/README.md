@@ -7,6 +7,7 @@ Nele podemos manusear e conferir as informações das viagens armazenadas em um 
 
 ## Rotas
 - /trips (GET) (city, date)                 | Retorna as viagens filtradas;
+- /trips/cities (GET)                       | Retorna todas as cidades disponíveis;
 - /trips/book (POST) (customer, trip)       | Associa uma viagem a um cliente;
 - /auth/users (POST) (username, password)   | Registra um usuário
 - /auth/login/ (POST) (username, password)  | Realiza o login do usuário
