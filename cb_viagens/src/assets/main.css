@@ -1,0 +1,33 @@
+@import './base.css';
+
+.error_input {
+  outline: yellow;
+  animation: shake 1s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  5% {
+    border: solid 2px red;
+  }
+  20% {
+    transform: translateX(-12px);
+  }
+  40% {
+    transform: translateX(12px);
+  }
+  60% {
+    transform: translateX(-12px);
+  }
+  80% {
+    transform: translateX(12px);
+  }
+  90% {
+    border: solid 2px red;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

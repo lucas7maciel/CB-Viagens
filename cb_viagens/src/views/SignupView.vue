@@ -1,0 +1,251 @@
+<script lang="ts">
+//Components
+import Intro from '@/components/signUp/Intro.vue'
+//Functions
+import {
+  checkUsername,
+  checkPassword,
+  checkFirstName,
+  checkLastName,
+  confirmPassword
+} from '@/utils/checkInputs.ts'
+
+export default {
+  data() {
+    return {
+      message: 'Digite suas credenciais'
+    }
+  },
+  components: {
+    Intro
+  },
+  beforeCreate() {
+    document.title = 'Sign Up'
+  },
+  methods: {
+    setMessage(value: string): void {
+      this.message = value
+    },
+    checkInputs(): boolean {
+      if (!checkFirstName(this.$refs.firstname.value, this.$refs.firstname, this.setMessage)) {
+        return false
+      }
+
+      if (!checkLastName(this.$refs.lastname.value, this.$refs.lastname, this.setMessage)) {
+        return false
+      }
+
+      if (!checkUsername(this.$refs.username.value, this.$refs.username, this.setMessage)) {
+        return false
+      }
+
+      if (!checkPassword(this.$refs.password.value, this.$refs.password, this.setMessage)) {
+        return false
+      }
+
+      if (
+        !confirmPassword(
+          this.$refs.confirm.value,
+          this.$refs.password.value,
+          this.$refs.confirm,
+          this.setMessage
+        )
+      ) {
+        return false
+      }
+
+      return true
+    },
+    submitForm() {
+      if (!this.checkInputs()) return
+
+      this.message = 'Enviando dados'
+
+      const forms = {
+        username: this.$refs.username.value,
+        password: this.$refs.password.value
+      }
+
+      fetch(`${import.meta.env.VITE_API_URL}/auth/users/`, {
+        method: 'POST',
+        body: JSON.stringify(forms),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      })
+        .then((res) => res.json())
+        .then(console.log)
+        .catch(console.log)
+    }
+  }
+}
+</script>
+
+<template>
+  <div class="container">
+    <Intro />
+    <div class="inputs">
+      <h1>Registrar</h1>
+      <h2>Digite suas credenciais para que possamos registrá-lo no sistema</h2>
+      <form class="forms" @submit.prevent="submitForm">
+        <div class="name">
+          <div>
+            <label>Nome</label><br />
+            <input placeholder="Digite seu nome" ref="firstname" type="text" />
+          </div>
+          <div>
+            <label>Sobrenome</label><br />
+            <input placeholder="Digite seu sobrenome" ref="lastname" type="text" />
+          </div>
+        </div>
+        <label>Username</label>
+        <input placeholder="Digite seu username" ref="username" type="text" />
+        <label>Senha</label>
+        <input placeholder="Digite sua senha" ref="password" type="password" />
+        <label>Confirmar Senha</label>
+        <input placeholder="Confirme sua senha" ref="confirm" type="password" />
+        <p class="message">{{ message }}</p>
+        <div class="buttons">
+          <button class="signup" type="submit">Criar Conta</button>
+        </div>
+      </form>
+      <p class="back" @click="this.$router.push('signin')">Voltar</p>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.container {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  width: 100dvw;
+
+  padding: 1rem 1rem;
+}
+
+/** Inputs */
+.inputs {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+
+  padding-inline: 8%;
+}
+
+.inputs h1 {
+  font-weight: 600;
+}
+
+.inputs h2 {
+  font-weight: 500;
+  font-size: 1.2em;
+}
+
+.inputs .forms {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+
+  margin-top: 0.3rem;
+}
+
+.inputs .forms .name,
+.inputs .forms .buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+}
+
+.inputs .forms .name div {
+  flex: 1 1 40%;
+}
+
+.inputs .forms .name div * {
+  width: 100%;
+}
+
+.inputs .forms label {
+  font-weight: 500;
+
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.inputs .forms input {
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.5rem;
+}
+
+/** Message and Button */
+.message {
+  font-weight: bold;
+  text-align: center;
+
+  margin-top: 1rem;
+}
+
+.signup {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+
+  padding: 0.4rem 1.5rem;
+  margin-top: 0.7rem;
+
+  border-radius: 3rem;
+  border: none;
+  background-color: black;
+
+  cursor: pointer;
+  transition: background-color 0.5s;
+
+  align-self: center;
+  user-select: none;
+}
+
+.signup:hover {
+  background-color: lightgray;
+}
+
+.back {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 0.3rem;
+  align-self: center;
+  text-align: center;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+/** */
+@media (max-width: 900px) {
+  .intro {
+    display: none;
+  }
+
+  .inputs h1,
+  .inputs h2 {
+    text-align: center;
+  }
+
+  .inputs .forms {
+    margin-top: 3rem;
+  }
+
+  .message {
+    margin-top: 3rem;
+    padding-inline: 5%;
+  }
+}
+</style>
