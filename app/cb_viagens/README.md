@@ -1,6 +1,11 @@
 # Frontend da CB Viagens feito com Vue.js!
 Com esta interface podemos conferir e manusear as informações guardadas no servidor!
 
+## Imagens
+![Home](../../recording/home.png)
+![Login](../../recording/login.png)
+![Dashboard](../../recording/dashboard.png)
+
 ## Requerimentos
 - Node.js;
 - Npm / Yarn;
@@ -27,28 +32,20 @@ Com esta interface podemos conferir e manusear as informações guardadas no ser
 _O projeto está sendo executado na port 8080, caso tenha outra preferência, altere em vite.config.ts_
 Para executar o projeto inteiro (backend e frontend), você pode executar /app/run.sh ou seguir este passo a passo (apenas front).
 
-### Passo 1: Defina as Variáveis de Ambiente
-Para que a aplicação possa ter acesso aos dados do servidor, é necessário que seu url seja específicado para que as requests sejam feitas. Crie um arquivo **.env** na raiz do projeto para que isto seja feito;
-
-```
-VITE_API_URL=<url_da_sua_api>
-```
-
-### Passo 2: Setup
+### Passo 1: Setup
 
 ```sh
 # Só é necessário executar este comando na primeira vez
 npm install
 ```
 
-### Passo 3: Compilar e Hot-Reload (Desenvolvimento)
-
+### Passo 2: 
+Compilar e Hot-Reload (Desenvolvimento)
 ```sh
 npm run dev
 ```
 
-### Passo 4: Type-Check, Compilar e Minificar (Produção)
-
+Type-Check, Compilar e Minificar (Produção)
 ```sh
 npm run build
 ```
