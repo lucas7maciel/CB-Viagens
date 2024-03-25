@@ -30,10 +30,10 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = False
 
 #Change these lists in case you want to test the server locally
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '.vercel.app']
 
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5173', 'http://localhost:5173', 'http://localhost:8000'
+    'http://localhost:5173', 'http://localhost:8080', 'http://localhost:8000'
 ]
 
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5173', 'http://localhost:5173', 'http://localhost:8000']
@@ -96,7 +96,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'cb_viagens_api.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

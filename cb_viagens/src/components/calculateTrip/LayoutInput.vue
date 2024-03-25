@@ -68,6 +68,7 @@ export default {
     background-color 0.5s;
 
   z-index: 1;
+  backdrop-filter: invert(100%);
 }
 
 .layout .selected:hover {

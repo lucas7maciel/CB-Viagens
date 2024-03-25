@@ -1,17 +1,9 @@
-<script lang="ts">
-import Link from '@/components/dashboardBar/Link.vue'
+<script setup lang="ts">
+import Link from '../../components/dashboardBar/Link.vue'
 import CalculatorIcon from '@/components/icons/IconCalculator.vue'
 import PlaneIcon from '@/components/icons/IconPlane.vue'
 import QuestionIcon from '@/components/icons/IconQuestion.vue'
 
-export default {
-  components: {
-    Link,
-    CalculatorIcon,
-    PlaneIcon,
-    QuestionIcon
-  }
-}
 </script>
 
 <template>
@@ -23,6 +15,7 @@ export default {
       <Link :Icon="PlaneIcon" :title="'Minhas Viagens'" />
       <Link :Icon="QuestionIcon" :title="'Sobre Nós'" />
     </div>
+    <p class="alert">(Clique pela Navbar)</p>
   </div>
 </template>
 
@@ -61,7 +54,17 @@ export default {
 }
 
 .links .link {
-  background-color: #2a3041;
+  background-color: black;
   color: white;
+}
+
+.links .link:hover {
+  filter: invert(1);
+}
+
+.alert {
+  margin-top: 2rem;
+  font-weight: bold;
+  color: gray;
 }
 </style>

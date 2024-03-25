@@ -54,7 +54,7 @@ export default {
 <template>
   <div class="container">
     <DashboardBar :setPage="setCurrent" />
-    <div class="page"><component :is="pages[current]" /></div>
+    <div class="page"><component :is="pages[current]"  /></div>
   </div>
 </template>
 

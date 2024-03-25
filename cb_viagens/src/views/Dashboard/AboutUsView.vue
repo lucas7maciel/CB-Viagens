@@ -12,7 +12,8 @@ export default {
   <div class="about_us">
     <Title title="Quem Somos Nós?" />
     <div class="content">
-      <h1>Somos uma empresa de avião</h1>
+      <h1>Somos uma rede de aeroportos</h1>
+      <h2>Em breve informações serão adicionadas</h2>
     </div>
   </div>
 </template>
@@ -25,6 +26,8 @@ export default {
 
   height: calc(100vh - 1rem);
   overflow: hidden;
+
+  user-select: none;
 }
 
 .content {
