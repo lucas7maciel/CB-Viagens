@@ -7,8 +7,8 @@ Este é um relatório do meu progresso do desafio proposto pela Coorlab
 ![Dashboard](recording/dashboard.png)
 
 ## Documentações
-- Documentação do Frontend (Vue): [documentação](cb_viagens/README.md)
-- Documentação do Backend (Django): [documentação](cb_viagens_api/README.md)
+- Documentação do Frontend (Vue): [documentação](app/cb_viagens/README.md)
+- Documentação do Backend (Django): [documentação](app/cb_viagens_api/README.md)
 
 ## Frontend
 - Para o frontend, utilizei Vue.js para implementar uma Landing Page, Página de Login, Página de Cadastro e Dashboard com algumas seções. Prezei por uma interface simples de usar, porém agradável aos olhos, com cores e layouts que combinassem com o protótipo e logo que foram enviados;
