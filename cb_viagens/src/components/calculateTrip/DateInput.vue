@@ -9,10 +9,10 @@ import { formatDate } from '@/utils/formatDate.ts'
 import ExpandIcon from '@/components/icons/IconExpand.vue'
 
 export default {
+  props: ['dateInput'],
   data() {
     return {
-      dateInput: new Date() as Date,
-      dateOutput: formatDate(new Date()) as string
+      dateOutput: 'Selecione uma Data' as string
     }
   },
   components: {
@@ -21,7 +21,9 @@ export default {
   },
   methods: {
     format(date: Date) {
-      this.dateOutput = formatDate(date)
+      if (date) {
+        this.dateOutput = formatDate(date)
+      }
     },
     openPicker() {
       this.$refs.datepicker.openMenu()
@@ -39,7 +41,8 @@ export default {
         :format="format"
         :enable-time-picker="false"
         :min-date="new Date()"
-        v-model="dateInput"
+        :value="dateInput"
+        @input="$emit('update:value', $event.target.value)"
       >
       </VueDatePicker>
 

@@ -28,7 +28,7 @@ export default {
         body: JSON.stringify(data)
       }
 
-      fetch(`${import.meta.env.VITE_API_URL}/trips/book`, options)
+      fetch('http://localhost:3000/trips/book', options)
         .then((res) => res.json())
         .then(console.log)
         .catch(console.log)

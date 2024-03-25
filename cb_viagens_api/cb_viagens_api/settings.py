@@ -11,10 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = 'django-insecure-ig!#u#vsl+-y&_p3dd8fn5%q7w=yal-rn1bd21h_g=he@jv3m)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -33,11 +29,13 @@ DEBUG = False
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '.vercel.app']
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173', 'http://localhost:8080', 'http://localhost:8000'
+    'http://localhost:5173', 'http://localhost:8080', 'http://localhost:8080'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5173', 'http://localhost:5173', 'http://localhost:8000']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5173', 'http://localhost:5173', 'http://localhost:8080']
 
+
+# Application definition
 
 # Used for remote user authentication
 REST_FRAMEWORK = {
@@ -58,11 +56,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'trips',
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'trips',
     'corsheaders',
 ]
 
@@ -97,18 +94,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cb_viagens_api.wsgi.application'
 
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("DB_NAME"),
-        'USER': env("DB_USER"),
-        'PASSWORD': env("DB_PASSWORD"),
-        'HOST': env("DB_HOST"),
-        'PORT': env("DB_PORT"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

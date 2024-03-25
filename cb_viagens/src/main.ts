@@ -8,7 +8,7 @@ import router from './router'
 import { store, key } from './store'
 import axios from 'axios'
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL
+//axios.defaults.baseURL = 'localhost:3000/'
 
 const app = createApp(App)
 app.use(createPinia())

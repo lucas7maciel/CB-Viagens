@@ -5,6 +5,7 @@ import Link from './Link.vue'
 import CalculatorIcon from '../icons/IconCalculator.vue'
 import PlaneIcon from '../icons/IconPlane.vue'
 import QuestionIcon from '../icons/IconQuestion.vue'
+import PremiumIcon from '@/components/icons/IconPremium.vue'
 
 defineProps<{
   setPage: void
@@ -19,6 +20,7 @@ defineProps<{
     </header>
     <div class="links">
       <Link :Icon="CalculatorIcon" :title="'Calcular Viagem'" @click="setPage('calculate')" />
+      <Link :Icon="PremiumIcon" :title="'Viagens Comfort'" @click="setPage('comftrips')" />
       <Link :Icon="PlaneIcon" :title="'Minhas Viagens'" @click="setPage('mytrips')" />
       <Link :Icon="QuestionIcon" :title="'Sobre Nós'" @click="setPage('aboutus')" />
     </div>

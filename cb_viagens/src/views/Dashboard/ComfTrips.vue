@@ -63,9 +63,6 @@ export default {
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
-          if (this.trips.length > 7) {
-            this.trips = this.trips.splice(0, 7)
-          }
         })
     },
     setLayout() {
@@ -89,9 +86,15 @@ export default {
 </script>
 
 <template>
-  <div class="my_trips">
-    <Title title="Minhas Viagens"></Title>
+  <div class="calculate_trip">
+    <Title title="Viagens Comfort"></Title>
     <div class="content">
+      <div class="inputs">
+        <div class="city"><input placeholder="Cidade" v-model="cityInput" /></div>
+        <DateInput />
+        <LayoutInput :layout="layout" :setLayout="setLayout" />
+      </div>
+      <hr />
       <Row :header="true" />
       <hr />
       <div class="results">
@@ -107,13 +110,13 @@ export default {
   </div>
 
   <transition name="custom-animation"
-    ><Modal :close="closeTrip" title="Conferir Viagem" v-if="tripModal.active"
-      ><template #content> <AddTrip :trip="tripModal.current" :cancel="true" /> </template></Modal
+    ><Modal :close="closeTrip" title="Adicionar Viagem" v-if="tripModal.active"
+      ><template #content> <AddTrip :trip="tripModal.current" /> </template></Modal
   ></transition>
 </template>
 
 <style scoped>
-.my_trips {
+.calculate_trip {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -138,8 +141,6 @@ export default {
 
 .content hr {
   color: #d9d9d9;
-  color: red;
-  background-color: red;
 }
 
 /*Inputs (header)*/
@@ -205,4 +206,6 @@ export default {
     opacity: 0;
   }
 }
+
+/** */
 </style>

@@ -3,6 +3,7 @@ import Link from '../../components/dashboardBar/Link.vue'
 import CalculatorIcon from '@/components/icons/IconCalculator.vue'
 import PlaneIcon from '@/components/icons/IconPlane.vue'
 import QuestionIcon from '@/components/icons/IconQuestion.vue'
+import PremiumIcon from '@/components/icons/IconPremium.vue'
 
 </script>
 
@@ -14,6 +15,7 @@ import QuestionIcon from '@/components/icons/IconQuestion.vue'
       <Link :Icon="CalculatorIcon" :title="'Calcular Viagem'" />
       <Link :Icon="PlaneIcon" :title="'Minhas Viagens'" />
       <Link :Icon="QuestionIcon" :title="'Sobre Nós'" />
+      <Link :Icon="PremiumIcon" :title="'Viagens Comfort'" />
     </div>
     <p class="alert">(Clique pela Navbar)</p>
   </div>
@@ -51,6 +53,9 @@ import QuestionIcon from '@/components/icons/IconQuestion.vue'
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+
+  width: 80%;
+  row-gap: 1rem;
 }
 
 .links .link {

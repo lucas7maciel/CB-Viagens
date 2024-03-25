@@ -42,7 +42,7 @@ export default {
         password: this.password
       }
 
-      fetch(`${import.meta.env.VITE_API_URL}/auth/token/login/`, {
+      fetch('http://127.0.0.1:3000/auth/token/login/', {
         method: 'POST',
         body: JSON.stringify(forms),
         headers: {

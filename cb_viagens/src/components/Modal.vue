@@ -7,7 +7,7 @@ export default {
   components: {
     CloseIcon
   },
-  props: ['title', 'close', 'content']
+  props: ['title', 'close', 'content', 'no_header']
 }
 </script>
 
@@ -15,11 +15,11 @@ export default {
   <div>
     <div class="shadow" @click="close"></div>
     <div class="modal">
-      <div class="header">
+      <div class="header" v-if="!no_header">
         <h3 class="title">{{ title }}</h3>
         <CloseIcon class="close" @click="close" />
       </div>
-      <hr />
+      <hr v-if="!no_header" />
       <slot name="content"></slot>
     </div>
   </div>

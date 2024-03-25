@@ -66,7 +66,9 @@ export default {
         password: this.$refs.password.value
       }
 
-      fetch(`${import.meta.env.VITE_API_URL}/auth/users/`, {
+      console.log(forms)
+
+      fetch('http://127.0.0.1:3000/auth/users/', {
         method: 'POST',
         body: JSON.stringify(forms),
         headers: {
@@ -74,7 +76,9 @@ export default {
         }
       })
         .then((res) => res.json())
-        .then(console.log)
+        .then(() => {
+          this.message = "Usuário criado com sucesso!"
+        })
         .catch(console.log)
     }
   }

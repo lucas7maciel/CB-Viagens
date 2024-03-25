@@ -5,8 +5,9 @@ import AddTrip from '@/components/calculateTrip/AddTrip.vue'
 import Row from '@/components/calculateTrip/Row.vue'
 import Title from '@/components/Title.vue'
 import DateInput from '@/components/calculateTrip/DateInput.vue'
-import LayoutInput from '@/components/calculateTrip/LayoutInput.vue'
 import Trip from '@/components/calculateTrip/Trip.vue'
+//icons
+import AlertIcon from '@/components/icons/IconAlert.vue'
 
 interface TripProps {
   id: number
@@ -19,26 +20,18 @@ interface TripProps {
   bed: string
 }
 
-interface TripModalProps {
-  active: boolean
-  current: TripProps | null
-}
-
 export default {
   mounted() {
     this.getCities()
-    this.getTrips()
+    //this.getTrips()
   },
   data() {
     return {
       cities: [] as string[],
       trips: [] as TripProps[],
       cityInput: '' as string,
-      layout: 'grid_mode' as 'grid_mode' | 'list_mode',
-      tripModal: {
-        active: false as boolean,
-        current: null as TripProps | null
-      } as TripModalProps
+      dateInput: null as Date | null,
+      modal: false as boolean
     }
   },
   components: {
@@ -48,38 +41,32 @@ export default {
     AddTrip,
     Title,
     DateInput,
-    LayoutInput
+    AlertIcon
   },
   methods: {
     getCities() {
-      fetch(`${import.meta.env.VITE_API_URL}/trips/cities`)
+      fetch('http://localhost:3000/trips/cities')
         .then((res) => res.json())
         .then((data) => {
           this.cities = data
         })
     },
-    getTrips(city: string) {
-      fetch(`${import.meta.env.VITE_API_URL}/trips/${city ? `?city=${city}` : ''}`)
+    close() {
+      this.modal = false
+    },
+    search() {
+      console.log(`City: ${this.cityInput}`)
+      console.log(`Date: ${this.dateInput}`)
+
+      if (!this.cityInput || !this.dateInput) {
+        this.modal = true
+        return
+      }
+      /*fetch(`http://localhost:3000/trips/${city ? `?city=${city}` : ''}`)
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
-        })
-    },
-    setLayout() {
-      if (this.layout == 'grid_mode') this.layout = 'list_mode'
-      else this.layout = 'grid_mode'
-    },
-    openTrip(trip: TripProps) {
-      this.tripModal.active = true
-      this.tripModal.current = trip
-    },
-    closeTrip() {
-      this.tripModal.active = false
-    }
-  },
-  watch: {
-    cityInput(newValue) {
-      this.getTrips(newValue)
+        })*/
     }
   }
 }
@@ -90,29 +77,34 @@ export default {
     <Title title="Calcular Viagem"></Title>
     <div class="content">
       <div class="inputs">
-        <div class="city"><input placeholder="Cidade" v-model="cityInput" /></div>
+        <div class="city">
+          <select v-model="cityInput">
+            <option disabled selected value="">Escolha a cidade</option>
+            <option v-for="(city, key) in cities" :key="key">{{ city }}</option>
+          </select>
+        </div>
         <DateInput />
-        <LayoutInput :layout="layout" :setLayout="setLayout" />
+        <button class="search" @click="search">Buscar</button>
       </div>
       <hr />
-      <Row :header="true" />
-      <hr />
-      <div class="results">
-        <Row
-          v-for="(trip, key) in trips"
-          :header="false"
-          :trip="trip"
-          :openTrip="openTrip"
-          :key="key"
-        />
+      <div style="display: flex; align-items: center; justify-content: center; flex: 1">
+        <h1 style="font-weight: 600">Digie os dados para encontrar a viagem ideal</h1>
       </div>
     </div>
   </div>
 
-  <transition name="custom-animation"
-    ><Modal :close="closeTrip" title="Adicionar Viagem" v-if="tripModal.active"
-      ><template #content> <AddTrip :trip="tripModal.current" /> </template></Modal
-  ></transition>
+  <transition name="custom-animation">
+    <Modal :close="close" title="Preencha os Formulários" :no_header="true" v-if="modal"
+      ><template #content>
+        <div class="fill_forms">
+          <AlertIcon class="icon" />
+
+          <p class="message">Informe cidade e data para pesquisar</p>
+          <button class="close" @click="close">Fechar</button>
+        </div>
+      </template></Modal
+    >
+  </transition>
 </template>
 
 <style scoped>
@@ -155,35 +147,50 @@ export default {
 }
 
 .inputs .city,
-.inputs .date,
-.inputs .layout {
+.inputs .date {
   display: flex;
   align-items: stretch;
 }
 
 .inputs .city,
-.inputs .date {
+.inputs .search {
   flex: 1 1 25%;
   justify-content: start;
 }
 
-.inputs .layout {
+.inputs .date {
   flex: 1 1 50%;
-  justify-content: end;
 }
 
 /*Inputs -> City*/
-.inputs .city input {
-  border-radius: 1.5rem;
+.inputs .city select {
+  flex: 1;
 
   padding: 0 2.2rem;
 
+  border-radius: 2.2rem;
   border: none;
+  appearance: none;
 
-  background-image: url('../../assets/search.svg');
+  background-image: url('../../assets/expand.svg');
   background-repeat: no-repeat;
-  background-position: 0.5rem center;
-  background-size: 1.2rem 1.2rem;
+  background-position: 0.8rem center;
+  background-size: 1.1rem 1.1rem;
+}
+
+/** Search */
+.search {
+  background-color: #2a3041;
+  padding-inline: 4rem;
+  color: white;
+  font-weight: bold;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.search:hover {
+  background-color: #48516c;
 }
 
 /*Tabela*/
@@ -195,6 +202,37 @@ export default {
 /*Modal*/
 .custom-animation-leave-active {
   animation: fade-out 0.2s;
+}
+
+.fill_forms .icon {
+  max-width: 4rem;
+  max-height: 4rem;
+}
+
+.fill_forms .message {
+  text-align: center;
+  width: 80%;
+  font-size: 1.6rem;
+  margin: 0 auto;
+}
+
+.fill_forms .close {
+  font-size: 1.3rem;
+  color: white;
+
+  padding: 0.5rem 3rem;
+  margin-top: 1rem;
+
+  background-color: #03a8b4;
+
+  border: solid 0.3px #048a93;
+  border-radius: 3rem;
+
+  transition: background-color 0.5s;
+}
+
+.fill_forms .close:hover {
+  background-color: #05becb;
 }
 
 @keyframes fade-out {
