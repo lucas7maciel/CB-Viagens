@@ -1,6 +1,10 @@
 # Resultado - Desáfio CoorLab
 Este é um relatório do meu progresso do desafio proposto pela Coorlab
 
+![Home](recording/home.png)
+![Login](recording/login.png)
+![Dashboard](recording/dashboard.png)
+
 ### Documentações
 - Documentação do Frontend (Vue): [documentação](cb_viagens/README.md)
 - Documentação do Backend (Django): [documentação](cb_viagens_api/README.md)
