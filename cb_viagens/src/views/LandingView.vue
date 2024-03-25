@@ -123,11 +123,15 @@ export default {
 .art {
   text-align: center;
   animation: show_art 0.8s both;
+  display: flex;
+  justify-content: end;
 }
 
 .art .guy {
   max-width: 100%;
   max-height: 100%;
+
+  align-self: end;
 
   transform: translateY(1.2rem);
 }

@@ -1,40 +1,51 @@
+# Frontend da CB Viagens feito com Vue.js!
+Com esta interface podemos conferir e manusear as informações guardadas no servidor!
+
+## Páginas
+- Landing Page - "/";
+- Página de login - "/signin";
+- Página de cadastro - "/signup";
+- Dashboard - "/dashboard"
+- Calculate Trip - (Seção do dashboard);
+- Minhas Viagens - (Seção do dashboard);
+- Sobre Nós - (Seção do dashboard);
+
 ## Requerimentos
+- Node.js;
+- Npm / Yarn;
+- Vue Cli;
+
+## Bibliotecas Utilizadas
+- vue-datepicker: ^8.3.1;
+- axios: ^1.6.8;
+- pinia: ^2.1.7;
+- vue: ^3.4.21;
+- vue-router: ^4.3.0;
+- vuex: "^4.0.2";
 
 ## Como Executar
+_O projeto está sendo executado na port 8080, caso tenha outra preferência, altere em vite.config.ts_
+Para executar o projeto inteiro (backend e frontend), você pode executar /app/run.sh ou seguir este passo a passo (apenas front).
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+### Passo 1: Setup
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Passo 2: Compilar e Hot-Reload (Desenvolvimento)
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Passo 3: Type-Check, Compilar e Minificar (Produção)
 
 ```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Lint com [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint

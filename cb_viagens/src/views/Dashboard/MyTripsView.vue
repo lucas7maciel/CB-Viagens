@@ -63,6 +63,9 @@ export default {
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
+          if (this.trips.length > 7) {
+            this.trips = this.trips.splice(0, 7)
+          }
         })
     },
     setLayout() {
