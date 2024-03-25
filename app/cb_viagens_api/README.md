@@ -3,7 +3,6 @@ Nele podemos manusear e conferir as informações das viagens armazenadas em um 
 
 ## Requerimentos
 - Python;
-- PostgreSQL;
 
 ## Rotas
 - /trips (GET) (city, date)                 | Retorna as viagens filtradas;
