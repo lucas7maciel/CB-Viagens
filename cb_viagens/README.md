@@ -1,6 +1,11 @@
 # Frontend da CB Viagens feito com Vue.js!
 Com esta interface podemos conferir e manusear as informações guardadas no servidor!
 
+## Requerimentos
+- Node.js;
+- Npm / Yarn;
+- Vue Cli;
+
 ## Páginas
 - Landing Page - "/";
 - Página de login - "/signin";
@@ -9,11 +14,6 @@ Com esta interface podemos conferir e manusear as informações guardadas no ser
 - Calculate Trip - (Seção do dashboard);
 - Minhas Viagens - (Seção do dashboard);
 - Sobre Nós - (Seção do dashboard);
-
-## Requerimentos
-- Node.js;
-- Npm / Yarn;
-- Vue Cli;
 
 ## Bibliotecas Utilizadas
 - vue-datepicker: ^8.3.1;
