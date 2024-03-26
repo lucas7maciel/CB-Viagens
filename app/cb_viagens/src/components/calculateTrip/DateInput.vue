@@ -9,7 +9,7 @@ import { formatDate } from '@/utils/formatDate.ts'
 import ExpandIcon from '@/components/icons/IconExpand.vue'
 
 export default {
-  props: ['dateInput'],
+  props: ['setDate'],
   data() {
     return {
       dateOutput: 'Selecione uma Data' as string
@@ -22,6 +22,7 @@ export default {
   methods: {
     format(date: Date) {
       if (date) {
+        this.setDate(date)
         this.dateOutput = formatDate(date)
       }
     },
@@ -41,8 +42,6 @@ export default {
         :format="format"
         :enable-time-picker="false"
         :min-date="new Date()"
-        :value="dateInput"
-        @input="$emit('update:value', $event.target.value)"
       >
       </VueDatePicker>
 

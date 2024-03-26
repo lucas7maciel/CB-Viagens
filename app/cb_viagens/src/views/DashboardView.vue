@@ -13,7 +13,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      current: 'welcome' as string,
+      current: 'calculate' as string,
       pages: {
         calculate: markRaw(CalculateTrip),
         mytrips: markRaw(MyTrips),

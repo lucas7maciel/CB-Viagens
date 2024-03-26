@@ -3,9 +3,16 @@ cd ./cb_viagens_api
 
 # Run the Django server in the background
 pip install -r requirements.txt
-py manage.py migrate
-py manage.py loaddata ../data.json # populates database
-py manage.py runserver 3000 &      # runs server with port 3000
+
+if command -v python3 &>/dev/null; then
+    PYTHON=python3
+else
+    PYTHON=python
+fi
+
+PYTHON manage.py migrate
+PYTHON manage.py loaddata ../data.json # populates database
+PYTHON manage.py runserver 3000 &      # runs server with port 3000
 
 # Save the PID of the Django server process
 DJANGO_PID=$!

@@ -47,8 +47,22 @@ pip install -r requirements.txt
 
 Este comando irá instalar todas as dependências listadas no arquivo **requirements.txt**, que serão necessárias para executar o projeto.
 
-### Passo 2: Ligue o servidor
+### Passo 2: Execute as migrações
+```
+py manage.py migrate
+```
+_Necessário apenas na primeira vez_
+
+### Passo 3: Popule o banco de dados
+```
+py manage.py loaddata path/to/json/data.json
+# Se você baixou o repositório inteiro, path = ../data.json
+# Caso contrário, baixe-o em /apps
+```
+_Necessário apenas na primeira vez_
+
+### Passo 4: Ligue o servidor
 Para executar o servidor, execute o seguinte comando
 ```
-py manage.py runserver <port_desejada>
+py manage.py runserver 3000
 ```

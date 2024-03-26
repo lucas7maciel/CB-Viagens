@@ -28,10 +28,11 @@ export default {
   data() {
     return {
       cities: [] as string[],
-      trips: [] as TripProps[],
+      trip: null as TripProps | null,
       cityInput: '' as string,
       dateInput: null as Date | null,
-      modal: false as boolean
+      modal: false as boolean,
+      message: 'Digite os dados para encontrar a viagem ideal' as string
     }
   },
   components: {
@@ -54,6 +55,9 @@ export default {
     close() {
       this.modal = false
     },
+    setDate(value: Date) {
+      this.dateInput = value
+    },
     search() {
       console.log(`City: ${this.cityInput}`)
       console.log(`Date: ${this.dateInput}`)
@@ -62,11 +66,19 @@ export default {
         this.modal = true
         return
       }
-      /*fetch(`http://localhost:3000/trips/${city ? `?city=${city}` : ''}`)
+
+      this.message = 'Sem viagens para a data solicitada'
+      fetch(`http://localhost:3000/trips/?city=${this.cityInput}`)
         .then((res) => res.json())
         .then((data) => {
-          this.trips = data
-        })*/
+          console.log(data)
+          if (data.length > 0) {
+            console.log('Mudando Trip')
+            this.trip = data[0]
+          } else {
+            this.trip = null
+          }
+        })
     }
   }
 }
@@ -83,12 +95,12 @@ export default {
             <option v-for="(city, key) in cities" :key="key">{{ city }}</option>
           </select>
         </div>
-        <DateInput />
+        <DateInput :setDate="setDate" />
         <button class="search" @click="search">Buscar</button>
       </div>
       <hr />
       <div style="display: flex; align-items: center; justify-content: center; flex: 1">
-        <h1 style="font-weight: 600">Digie os dados para encontrar a viagem ideal</h1>
+        <h1 v-if="!trip" style="font-weight: 600">{{ message }}</h1>
       </div>
     </div>
   </div>
