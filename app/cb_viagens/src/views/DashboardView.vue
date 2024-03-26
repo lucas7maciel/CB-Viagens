@@ -28,6 +28,10 @@ export default {
   },
   beforeMount() {
     //checks if user is logged
+    const provisorio: number = 1;
+
+    if (provisorio) return
+
     axios
       .get('http://127.0.0.1:3000/auth/users/me/')
       .then((data) => {

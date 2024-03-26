@@ -42,6 +42,9 @@ export default {
         password: this.password
       }
 
+      this.$router.push('dashboard') //PROVISORIO
+      if (forms) return
+
       fetch('http://127.0.0.1:3000/auth/token/login/', {
         method: 'POST',
         body: JSON.stringify(forms),

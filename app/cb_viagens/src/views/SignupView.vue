@@ -66,8 +66,6 @@ export default {
         password: this.$refs.password.value
       }
 
-      console.log(forms)
-
       fetch('http://127.0.0.1:3000/auth/users/', {
         method: 'POST',
         body: JSON.stringify(forms),
