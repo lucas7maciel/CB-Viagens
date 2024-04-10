@@ -9,6 +9,12 @@ import ComfTrips from '@/views/Dashboard/ComfTrips.vue'
 //
 import { markRaw } from 'vue'
 import axios from 'axios'
+// Types
+import { type Component } from 'vue'
+
+interface PagesProps {
+  [key: string]: Component;
+}
 
 export default {
   data() {
@@ -20,7 +26,7 @@ export default {
         aboutus: markRaw(AboutUs),
         welcome: markRaw(Welcome),
         comftrips: markRaw(ComfTrips)
-      }
+      } as PagesProps
     }
   },
   beforeCreate() {
@@ -34,7 +40,7 @@ export default {
 
     axios
       .get('http://127.0.0.1:3000/auth/users/me/')
-      .then((data) => {
+      .then((data: any /*Ajeitar isso*/) => {
         if (data.response?.status == 401 || !localStorage.getItem('token')) {
           this.$router.push('/signin')
           return

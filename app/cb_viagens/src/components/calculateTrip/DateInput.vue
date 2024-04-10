@@ -1,12 +1,15 @@
 <script lang="ts">
+import { ref } from 'vue'
 //components
 import VueDatePicker from '@vuepic/vue-datepicker'
 //styling
 import '@vuepic/vue-datepicker/dist/main.css'
 //functions
-import { formatDate } from '@/utils/formatDate.ts'
+import { formatDate } from '@/utils/formatDate'
 //icons
 import ExpandIcon from '@/components/icons/IconExpand.vue'
+import type { Ref } from 'vue'
+
 
 export default {
   props: ['setDate'],
@@ -24,10 +27,13 @@ export default {
       if (date) {
         this.setDate(date)
         this.dateOutput = formatDate(date)
+        return this.dateOutput;
       }
+      return "";
     },
     openPicker() {
-      this.$refs.datepicker.openMenu()
+      const datePicker: Ref<typeof VueDatePicker | null> = ref(null);
+      datePicker.value?.openMenu();
     }
   }
 }

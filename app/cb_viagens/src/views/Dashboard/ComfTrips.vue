@@ -27,7 +27,7 @@ interface TripModalProps {
 export default {
   mounted() {
     this.getCities()
-    this.getTrips()
+    this.getTrips("")
   },
   data() {
     return {

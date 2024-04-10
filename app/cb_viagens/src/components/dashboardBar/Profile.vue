@@ -1,12 +1,11 @@
 <script lang="ts">
-import Modal from '@/components/Modal.vue'
 //Icons
 import ProfileIcon from '../icons/IconProfile.vue'
+import type { Ref } from 'vue'
 
 export default {
   components: {
-    ProfileIcon,
-    Modal
+    ProfileIcon
   },
   data() {
     return {
@@ -21,11 +20,12 @@ export default {
     document.removeEventListener('click', this.handleClickOutside)
   },
   methods: {
-    handleModal(event: any) {
+    handleModal() {
       this.modal = !this.modal
     },
-    handleClickOutside(event: any) {
-      if (this.modal && !this.$refs.profileRef.contains(event.target)) {
+    handleClickOutside(event: any /** Ver isso */) {
+      const profileRef = this.$refs.profileRef as Ref<HTMLDivElement>;
+      if (this.modal && !profileRef.value.contains(event.target)) {
         console.log('Clicou fora, fechando')
         this.modal = false
       }

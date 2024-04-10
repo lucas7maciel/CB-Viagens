@@ -1,5 +1,6 @@
-import { createStore, Store } from 'vuex'
+
 import type { InjectionKey } from 'vue'
+import { createStore, Store } from 'vuex'
 
 interface StateProps {
   token: string | null

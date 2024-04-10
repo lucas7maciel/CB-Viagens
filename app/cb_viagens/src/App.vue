@@ -1,13 +1,13 @@
 <script lang="ts">
-import { RouterView } from 'vue-router'
+import { useStore } from 'vuex';
 import axios from 'axios'
 
 export default {
   name: 'App',
   beforeCreate() {
-    this.$store.commit('initializeStore')
+    const store = useStore();
 
-    const token = this.$store.state.token
+    const token = store.state.token
     console.log(`Token ${token}`)
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Token ${token}`

@@ -8,7 +8,7 @@ import QuestionIcon from '../icons/IconQuestion.vue'
 import PremiumIcon from '@/components/icons/IconPremium.vue'
 
 defineProps<{
-  setPage: void
+  setPage: (page: string) => void
 }>()
 </script>
 

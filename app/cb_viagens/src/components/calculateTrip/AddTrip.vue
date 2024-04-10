@@ -19,7 +19,7 @@ export default {
         customer: 1
       }
 
-      const options = {
+      const options: Object = {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

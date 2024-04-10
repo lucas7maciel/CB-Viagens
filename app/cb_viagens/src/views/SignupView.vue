@@ -1,14 +1,17 @@
 <script lang="ts">
-//Components
+// Components
 import Intro from '@/components/signUp/Intro.vue'
-//Functions
+// Functions
 import {
   checkUsername,
   checkPassword,
   checkFirstName,
   checkLastName,
   confirmPassword
-} from '@/utils/checkInputs.ts'
+} from '@/utils/checkInputs'
+// Types
+import { type Ref } from 'vue';
+import { type Router } from 'vue-router';
 
 export default {
   data() {
@@ -27,43 +30,48 @@ export default {
       this.message = value
     },
     checkInputs(): boolean {
-      if (!checkFirstName(this.$refs.firstname.value, this.$refs.firstname, this.setMessage)) {
-        return false
-      }
+      const firstnameInput = this.$refs.firstname as Ref<HTMLInputElement>;
+    const lastnameInput = this.$refs.lastname as Ref<HTMLInputElement>;
+    const usernameInput = this.$refs.username as Ref<HTMLInputElement>;
+    const passwordInput = this.$refs.password as Ref<HTMLInputElement>;
+    const confirmInput = this.$refs.confirm as Ref<HTMLInputElement>;
 
-      if (!checkLastName(this.$refs.lastname.value, this.$refs.lastname, this.setMessage)) {
-        return false
-      }
+    if (!checkFirstName(firstnameInput.value.value, firstnameInput, this.setMessage)) {
+      return false;
+    }
 
-      if (!checkUsername(this.$refs.username.value, this.$refs.username, this.setMessage)) {
-        return false
-      }
+    if (!checkLastName(lastnameInput.value.value, lastnameInput, this.setMessage)) {
+      return false;
+    }
 
-      if (!checkPassword(this.$refs.password.value, this.$refs.password, this.setMessage)) {
-        return false
-      }
+    if (!checkUsername(usernameInput.value.value, usernameInput, this.setMessage)) {
+      return false;
+    }
 
-      if (
-        !confirmPassword(
-          this.$refs.confirm.value,
-          this.$refs.password.value,
-          this.$refs.confirm,
-          this.setMessage
-        )
-      ) {
-        return false
-      }
+    if (!checkPassword(passwordInput.value.value, passwordInput, this.setMessage)) {
+      return false;
+    }
 
-      return true
-    },
+    if (!confirmPassword(confirmInput.value.value, passwordInput.value.value, confirmInput, this.setMessage)) {
+      return false;
+    }
+
+    return true;
+  },
+  navigate(route: string) {
+    (this.$router as Router).push(route);
+  },
     submitForm() {
       if (!this.checkInputs()) return
 
       this.message = 'Enviando dados'
 
+      const usernameInput = this.$refs.username as Ref<HTMLInputElement>;
+      const passwordInput = this.$refs.password as Ref<HTMLInputElement>;
+
       const forms = {
-        username: this.$refs.username.value,
-        password: this.$refs.password.value
+        username: usernameInput.value,
+        password: passwordInput.value
       }
 
       fetch('http://127.0.0.1:3000/auth/users/', {
@@ -111,7 +119,7 @@ export default {
           <button class="signup" type="submit">Criar Conta</button>
         </div>
       </form>
-      <p class="back" @click="this.$router.push('signin')">Voltar</p>
+      <p class="back" @click="navigate('/signin')">Voltar</p>
     </div>
   </div>
 </template>

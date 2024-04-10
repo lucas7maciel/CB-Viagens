@@ -3,7 +3,8 @@ import axios from 'axios'
 //components
 import Art from '@/components/signIn/Art.vue'
 //functions
-import { checkUsername, checkPassword } from '@/utils/checkInputs.ts'
+import { checkUsername, checkPassword } from '@/utils/checkInputs'
+import type { Ref } from 'vue'
 
 export default {
   data() {
@@ -24,11 +25,14 @@ export default {
       this.message = value
     },
     checkInputs() {
-      if (!checkUsername(this.username, this.$refs.username, this.setMessage)) {
+      const usernameInput = this.$refs.username as Ref<HTMLInputElement>;
+      const passwordInput = this.$refs.password as Ref<HTMLInputElement>;
+
+      if (!checkUsername(usernameInput.value.value, usernameInput, this.setMessage)) {
         return false
       }
 
-      if (!checkPassword(this.password, this.$refs.password, this.setMessage)) {
+      if (!checkPassword(passwordInput.value.value, passwordInput, this.setMessage)) {
         return false
       }
 
@@ -37,13 +41,14 @@ export default {
     submitForm() {
       if (!this.checkInputs()) return
       this.message = 'Conferindo dados...'
-      const forms = {
+      /*const forms = {
         username: this.username,
         password: this.password
-      }
+      }*/
 
-      this.$router.push('dashboard') //PROVISORIO
-      if (forms) return
+      setTimeout(() => this.$router.push('dashboard'), 500) //PROVISORIO
+      return;
+      /*if (forms) return
 
       fetch('http://127.0.0.1:3000/auth/token/login/', {
         method: 'POST',
@@ -65,7 +70,7 @@ export default {
           } else {
             this.message = 'Senha ou usuário incorretos'
           }
-        })
+        })*/
       //.catch()
     }
   }

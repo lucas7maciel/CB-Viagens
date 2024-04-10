@@ -1,10 +1,12 @@
+import { type Ref } from 'vue';
+
 const animDuration: number = 1000 //ms
 
-function playErrorAnim(ref) {
+function playErrorAnim(ref: Ref<HTMLInputElement>) {
   try {
-    ref.classList.add('error_input')
+    ref.value.classList.add('error_input')
     setTimeout(() => {
-      ref.classList.remove('error_input')
+      ref.value.classList.remove('error_input')
     }, animDuration)
   } catch (error) {
     console.error('Error occurred while manipulating the class:', error)
@@ -13,7 +15,7 @@ function playErrorAnim(ref) {
 
 export function checkUsername(
   value: string | null,
-  ref,
+  ref: Ref<HTMLInputElement>,
   setMessage: (value: string) => void
 ): boolean {
   let ok: boolean = false
@@ -33,7 +35,7 @@ export function checkUsername(
   return ok
 }
 
-export function checkPassword(value: string, ref, setMessage: (value: string) => void): boolean {
+export function checkPassword(value: string, ref: Ref<HTMLInputElement>, setMessage: (value: string) => void): boolean {
   let ok: boolean = false
 
   if (!value) {
@@ -54,7 +56,7 @@ export function checkPassword(value: string, ref, setMessage: (value: string) =>
 export function confirmPassword(
   value: string,
   password: string,
-  ref,
+  ref: Ref<HTMLInputElement>,
   setMessage: (value: string) => void
 ): boolean {
   let ok: boolean = false
@@ -73,7 +75,7 @@ export function confirmPassword(
 
 export function checkFirstName(
   value: string | null,
-  ref,
+  ref: Ref<HTMLInputElement>,
   setMessage: (value: string) => void
 ): boolean {
   let ok: boolean = false
@@ -95,7 +97,7 @@ export function checkFirstName(
 
 export function checkLastName(
   value: string | null,
-  ref,
+  ref: Ref<HTMLInputElement>,
   setMessage: (value: string) => void
 ): boolean {
   let ok: boolean = false

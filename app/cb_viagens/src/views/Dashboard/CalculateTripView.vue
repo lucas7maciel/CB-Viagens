@@ -10,7 +10,7 @@ import Trip from '@/components/calculateTrip/Trip.vue'
 import AlertIcon from '@/components/icons/IconAlert.vue'
 
 /**
- * Mudas:
+ * Mudar:
  * Pasta para types
  * .trip para component
  * Responsividade de .trip
