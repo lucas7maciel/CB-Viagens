@@ -1,13 +1,12 @@
 <script lang="ts">
 //components
 import Modal from '@/components/Modal.vue'
-import AddTrip from '@/components/calculateTrip/AddTrip.vue'
-import Row from '@/components/calculateTrip/Row.vue'
 import Title from '@/components/Title.vue'
-import DateInput from '@/components/calculateTrip/DateInput.vue'
-import Trip from '@/components/calculateTrip/Trip.vue'
+import DateInput from '@/components/DateInput.vue'
 //icons
 import AlertIcon from '@/components/icons/IconAlert.vue'
+// Types
+import type { TripProps } from '@/types/trip'
 
 /**
  * Mudar:
@@ -16,19 +15,6 @@ import AlertIcon from '@/components/icons/IconAlert.vue'
  * Responsividade de .trip
  * Dados tratados no back
  */
-
-
-//types
-interface TripProps {
-  id: number
-  name: string
-  price_confort: string
-  price_econ: string
-  city: string
-  duration: string
-  seat: string
-  bed: string
-}
 
 export default {
   mounted() {
@@ -47,10 +33,7 @@ export default {
     }
   },
   components: {
-    Trip,
     Modal,
-    Row,
-    AddTrip,
     Title,
     DateInput,
     AlertIcon
@@ -60,7 +43,7 @@ export default {
       fetch('http://localhost:3000/trips/cities')
         .then((res) => res.json())
         .then((data) => {
-          this.cities = Array.from(new Set(data));
+          this.cities = Array.from(new Set(data))
         })
     },
     close() {
@@ -79,18 +62,23 @@ export default {
       fetch(`http://localhost:3000/trips/?city=${this.cityInput}`)
         .then((res) => res.json())
         .then((data) => {
-          
           if (data.length == 0) {
             this.cheapestTrip = null
-            this.quickestTrip =  null
+            this.quickestTrip = null
             return
           }
 
           const durations = data.map((trip: TripProps) => parseInt(trip.duration.replace('h', '')))
-          this.quickestTrip = data.filter((trip: TripProps) => trip.duration == `${Math.min(...durations)}h`)[0]
+          this.quickestTrip = data.filter(
+            (trip: TripProps) => trip.duration == `${Math.min(...durations)}h`
+          )[0]
 
-          const prices = data.map((trip: TripProps) => parseFloat(trip.price_econ.replace('R$ ', '')).toFixed(2))
-          this.cheapestTrip = data.filter((trip: TripProps) => trip.price_econ == `R$ ${Math.min(...prices).toFixed(2)}`)[0]
+          const prices = data.map((trip: TripProps) =>
+            parseFloat(trip.price_econ.replace('R$ ', '')).toFixed(2)
+          )
+          this.cheapestTrip = data.filter(
+            (trip: TripProps) => trip.price_econ == `R$ ${Math.min(...prices).toFixed(2)}`
+          )[0]
         })
     }
   }
@@ -116,43 +104,43 @@ export default {
         <h1 v-if="!cheapestTrip && !quickestTrip" style="font-weight: 600">{{ message }}</h1>
         <div class="trip" v-if="cheapestTrip">
           <h1 class="title">Mais Barata</h1>
-          <p class="company">{{cheapestTrip?.name || "Sem Nome"}}</p>
+          <p class="company">{{ cheapestTrip?.name || 'Sem Nome' }}</p>
           <div class="subinfos">
             <p class="prop">Leito</p>
             <p class="prop">Tempo Estimado</p>
-            <p class="value">{{ cheapestTrip?.seat || "?" }}</p>
-            <p class="value">{{ cheapestTrip?.duration || "?" }}</p>
+            <p class="value">{{ cheapestTrip?.seat || '?' }}</p>
+            <p class="value">{{ cheapestTrip?.duration || '?' }}</p>
           </div>
           <p class="prop">Preço</p>
-          <p class="value">{{ cheapestTrip?.price_econ || "???" }}</p>
-
+          <p class="value">{{ cheapestTrip?.price_econ || '???' }}</p>
         </div>
         <div class="trip" v-if="quickestTrip">
           <h1 class="title">Mais Rápida</h1>
-          <p class="company">{{quickestTrip?.name || "Sem Nome"}}</p>
+          <p class="company">{{ quickestTrip?.name || 'Sem Nome' }}</p>
           <div class="subinfos">
             <p class="prop">Leito</p>
             <p class="prop">Tempo Estimado</p>
-            <p class="value">{{ quickestTrip?.seat || "?" }}</p>
-            <p class="value">{{ quickestTrip?.duration || "?" }}</p>
+            <p class="value">{{ quickestTrip?.seat || '?' }}</p>
+            <p class="value">{{ quickestTrip?.duration || '?' }}</p>
           </div>
           <p class="prop">Preço</p>
-          <p class="value">{{ quickestTrip?.price_econ || "???" }}</p>
-
+          <p class="value">{{ quickestTrip?.price_econ || '???' }}</p>
         </div>
       </div>
     </div>
   </div>
 
   <transition name="custom-animation">
-    <Modal :close="close" title="Preencha os Formulários" :no_header="true" v-if="modal"><template #content>
+    <Modal :close="close" title="Preencha os Formulários" :no_header="true" v-if="modal"
+      ><template #content>
         <div class="fill_forms">
           <AlertIcon class="icon" />
 
           <p class="message">Informe cidade e data para pesquisar</p>
           <button class="close" @click="close">Fechar</button>
         </div>
-      </template></Modal>
+      </template></Modal
+    >
   </transition>
 </template>
 
@@ -332,7 +320,7 @@ export default {
 
   padding-bottom: 1rem;
 
-  color:#2a3041;
+  color: #2a3041;
   background-color: white;
   border-radius: 1rem;
 
@@ -383,5 +371,4 @@ export default {
 .trips .trip .value {
   font-weight: bold;
 }
-
 </style>

@@ -1,4 +1,4 @@
-import { type Ref } from 'vue';
+import { type Ref } from 'vue'
 
 const animDuration: number = 1000 //ms
 
@@ -35,7 +35,11 @@ export function checkUsername(
   return ok
 }
 
-export function checkPassword(value: string, ref: Ref<HTMLInputElement>, setMessage: (value: string) => void): boolean {
+export function checkPassword(
+  value: string,
+  ref: Ref<HTMLInputElement>,
+  setMessage: (value: string) => void
+): boolean {
   let ok: boolean = false
 
   if (!value) {

@@ -4,30 +4,13 @@ import Modal from '@/components/Modal.vue'
 import AddTrip from '@/components/calculateTrip/AddTrip.vue'
 import Row from '@/components/calculateTrip/Row.vue'
 import Title from '@/components/Title.vue'
-import DateInput from '@/components/calculateTrip/DateInput.vue'
-import LayoutInput from '@/components/calculateTrip/LayoutInput.vue'
-import Trip from '@/components/calculateTrip/Trip.vue'
-
-interface TripProps {
-  id: number
-  name: string
-  price_confort: string
-  price_econ: string
-  city: string
-  duration: string
-  seat: string
-  bed: string
-}
-
-interface TripModalProps {
-  active: boolean
-  current: TripProps | null
-}
+// Types
+import type { TripProps, TripModalProps } from '@/types/trip'
 
 export default {
   mounted() {
-    this.getCities();
-    this.getTrips("");
+    this.getCities()
+    this.getTrips('')
   },
   data() {
     return {
@@ -42,13 +25,10 @@ export default {
     }
   },
   components: {
-    Trip,
     Modal,
     Row,
     AddTrip,
-    Title,
-    DateInput,
-    LayoutInput
+    Title
   },
   methods: {
     getCities() {

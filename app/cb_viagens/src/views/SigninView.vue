@@ -1,5 +1,4 @@
 <script lang="ts">
-import axios from 'axios'
 //components
 import Art from '@/components/signIn/Art.vue'
 //functions
@@ -25,8 +24,8 @@ export default {
       this.message = value
     },
     checkInputs() {
-      const usernameInput = this.$refs.username as Ref<HTMLInputElement>;
-      const passwordInput = this.$refs.password as Ref<HTMLInputElement>;
+      const usernameInput = this.$refs.username as Ref<HTMLInputElement>
+      const passwordInput = this.$refs.password as Ref<HTMLInputElement>
 
       if (!checkUsername(usernameInput.value.value, usernameInput, this.setMessage)) {
         return false
@@ -47,7 +46,7 @@ export default {
       }*/
 
       setTimeout(() => this.$router.push('dashboard'), 500) //PROVISORIO
-      return;
+      return
       /*if (forms) return
 
       fetch('http://127.0.0.1:3000/auth/token/login/', {

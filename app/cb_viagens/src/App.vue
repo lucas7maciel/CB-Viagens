@@ -1,11 +1,11 @@
 <script lang="ts">
-import { useStore } from 'vuex';
+import { useStore } from 'vuex'
 import axios from 'axios'
 
 export default {
   name: 'App',
   beforeCreate() {
-    const store = useStore();
+    const store = useStore()
 
     const token = store.state.token
     console.log(`Token ${token}`)
@@ -17,7 +17,6 @@ export default {
   }
 }
 </script>
-
 <template>
   <RouterView />
 </template>

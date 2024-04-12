@@ -10,11 +10,7 @@ import ComfTrips from '@/views/Dashboard/ComfTrips.vue'
 import { markRaw } from 'vue'
 import axios from 'axios'
 // Types
-import { type Component } from 'vue'
-
-interface PagesProps {
-  [key: string]: Component;
-}
+import type { PagesProps } from '@/types/pages'
 
 export default {
   data() {
@@ -34,7 +30,7 @@ export default {
   },
   beforeMount() {
     //checks if user is logged
-    const provisorio: number = 1;
+    const provisorio: number = 1
 
     if (provisorio) return
 
