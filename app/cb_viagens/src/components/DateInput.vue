@@ -1,5 +1,4 @@
 <script lang="ts">
-import { ref } from 'vue'
 //components
 import VueDatePicker from '@vuepic/vue-datepicker'
 //styling
@@ -8,19 +7,18 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { formatDate } from '@/utils/formatDate'
 //icons
 import ExpandIcon from '@/components/icons/IconExpand.vue'
-import type { Ref } from 'vue'
 
 
 export default {
   props: ['setDate'],
+  components: {
+    VueDatePicker,
+    ExpandIcon
+  },
   data() {
     return {
       dateOutput: 'Selecione uma Data' as string
     }
-  },
-  components: {
-    VueDatePicker,
-    ExpandIcon
   },
   methods: {
     format(date: Date) {
@@ -32,8 +30,8 @@ export default {
       return "";
     },
     openPicker() {
-      const datePicker: Ref<typeof VueDatePicker | null> = ref(null);
-      datePicker.value?.openMenu();
+      const datePicker = this.$refs.datepicker as any;
+      datePicker?.openMenu();
     }
   }
 }

@@ -1,9 +1,6 @@
 <script lang="ts">
 import Guy from '@/assets/LandingSvg.vue'
 export default {
-  beforeCreate() {
-    document.title = 'Home'
-  },
   components: {
     Guy
   },
@@ -11,6 +8,9 @@ export default {
     signin() {
       this.$router.push('/signin')
     }
+  },
+  beforeCreate() {
+    document.title = 'Home'
   }
 }
 </script>
@@ -148,6 +148,32 @@ export default {
 
   100% {
     transform: translate(0, 1.2rem);
+  }
+}
+
+/** Media queries */
+@media (max-width: 1000px) {
+  .container {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .container .art {
+    flex: 0;
+    align-items: center;
+
+    width: 40%;
+    padding: 1rem;
+
+    border: solid 1px;
+  }
+
+  .intro {
+    align-items: center;
+  }
+
+  .intro .title, .intro .subtitle {
+    text-align: center;
   }
 }
 </style>

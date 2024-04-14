@@ -1,25 +1,26 @@
 <script lang="ts">
-//components
+// Components
 import Modal from '@/components/Modal.vue'
-import Title from '@/components/Title.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
 import DateInput from '@/components/DateInput.vue'
-//icons
+// Icons
 import AlertIcon from '@/components/icons/IconAlert.vue'
 // Types
 import type { TripProps } from '@/types/trip'
 
 /**
  * Mudar:
- * Pasta para types
  * .trip para component
  * Responsividade de .trip
  * Dados tratados no back
  */
 
 export default {
-  mounted() {
-    this.getCities()
-    //this.getTrips()
+  components: {
+    Modal,
+    SectionHeader,
+    DateInput,
+    AlertIcon
   },
   data() {
     return {
@@ -32,18 +33,12 @@ export default {
       message: 'Digite os dados para encontrar a viagem ideal' as string
     }
   },
-  components: {
-    Modal,
-    Title,
-    DateInput,
-    AlertIcon
-  },
   methods: {
     getCities() {
-      fetch('http://localhost:3000/trips/cities')
+      fetch(`${import.meta.env.VITE_API_URL}/trips/cities`)
         .then((res) => res.json())
         .then((data) => {
-          this.cities = Array.from(new Set(data))
+          this.cities = data
         })
     },
     close() {
@@ -59,35 +54,23 @@ export default {
       }
 
       this.message = 'Sem viagens para a data solicitada'
-      fetch(`http://localhost:3000/trips/?city=${this.cityInput}`)
+      fetch(`${import.meta.env.VITE_API_URL}/trips/calculate?city=${this.cityInput}`)
         .then((res) => res.json())
         .then((data) => {
-          if (data.length == 0) {
-            this.cheapestTrip = null
-            this.quickestTrip = null
-            return
-          }
-
-          const durations = data.map((trip: TripProps) => parseInt(trip.duration.replace('h', '')))
-          this.quickestTrip = data.filter(
-            (trip: TripProps) => trip.duration == `${Math.min(...durations)}h`
-          )[0]
-
-          const prices = data.map((trip: TripProps) =>
-            parseFloat(trip.price_econ.replace('R$ ', '')).toFixed(2)
-          )
-          this.cheapestTrip = data.filter(
-            (trip: TripProps) => trip.price_econ == `R$ ${Math.min(...prices).toFixed(2)}`
-          )[0]
+          this.cheapestTrip = data.cheapest;
+          this.quickestTrip = data.quickest;
         })
     }
+  },
+  mounted() {
+    this.getCities()
   }
 }
 </script>
 
 <template>
   <div class="calculate_trip">
-    <Title title="Calcular Viagem"></Title>
+    <SectionHeader title="Calcular Viagem"></SectionHeader>
     <div class="content">
       <div class="inputs">
         <div class="city">
@@ -103,7 +86,7 @@ export default {
       <div class="trips">
         <h1 v-if="!cheapestTrip && !quickestTrip" style="font-weight: 600">{{ message }}</h1>
         <div class="trip" v-if="cheapestTrip">
-          <h1 class="title">Mais Barata</h1>
+          <h1 class="SectionHeader">Mais Barata</h1>
           <p class="company">{{ cheapestTrip?.name || 'Sem Nome' }}</p>
           <div class="subinfos">
             <p class="prop">Leito</p>
@@ -115,7 +98,7 @@ export default {
           <p class="value">{{ cheapestTrip?.price_econ || '???' }}</p>
         </div>
         <div class="trip" v-if="quickestTrip">
-          <h1 class="title">Mais Rápida</h1>
+          <h1 class="SectionHeader">Mais Rápida</h1>
           <p class="company">{{ quickestTrip?.name || 'Sem Nome' }}</p>
           <div class="subinfos">
             <p class="prop">Leito</p>
@@ -131,7 +114,7 @@ export default {
   </div>
 
   <transition name="custom-animation">
-    <Modal :close="close" title="Preencha os Formulários" :no_header="true" v-if="modal"
+    <Modal :close="close" SectionHeader="Preencha os Formulários" :no_header="true" v-if="modal"
       ><template #content>
         <div class="fill_forms">
           <AlertIcon class="icon" />
@@ -346,7 +329,7 @@ export default {
   min-width: 20rem;
 }
 
-.trips .trip .title {
+.trips .trip .SectionHeader {
   font-weight: bold;
 
   padding: 1rem 1rem 0.5rem 1rem;

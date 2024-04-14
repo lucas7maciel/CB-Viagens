@@ -1,9 +1,6 @@
 <script lang="ts">
 export default {
   props: ['trip', 'add', 'cancel'],
-  mounted() {
-    console.log('Montou')
-  },
   methods: {
     getCookie(name: string) {
       const value: string | null = `; ${document.cookie}`
@@ -33,7 +30,10 @@ export default {
         .then(console.log)
         .catch(console.log)
     }
-  }
+  },
+  mounted() {
+    console.log('Montou')
+  },
 }
 </script>
 

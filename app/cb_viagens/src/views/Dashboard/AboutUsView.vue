@@ -1,16 +1,16 @@
 <script lang="ts">
-import Title from '@/components/Title.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
 
 export default {
   components: {
-    Title
+    SectionHeader
   }
 }
 </script>
 
 <template>
   <div class="about_us">
-    <Title title="Quem Somos Nós?" />
+    <SectionHeader title="Quem Somos Nós?" />
     <div class="content">
       <h1>Somos uma rede de aeroportos</h1>
       <h2>Em breve informações serão adicionadas</h2>

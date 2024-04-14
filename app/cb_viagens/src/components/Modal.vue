@@ -1,13 +1,12 @@
 <script lang="ts">
 //Icons
 import CloseIcon from '@/components/icons/IconClose.vue'
-//
 
 export default {
+  props: ['title', 'close', 'content', 'no_header'],
   components: {
     CloseIcon
-  },
-  props: ['title', 'close', 'content', 'no_header']
+  }
 }
 </script>
 
@@ -153,6 +152,7 @@ hr {
 .modal .header .title {
   flex: 1;
 
+  color: black;
   font-weight: bold;
 }
 

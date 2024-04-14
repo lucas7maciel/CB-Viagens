@@ -4,10 +4,11 @@
     "pk": 1,
     "fields": {
       "name": "Expresso Oriente",
-      "price_confort": "R$ 52.10",
-      "price_econ": "R$ 21.50",
+      "price_confort": 52.10,
+      "price_econ": 21.50,
       "city": "São Paulo",
-      "duration": "12h",
+      "date": "2024-04-21",
+      "duration": 12,
       "seat": "12C",
       "bed": "5A"
     }
@@ -17,10 +18,11 @@
     "pk": 2,
     "fields": {
       "name": "Expresso Oriente",
-      "price_confort": "R$ 194.20",
-      "price_econ": "R$ 43.10",
+      "price_confort": 194.20,
+      "price_econ": 43.10,
       "city": "Belo Horizonte",
-      "duration": "18h",
+      "date": "2024-04-21",
+      "duration": 18,
       "seat": "1A",
       "bed": "4B"
     }
@@ -30,10 +32,11 @@
     "pk": 3,
     "fields": {
       "name": "Expresso Oriente",
-      "price_confort": "R$ 74.50",
-      "price_econ": "R$ 92.20",
+      "price_confort": 74.50,
+      "price_econ": 92.20,
       "city": "Curitiba",
-      "duration": "18h",
+      "date": "2024-04-21",
+      "duration": 18,
       "seat": "22A",
       "bed": "7C"
     }
@@ -43,10 +46,11 @@
     "pk": 4,
     "fields": {
       "name": "Expresso Oriente",
-      "price_confort": "R$ 776.30",
-      "price_econ": "R$ 383.60",
+      "price_confort": 776.30,
+      "price_econ": 383.60,
       "city": "Fortaleza",
-      "duration": "48h",
+      "date": "2024-04-21",
+      "duration": 48,
       "seat": "9D",
       "bed": "4B"
     }
@@ -56,10 +60,11 @@
     "pk": 5,
     "fields": {
       "name": "Expresso Oriente",
-      "price_confort": "R$ 311.30",
-      "price_econ": "R$ 270.95",
+      "price_confort": 311.30,
+      "price_econ": 270.95,
       "city": "Campinas",
-      "duration": "12h",
+      "date": "2024-04-21",
+      "duration": 12,
       "seat": "16A",
       "bed": "7C"
     }
@@ -69,10 +74,11 @@
     "pk": 6,
     "fields": {
       "name": "ZazTraz",
-      "price_confort": "R$ 82.09",
-      "price_econ": "R$ 71.19",
+      "price_confort": 82.09,
+      "price_econ": 71.19,
       "city": "São Paulo",
-      "duration": "8h",
+      "date": "2024-04-21",
+      "duration": 8,
       "seat": "20B",
       "bed": "6A"
     }
@@ -82,10 +88,11 @@
     "pk": 7,
     "fields": {
       "name": "ZazTraz",
-      "price_confort": "R$ 213.20",
-      "price_econ": "R$ 521.21",
+      "price_confort": 213.20,
+      "price_econ": 521.21,
       "city": "Belo Horizonte",
-      "duration": "18h",
+      "date": "2024-04-21",
+      "duration": 18,
       "seat": "19C",
       "bed": "1B"
     }
@@ -95,10 +102,11 @@
     "pk": 8,
     "fields": {
       "name": "ZazTraz",
-      "price_confort": "R$ 226.50",
-      "price_econ": "R$ 164.32",
+      "price_confort": 226.50,
+      "price_econ": 164.32,
       "city": "Curitiba",
-      "duration": "18h",
+      "date": "2024-04-21",
+      "duration": 18,
       "seat": "14C",
       "bed": "3D"
     }
@@ -108,10 +116,11 @@
     "pk": 9,
     "fields": {
       "name": "ZazTraz",
-      "price_confort": "R$ 235.80",
-      "price_econ": "R$ 75.80",
+      "price_confort": 235.80,
+      "price_econ": 75.80,
       "city": "Natal",
-      "duration": "36h",
+      "date": "2024-04-21",
+      "duration": 36,
       "seat": "7D",
       "bed": "8A"
     }
@@ -121,10 +130,11 @@
     "pk": 10,
     "fields": {
       "name": "ZazTraz",
-      "price_confort": "R$ 190.50",
-      "price_econ": "R$ 145.50",
+      "price_confort": 190.50,
+      "price_econ": 145.50,
       "city": "Manaus",
-      "duration": "16h",
+      "date": "2024-04-21",
+      "duration": 16,
       "seat": "25D",
       "bed": "4C"
     }
@@ -134,10 +144,11 @@
     "pk": 11,
     "fields": {
       "name": "ZazTraz",
-      "price_confort": "R$ 42.35",
-      "price_econ": "R$ 18.95",
+      "price_confort": 42.35,
+      "price_econ": 18.95,
       "city": "Campinas",
-      "duration": "12h",
+      "date": "2024-04-21",
+      "duration": 12,
       "seat": "25A",
       "bed": "2B"
     }
@@ -147,10 +158,11 @@
     "pk": 12,
     "fields": {
       "name": "Rapido Jacutinga",
-      "price_confort": "R$ 318.25",
-      "price_econ": "R$ 116.75",
+      "price_confort": 318.25,
+      "price_econ": 116.75,
       "city": "Salvador",
-      "duration": "4h",
+      "date": "2024-04-21",
+      "duration": 4,
       "seat": "17D",
       "bed": "7C"
     }
@@ -160,10 +172,11 @@
     "pk": 13,
     "fields": {
       "name": "Rapido Jacutinga",
-      "price_confort": "R$ 214.87",
-      "price_econ": "R$ 128.20",
+      "price_confort": 214.87,
+      "price_econ": 128.20,
       "city": "Campinas",
-      "duration": "2h",
+      "date": "2024-04-21",
+      "duration": 2,
       "seat": "9A",
       "bed": "1A"
     }
@@ -173,10 +186,11 @@
     "pk": 14,
     "fields": {
       "name": "Rapido Jacutinga",
-      "price_confort": "R$ 315.72",
-      "price_econ": "R$ 218.14",
+      "price_confort": 315.72,
+      "price_econ": 218.14,
       "city": "São Paulo",
-      "duration": "2h",
+      "date": "2024-04-21",
+      "duration": 2,
       "seat": "20B",
       "bed": "4C"
     }
@@ -186,10 +200,11 @@
     "pk": 15,
     "fields": {
       "name": "Rapido Jacutinga",
-      "price_confort": "R$ 913.67",
-      "price_econ": "R$ 412.14",
+      "price_confort": 913.67,
+      "price_econ": 412.14,
       "city": "Rio de Janiero",
-      "duration": "3h",
+      "date": "2024-04-21",
+      "duration": 3,
       "seat": "20A",
       "bed": "2C"
     }

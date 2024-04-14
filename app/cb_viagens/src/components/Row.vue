@@ -2,10 +2,10 @@
 import PlaneIcon from '@/components/icons/IconPlane.vue'
 
 export default {
+  props: ['trip', 'header', 'openTrip'],
   components: {
     PlaneIcon
-  },
-  props: ['trip', 'header', 'openTrip']
+  }
 }
 </script>
 
@@ -52,4 +52,11 @@ export default {
 
   font-weight: 600;
 }
+
+.header { /** Aligns header with rows list (padding caused by scrollbar) */
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
 </style>

@@ -1,11 +1,14 @@
 <script lang="ts">
-//components
+// Components
 import Art from '@/components/signIn/Art.vue'
-//functions
+// Functions
 import { checkUsername, checkPassword } from '@/utils/checkInputs'
-import type { Ref } from 'vue'
+// Types
 
 export default {
+  components: {
+    Art
+  },
   data() {
     return {
       message: 'Digite suas credenciais',
@@ -13,25 +16,19 @@ export default {
       password: ''
     }
   },
-  components: {
-    Art
-  },
-  beforeCreate() {
-    document.title = 'Sign In'
-  },
   methods: {
     setMessage(value: string): void {
       this.message = value
     },
     checkInputs() {
-      const usernameInput = this.$refs.username as Ref<HTMLInputElement>
-      const passwordInput = this.$refs.password as Ref<HTMLInputElement>
+      const usernameInput = this.$refs.username as HTMLInputElement
+      const passwordInput = this.$refs.password as HTMLInputElement
 
-      if (!checkUsername(usernameInput.value.value, usernameInput, this.setMessage)) {
+      if (!checkUsername(usernameInput, this.setMessage)) {
         return false
       }
 
-      if (!checkPassword(passwordInput.value.value, passwordInput, this.setMessage)) {
+      if (!checkPassword(passwordInput, this.setMessage)) {
         return false
       }
 
@@ -40,16 +37,14 @@ export default {
     submitForm() {
       if (!this.checkInputs()) return
       this.message = 'Conferindo dados...'
-      /*const forms = {
+      
+      // Mudar pra pegar da ref
+      const forms = {
         username: this.username,
         password: this.password
-      }*/
+      }
 
-      setTimeout(() => this.$router.push('dashboard'), 500) //PROVISORIO
-      return
-      /*if (forms) return
-
-      fetch('http://127.0.0.1:3000/auth/token/login/', {
+      fetch(`${import.meta.env.VITE_API_URL}/auth/token/login/`, {
         method: 'POST',
         body: JSON.stringify(forms),
         headers: {
@@ -59,9 +54,10 @@ export default {
         .then((res) => res.json())
         .then((data) => {
           const token = data.auth_token
+          const store = this.$store as any
 
-          this.$store.commit('setToken', token)
-          axios.defaults.headers.common['Authorization'] = `Token ${token}`
+          store.commit('setToken', token)
+          //axios.defaults.headers.common['Authorization'] = `Token ${token}`
           localStorage.setItem('token', token)
 
           if (token) {
@@ -69,10 +65,13 @@ export default {
           } else {
             this.message = 'Senha ou usuário incorretos'
           }
-        })*/
+        })
       //.catch()
     }
-  }
+  },
+  beforeCreate() {
+    document.title = 'Sign In'
+  },
 }
 </script>
 

@@ -1,22 +1,26 @@
 <script lang="ts">
-//components
+// Components
 import Modal from '@/components/Modal.vue'
-import AddTrip from '@/components/calculateTrip/AddTrip.vue'
-import Row from '@/components/calculateTrip/Row.vue'
-import Title from '@/components/Title.vue'
+import AddTrip from '@/components/AddTrip.vue'
+import Row from '@/components/Row.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
 import DateInput from '@/components/DateInput.vue'
 import LayoutInput from '@/components/LayoutInput.vue'
 // Types
 import type { TripProps, TripModalProps } from '@/types/trip'
 
 export default {
-  mounted() {
-    this.getCities()
-    this.getTrips('')
+  components: {
+    Modal,
+    Row,
+    AddTrip,
+    SectionHeader,
+    DateInput,
+    LayoutInput,
+    //Paginator
   },
   data() {
     return {
-      cities: [] as string[],
       trips: [] as TripProps[],
       cityInput: '' as string,
       layout: 'grid_mode' as 'grid_mode' | 'list_mode',
@@ -26,24 +30,9 @@ export default {
       } as TripModalProps
     }
   },
-  components: {
-    Modal,
-    Row,
-    AddTrip,
-    Title,
-    DateInput,
-    LayoutInput
-  },
   methods: {
-    getCities() {
-      fetch('http://localhost:3000/trips/cities')
-        .then((res) => res.json())
-        .then((data) => {
-          this.cities = data
-        })
-    },
-    getTrips(city: string) {
-      fetch(`http://localhost:3000/trips/${city ? `?city=${city}` : ''}`)
+    getTrips() {
+      fetch(`${import.meta.env.VITE_API_URL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`)
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
@@ -61,20 +50,18 @@ export default {
       this.tripModal.active = false
     }
   },
-  watch: {
-    cityInput(newValue) {
-      this.getTrips(newValue)
-    }
+  mounted() {
+    this.getTrips()
   }
 }
 </script>
 
 <template>
   <div class="calculate_trip">
-    <Title title="Viagens Comfort"></Title>
+    <SectionHeader title="Viagens Comfort"></SectionHeader>
     <div class="content">
       <div class="inputs">
-        <div class="city"><input placeholder="Cidade" v-model="cityInput" /></div>
+        <div class="city"><input placeholder="Cidade" v-model="cityInput" @input="getTrips()" /></div>
         <DateInput />
         <LayoutInput :layout="layout" :setLayout="setLayout" />
       </div>
@@ -171,9 +158,11 @@ export default {
 }
 
 /*Tabela*/
+
 .results {
   flex: 1;
   overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 /*Modal*/

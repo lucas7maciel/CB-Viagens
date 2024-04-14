@@ -4,8 +4,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
-import router from './router'
-import { store, key } from './store'
+import router from './config/router'
+import { store, key } from './config/store'
 import axios from 'axios'
 
 //axios.defaults.baseURL = 'localhost:3000/'

@@ -1,52 +1,87 @@
 <script lang="ts">
-//Icons
+// Components
+import Modal from '@/components/Modal.vue'
+import ProfileInfos from '@/components/dashboardBar/ProfileInfos.vue'
+// Icons
 import ProfileIcon from '../icons/IconProfile.vue'
 import type { Ref } from 'vue'
 
 export default {
   components: {
-    ProfileIcon
+    ProfileIcon,
+    Modal,
+    ProfileInfos
   },
   data() {
     return {
+      options: false as boolean,
       modal: false as boolean
     }
   },
-  mounted() {
-    //otimizar isso
-    document.addEventListener('click', this.handleClickOutside)
-  },
-  beforeUnmount() {
-    document.removeEventListener('click', this.handleClickOutside)
-  },
   methods: {
-    handleModal() {
-      this.modal = !this.modal
+    getName() {
+      const token : string | null = localStorage.getItem("token")
+
+      const headers: Headers = new Headers()
+      headers.append('Authorization', `Token ${token}`)
+
+      const options: Object = {
+        method: 'GET',
+        headers
+      } 
+
+      fetch(`${import.meta.env.VITE_API_URL}/auth/users/me/`, options)
+        .then(res => res.json())
+        .then(console.log)
+        .catch(console.log)
+    },
+    // Modal
+    openModal() {
+      this.modal = true
+    },
+    closeModal() {
+      this.modal = false
+    },
+    // Options
+    handleOptions() {
+      this.options = !this.options
     },
     handleClickOutside(event: any /** Ver isso */) {
       const profileRef = this.$refs.profileRef as Ref<HTMLDivElement>;
-      if (this.modal && !profileRef.value.contains(event.target)) {
+      if (this.options && !profileRef.value.contains(event.target)) {
         console.log('Clicou fora, fechando')
-        this.modal = false
+        this.options = false
       }
     },
     logout() {
       localStorage.setItem('token', '')
       this.$router.push('signin')
     }
-  }
+  },
+  mounted() {
+    //otimizar isso
+    document.addEventListener('click', this.handleClickOutside)
+    this.getName()
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside)
+  },
 }
 </script>
 
 <template>
-  <div class="profile" ref="profileRef" @click="handleModal">
+  <div class="profile" ref="profileRef" @click="handleOptions">
     <div class="pic"><ProfileIcon class="svg" /></div>
     <p class="name">Lucas Maciel</p>
 
-    <div v-if="modal" class="options" ref="modalRef">
-      <p>Editar Perfil</p>
+    <div v-if="options" class="options" ref="options">
+      <p @click="openModal">Ver Perfil</p>
       <p @click="logout">Logout</p>
     </div>
+    
+    <Modal :close="closeModal" title="Seu Perfil" v-if="modal"
+      ><template #content><ProfileInfos /></template></Modal
+  >
   </div>
 </template>
 
@@ -95,7 +130,7 @@ export default {
   font-weight: bold;
 }
 
-/* Modal */
+/* options */
 .profile .options {
   position: absolute;
   bottom: 130%;
@@ -108,7 +143,7 @@ export default {
   background-color: gray;
   border-radius: 1rem;
 
-  animation: show_modal 0.3s;
+  animation: show_options 0.3s;
 }
 
 .profile .options p {
@@ -126,7 +161,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-@keyframes show_modal {
+@keyframes show_options {
   0% {
     opacity: 0;
     transform: translateY(1rem);

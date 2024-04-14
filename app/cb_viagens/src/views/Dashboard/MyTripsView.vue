@@ -1,20 +1,21 @@
 <script lang="ts">
-//components
+// Components
 import Modal from '@/components/Modal.vue'
-import AddTrip from '@/components/calculateTrip/AddTrip.vue'
-import Row from '@/components/calculateTrip/Row.vue'
-import Title from '@/components/Title.vue'
+import AddTrip from '@/components/AddTrip.vue'
+import Row from '@/components/Row.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
 // Types
 import type { TripProps, TripModalProps } from '@/types/trip'
 
 export default {
-  mounted() {
-    this.getCities()
-    this.getTrips('')
+  components: {
+    Modal,
+    Row,
+    AddTrip,
+    SectionHeader
   },
   data() {
     return {
-      cities: [] as string[],
       trips: [] as TripProps[],
       cityInput: '' as string,
       layout: 'grid_mode' as 'grid_mode' | 'list_mode',
@@ -24,28 +25,12 @@ export default {
       } as TripModalProps
     }
   },
-  components: {
-    Modal,
-    Row,
-    AddTrip,
-    Title
-  },
   methods: {
-    getCities() {
-      fetch('http://localhost:3000/trips/cities')
-        .then((res) => res.json())
-        .then((data) => {
-          this.cities = data
-        })
-    },
-    getTrips(city: string) {
-      fetch(`http://localhost:3000/trips/${city ? `?city=${city}` : ''}`)
+    getTrips() {
+      fetch(`${import.meta.env.VITE_API_URL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`)
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
-          if (this.trips.length > 7) {
-            this.trips = this.trips.splice(0, 7)
-          }
         })
     },
     setLayout() {
@@ -60,17 +45,15 @@ export default {
       this.tripModal.active = false
     }
   },
-  watch: {
-    cityInput(newValue) {
-      this.getTrips(newValue)
-    }
-  }
+  mounted() {
+    this.getTrips()
+  },
 }
 </script>
 
 <template>
   <div class="my_trips">
-    <Title title="Minhas Viagens"></Title>
+    <SectionHeader title="Minhas Viagens"></SectionHeader>
     <div class="content">
       <Row :header="true" />
       <hr />
@@ -168,6 +151,7 @@ export default {
 /*Tabela*/
 .results {
   flex: 1;
+  scrollbar-width: thin;
   overflow-y: scroll;
 }
 

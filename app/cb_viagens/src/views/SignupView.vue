@@ -1,6 +1,8 @@
 <script lang="ts">
 // Components
 import Intro from '@/components/signUp/Intro.vue'
+// Types
+import { type Router } from 'vue-router'
 // Functions
 import {
   checkUsername,
@@ -9,9 +11,6 @@ import {
   checkLastName,
   confirmPassword
 } from '@/utils/checkInputs'
-// Types
-import { type Ref } from 'vue';
-import { type Router } from 'vue-router';
 
 export default {
   data() {
@@ -30,51 +29,55 @@ export default {
       this.message = value
     },
     checkInputs(): boolean {
-      const firstnameInput = this.$refs.firstname as Ref<HTMLInputElement>;
-    const lastnameInput = this.$refs.lastname as Ref<HTMLInputElement>;
-    const usernameInput = this.$refs.username as Ref<HTMLInputElement>;
-    const passwordInput = this.$refs.password as Ref<HTMLInputElement>;
-    const confirmInput = this.$refs.confirm as Ref<HTMLInputElement>;
+      const firstnameInput = this.$refs.firstname as HTMLInputElement
+      const lastnameInput = this.$refs.lastname as HTMLInputElement
+      const usernameInput = this.$refs.username as HTMLInputElement
+      const passwordInput = this.$refs.password as HTMLInputElement
+      const confirmInput = this.$refs.confirm as HTMLInputElement
 
-    if (!checkFirstName(firstnameInput.value.value, firstnameInput, this.setMessage)) {
-      return false;
-    }
+      if (!checkFirstName(firstnameInput, this.setMessage)) {
+        return false
+      }
 
-    if (!checkLastName(lastnameInput.value.value, lastnameInput, this.setMessage)) {
-      return false;
-    }
+      if (!checkLastName(lastnameInput, this.setMessage)) {
+        return false
+      }
 
-    if (!checkUsername(usernameInput.value.value, usernameInput, this.setMessage)) {
-      return false;
-    }
+      if (!checkUsername(usernameInput, this.setMessage)) {
+        return false
+      }
 
-    if (!checkPassword(passwordInput.value.value, passwordInput, this.setMessage)) {
-      return false;
-    }
+      if (!checkPassword(passwordInput, this.setMessage)) {
+        return false
+      }
 
-    if (!confirmPassword(confirmInput.value.value, passwordInput.value.value, confirmInput, this.setMessage)) {
-      return false;
-    }
+      if (!confirmPassword(passwordInput.value, confirmInput, this.setMessage)) {
+        return false
+      }
 
-    return true;
-  },
-  navigate(route: string) {
-    (this.$router as Router).push(route);
-  },
+      return true
+    },
+    navigate(route: string) {
+      ;(this.$router as Router).push(route)
+    },
     submitForm() {
       if (!this.checkInputs()) return
 
       this.message = 'Enviando dados'
 
-      const usernameInput = this.$refs.username as Ref<HTMLInputElement>;
-      const passwordInput = this.$refs.password as Ref<HTMLInputElement>;
+      const usernameInput = this.$refs.username as HTMLInputElement
+      const passwordInput = this.$refs.password as HTMLInputElement
+      const frstnameInput = this.$refs.firstname as HTMLInputElement
+      const lastnameInput = this.$refs.lastname as HTMLInputElement
 
       const forms = {
         username: usernameInput.value,
-        password: passwordInput.value
+        password: passwordInput.value,
+        first_name: frstnameInput.value,
+        last_name: lastnameInput.value
       }
 
-      fetch('http://127.0.0.1:3000/auth/users/', {
+      fetch(`${import.meta.env.VITE_API_URL}/auth/users/`, {
         method: 'POST',
         body: JSON.stringify(forms),
         headers: {
@@ -83,7 +86,7 @@ export default {
       })
         .then((res) => res.json())
         .then(() => {
-          this.message = "Usuário criado com sucesso!"
+          this.message = 'Usuário criado com sucesso!'
         })
         .catch(console.log)
     }

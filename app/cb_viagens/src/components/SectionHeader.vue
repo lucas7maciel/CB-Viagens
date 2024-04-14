@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 //must be a flexbox pipipipopopo
 export default {
   props: ['title']

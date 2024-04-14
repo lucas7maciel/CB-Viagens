@@ -1,9 +1,22 @@
 <script setup lang="ts">
-import Link from '../../components/dashboardBar/Link.vue'
+// Components
+import Link from '@/components/dashboardBar/Link.vue'
+// Icons
 import CalculatorIcon from '@/components/icons/IconCalculator.vue'
 import PlaneIcon from '@/components/icons/IconPlane.vue'
 import QuestionIcon from '@/components/icons/IconQuestion.vue'
 import PremiumIcon from '@/components/icons/IconPremium.vue'
+
+const props = defineProps({
+  setPage: {
+    type: Function as () => void,
+    required: true
+  }
+})
+
+const setPage = (page: string) => {
+  props.setPage(page);
+}
 
 </script>
 
@@ -12,12 +25,11 @@ import PremiumIcon from '@/components/icons/IconPremium.vue'
     <h1>Seja bem vindo ao dashboard</h1>
     <h2>Utilize os links da <span class="navbar">Navbar</span> para navegar entre nossas opções</h2>
     <div class="links">
-      <Link :Icon="CalculatorIcon" :title="'Calcular Viagem'" />
-      <Link :Icon="PlaneIcon" :title="'Minhas Viagens'" />
-      <Link :Icon="QuestionIcon" :title="'Sobre Nós'" />
-      <Link :Icon="PremiumIcon" :title="'Viagens Comfort'" />
+      <Link :Icon="CalculatorIcon" :title="'Calcular Viagem'" @click="setPage('calculate')" />
+      <Link :Icon="PremiumIcon" :title="'Viagens Comfort'" @click="setPage('comftrips')" />
+      <Link :Icon="PlaneIcon" :title="'Minhas Viagens'" @click="setPage('mytrips')" />
+      <Link :Icon="QuestionIcon" :title="'Sobre Nós'" @click="setPage('aboutus')" />
     </div>
-    <p class="alert">(Clique pela Navbar)</p>
   </div>
 </template>
 
@@ -67,9 +79,4 @@ import PremiumIcon from '@/components/icons/IconPremium.vue'
   filter: invert(1);
 }
 
-.alert {
-  margin-top: 2rem;
-  font-weight: bold;
-  color: gray;
-}
 </style>

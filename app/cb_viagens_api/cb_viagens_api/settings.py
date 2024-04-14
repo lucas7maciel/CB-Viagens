@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ig!#u#vsl+-y&_p3dd8fn5%q7w=yal-rn1bd21h_g=he@jv3m)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 #Change these lists in case you want to test the server locally
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '.vercel.app']
@@ -59,9 +60,19 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'users',
     'trips',
     'corsheaders',
 ]
+
+# Custom user config
+AUTH_USER_MODEL = 'users.CustomUser'
+
+DJOSER = {
+    'SERIALIZERS': {
+         'user_create': 'users.serializer.UserRegistrationSerializer'
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -2,7 +2,7 @@
 import DashboardBar from '../components/dashboardBar/DashboardBar.vue'
 //Pages
 import Welcome from '@/views/Dashboard/WelcomeView.vue'
-import CalculateTrip from '../views/Dashboard/CalculateTripView.vue'
+import CalculateTrip from '@/views/Dashboard/CalculateTripView.vue'
 import MyTrips from '@/views/Dashboard/MyTripsView.vue'
 import AboutUs from '@/views/Dashboard/AboutUsView.vue'
 import ComfTrips from '@/views/Dashboard/ComfTrips.vue'
@@ -13,16 +13,24 @@ import axios from 'axios'
 import type { PagesProps } from '@/types/pages'
 
 export default {
+  components: {
+    DashboardBar,
+    Welcome
+  },
   data() {
     return {
-      current: 'welcome' as string,
+      current: null as string | null,
       pages: {
         calculate: markRaw(CalculateTrip),
         mytrips: markRaw(MyTrips),
         aboutus: markRaw(AboutUs),
-        welcome: markRaw(Welcome),
         comftrips: markRaw(ComfTrips)
       } as PagesProps
+    }
+  },
+  methods: {
+    setCurrent(current: string) {
+      this.current = current
     }
   },
   beforeCreate() {
@@ -35,7 +43,7 @@ export default {
     if (provisorio) return
 
     axios
-      .get('http://127.0.0.1:3000/auth/users/me/')
+      .get(`${import.meta.env.VITE_API_URL}/auth/users/me/`)
       .then((data: any /*Ajeitar isso*/) => {
         if (data.response?.status == 401 || !localStorage.getItem('token')) {
           this.$router.push('/signin')
@@ -46,23 +54,16 @@ export default {
         this.$router.push('/signin')
       })
   },
-  components: {
-    DashboardBar,
-    CalculateTrip,
-    MyTrips
-  },
-  methods: {
-    setCurrent(current: string) {
-      this.current = current
-    }
-  }
 }
 </script>
 
 <template>
   <div class="container">
     <DashboardBar :setPage="setCurrent" />
-    <div class="page"><component :is="pages[current]" /></div>
+    <div class="page">
+      <component v-if="current" :is="pages[current]" />
+      <Welcome v-if="!current" :setPage="setCurrent" />
+    </div>
   </div>
 </template>
 

@@ -1,14 +1,13 @@
 <script lang="ts">
-import { useStore } from 'vuex'
 import axios from 'axios'
+import type { ComponentOptions } from 'vue';
 
 export default {
   name: 'App',
-  beforeCreate() {
-    const store = useStore()
-
+  beforeCreate(this: ComponentOptions<any>) {
+    const store = this.$store as any;
     const token = store.state.token
-    console.log(`Token ${token}`)
+
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Token ${token}`
     } else {

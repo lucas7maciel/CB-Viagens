@@ -1,12 +1,11 @@
-import { type Ref } from 'vue'
 
 const animDuration: number = 1000 //ms
 
-function playErrorAnim(ref: Ref<HTMLInputElement>) {
+function playErrorAnim(ref: HTMLInputElement) {
   try {
-    ref.value.classList.add('error_input')
+    ref.classList.add('error_input')
     setTimeout(() => {
-      ref.value.classList.remove('error_input')
+      ref.classList.remove('error_input')
     }, animDuration)
   } catch (error) {
     console.error('Error occurred while manipulating the class:', error)
@@ -14,10 +13,10 @@ function playErrorAnim(ref: Ref<HTMLInputElement>) {
 }
 
 export function checkUsername(
-  value: string | null,
-  ref: Ref<HTMLInputElement>,
+  ref: HTMLInputElement,
   setMessage: (value: string) => void
 ): boolean {
+  const value: string | null = ref.value;
   let ok: boolean = false
 
   if (!value) {
@@ -36,10 +35,10 @@ export function checkUsername(
 }
 
 export function checkPassword(
-  value: string,
-  ref: Ref<HTMLInputElement>,
+  ref: HTMLInputElement,
   setMessage: (value: string) => void
 ): boolean {
+  const value: string | null = ref.value;
   let ok: boolean = false
 
   if (!value) {
@@ -58,11 +57,11 @@ export function checkPassword(
 }
 
 export function confirmPassword(
-  value: string,
   password: string,
-  ref: Ref<HTMLInputElement>,
+  ref: HTMLInputElement,
   setMessage: (value: string) => void
 ): boolean {
+  const value: string | null = ref.value;
   let ok: boolean = false
 
   if (!value) {
@@ -78,10 +77,10 @@ export function confirmPassword(
 }
 
 export function checkFirstName(
-  value: string | null,
-  ref: Ref<HTMLInputElement>,
+  ref: HTMLInputElement,
   setMessage: (value: string) => void
 ): boolean {
+  const value: string | null = ref.value;
   let ok: boolean = false
 
   if (!value) {
@@ -100,10 +99,10 @@ export function checkFirstName(
 }
 
 export function checkLastName(
-  value: string | null,
-  ref: Ref<HTMLInputElement>,
+  ref: HTMLInputElement,
   setMessage: (value: string) => void
 ): boolean {
+  const value: string | null = ref.value;
   let ok: boolean = false
 
   if (!value) {

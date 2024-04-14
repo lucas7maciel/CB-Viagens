@@ -1,13 +1,13 @@
 <script lang="ts">
-//icons
+// Icons
 import GridIcon from '@/components/icons/IconGrid.vue'
 import ListIcon from '@/components/icons/IconList.vue'
 export default {
+  props: ['layout', 'setLayout'],
   components: {
     GridIcon,
     ListIcon
-  },
-  props: ['layout', 'setLayout']
+  }
 }
 </script>
 
