@@ -14,7 +14,7 @@ export default {
     <PlaneIcon class="plane" @click="openTrip(trip)" />
     <span>{{ header ? 'Cidade' : trip.city }}</span
     ><span>{{ header ? 'Compania' : trip.name }}</span
-    ><span>{{ header ? 'Duração' : trip.duration }}</span>
+    ><span>{{ header ? 'Duração' : trip.duration }}h</span>
     <span>{{ header ? 'Preço' : trip.price_confort }}</span>
   </div>
 </template>

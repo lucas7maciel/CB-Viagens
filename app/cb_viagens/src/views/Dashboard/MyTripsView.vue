@@ -101,8 +101,6 @@ export default {
 
 .content hr {
   color: #d9d9d9;
-  color: red;
-  background-color: red;
 }
 
 /*Inputs (header)*/

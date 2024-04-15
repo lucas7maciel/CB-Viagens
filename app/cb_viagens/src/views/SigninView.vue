@@ -118,8 +118,8 @@ export default {
 
   border-radius: 1.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
 
+  overflow: hidden;
   user-select: none;
 }
 
@@ -229,7 +229,7 @@ export default {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px) or (orientation: portrait) or (max-height: 550px) {
   .container {
     flex: 1;
     align-self: stretch;
@@ -248,6 +248,17 @@ export default {
 
   .svg_section {
     display: none;
+  }
+}
+
+@media (max-height: 550px) and (orientation: landscape) {
+  .page {
+    background-color: #2a3041;
+  }
+
+  .container {
+    max-width: 60%;
+    box-shadow: none;
   }
 }
 </style>
