@@ -69,8 +69,12 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'users.CustomUser'
 
 DJOSER = {
+    'USER': 'users.CustomUser',
     'SERIALIZERS': {
-         'user_create': 'users.serializer.UserRegistrationSerializer'
+        #'user_create': 'users.serializer.UserRegistrationSerializer' # Tirar de models 
+        'current_user': 'users.serializer.UserRegistrationSerializer',
+        'user': 'users.serializer.UserRegistrationSerializer',
+        'user_create': 'users.serializer.UserRegistrationSerializer'
     }
 }
 

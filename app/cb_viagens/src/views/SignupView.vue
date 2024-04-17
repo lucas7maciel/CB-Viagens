@@ -85,7 +85,8 @@ export default {
         }
       })
         .then((res) => res.json())
-        .then(() => {
+        .then((res) => {
+          console.log(res)
           this.message = 'Usuário criado com sucesso!'
         })
         .catch(console.log)

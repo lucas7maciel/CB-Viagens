@@ -9,5 +9,6 @@ urlpatterns = [
     path('trips/', include('trips.urls')),
     # Authentication routes
     path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken'))
+    path('auth/', include('djoser.urls.authtoken')),
+    path('auth/', include('users.urls'))
 ]

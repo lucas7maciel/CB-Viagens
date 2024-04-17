@@ -16,8 +16,7 @@ export default {
     AddTrip,
     SectionHeader,
     DateInput,
-    LayoutInput,
-    //Paginator
+    LayoutInput
   },
   data() {
     return {
@@ -157,7 +156,7 @@ export default {
   background-size: 1.2rem 1.2rem;
 }
 
-/*Tabela*/
+/* Tabela*/
 
 .results {
   flex: 1;
@@ -165,7 +164,7 @@ export default {
   scrollbar-width: thin;
 }
 
-/*Modal*/
+/* Modal*/
 .custom-animation-leave-active {
   animation: fade-out 0.2s;
 }

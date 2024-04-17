@@ -2,6 +2,7 @@
 import IconProfile from '@/components/icons/IconProfile.vue';
 
 export default {
+    props: ["user"],
     components: {
         IconProfile
     }
@@ -14,7 +15,7 @@ export default {
         <div class="profile">
         <IconProfile class="pic" />
     </div>
-    <p class="name">Lucas Maciel</p>
+    <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
     <p class="since">Desde ontem</p>
     </div>
 </template>

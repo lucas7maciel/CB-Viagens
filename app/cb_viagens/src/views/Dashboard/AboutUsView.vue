@@ -10,9 +10,9 @@ export default {
 
 <template>
   <div class="about_us">
-    <SectionHeader title="Quem Somos Nós?" />
+    <SectionHeader title="Sobre Nós" />
     <div class="content">
-      <h1>Somos uma rede de aeroportos</h1>
+      <h1>Somos uma rede de viagens</h1>
       <h2>Em breve informações serão adicionadas</h2>
     </div>
   </div>
@@ -43,5 +43,13 @@ export default {
   padding: 1rem 1rem;
 
   overflow: hidden;
+}
+
+.content h1 {
+  font-weight: bold;
+}
+
+.content h2 {
+  font-weight: semibold;
 }
 </style>

@@ -354,4 +354,11 @@ export default {
 .trips .trip .value {
   font-weight: bold;
 }
+
+/** */
+@media (max-width: 900px) {
+  .inputs {
+    flex-wrap: wrap;
+  }
+}
 </style>

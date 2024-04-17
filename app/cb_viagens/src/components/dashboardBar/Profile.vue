@@ -4,7 +4,9 @@ import Modal from '@/components/Modal.vue'
 import ProfileInfos from '@/components/dashboardBar/ProfileInfos.vue'
 // Icons
 import ProfileIcon from '../icons/IconProfile.vue'
+// Types
 import type { Ref } from 'vue'
+import type {UserProps} from '@/types/user'
 
 export default {
   components: {
@@ -15,25 +17,36 @@ export default {
   data() {
     return {
       options: false as boolean,
-      modal: false as boolean
+      modal: false as boolean,
+      user: null as UserProps | null
     }
   },
   methods: {
-    getName() {
-      const token : string | null = localStorage.getItem("token")
+    async getName() {
+      try {
+        // Identificar usuário
+        // Setting headers
+        const token: string | null = localStorage.getItem("token")
+        const headers: HeadersInit | undefined = {
+          'Authorization': `Token ${token}`
+        }
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/me`, {headers});
 
-      const headers: Headers = new Headers()
-      headers.append('Authorization', `Token ${token}`)
+        if (!res.ok) {
+            throw new Error('Falha no servidor');
+        }
 
-      const options: Object = {
-        method: 'GET',
-        headers
-      } 
+        const user = await res.json(); // *consertar isso
+        console.log(user.data);
 
-      fetch(`${import.meta.env.VITE_API_URL}/auth/users/me/`, options)
-        .then(res => res.json())
-        .then(console.log)
-        .catch(console.log)
+        if (!user) {
+            throw new Error('Falha ao identificar usuário');
+        }
+
+        this.user = user.data
+    } catch (error) {
+        console.error('Error:', error);
+    }
     },
     // Modal
     openModal() {
@@ -47,7 +60,7 @@ export default {
       this.options = !this.options
     },
     handleClickOutside(event: any /** Ver isso */) {
-      const profileRef = this.$refs.profileRef as Ref<HTMLDivElement>;
+      const profileRef = this.$refs.profileRef as Ref<HTMLDivElement>
       if (this.options && !profileRef.value.contains(event.target)) {
         console.log('Clicou fora, fechando')
         this.options = false
@@ -65,23 +78,23 @@ export default {
   },
   beforeUnmount() {
     document.removeEventListener('click', this.handleClickOutside)
-  },
+  }
 }
 </script>
 
 <template>
   <div class="profile" ref="profileRef" @click="handleOptions">
     <div class="pic"><ProfileIcon class="svg" /></div>
-    <p class="name">Lucas Maciel</p>
+    <p class="name">{{ user ? user.first_name ? `${user.first_name} ${user.last_name}` : "(Sem Nome)" : "Carregando..." }}</p>
 
     <div v-if="options" class="options" ref="options">
       <p @click="openModal">Ver Perfil</p>
       <p @click="logout">Logout</p>
     </div>
-    
+
     <Modal :close="closeModal" title="Seu Perfil" v-if="modal"
-      ><template #content><ProfileInfos /></template></Modal
-  >
+      ><template #content><ProfileInfos :user="user" /></template
+    ></Modal>
   </div>
 </template>
 
@@ -131,10 +144,11 @@ export default {
 }
 
 /* options */
-.profile .options {
+.options {
   position: absolute;
   bottom: 130%;
   left: 1.2rem;
+  z-index: 5;
 
   min-width: calc(100% - 2.4rem);
 
@@ -146,7 +160,7 @@ export default {
   animation: show_options 0.3s;
 }
 
-.profile .options p {
+.options p {
   width: 100%;
 
   padding: 0.3rem 0.4rem;
@@ -157,28 +171,25 @@ export default {
   transition: background-color 0.5s;
 }
 
-.profile .options p:hover {
+.options p:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-@keyframes show_options {
-  0% {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-
-  80% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(0rem);
-  }
-}
-
 /** */
-@media (max-width: 55rem) {
+@media (max-width: 900px) {
   .profile {
+    margin: 0;
+    padding-inline: 0;
+  }
+
+  .options {
+    bottom: initial;
+    left: initial;
+    top: 130%;
+    right: 0rem;
+  }
+
+  .name {
     display: none;
   }
 }

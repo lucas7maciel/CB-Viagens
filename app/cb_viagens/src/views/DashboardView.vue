@@ -21,10 +21,10 @@ export default {
     return {
       current: null as string | null,
       pages: {
-        calculate: markRaw(CalculateTrip),
-        mytrips: markRaw(MyTrips),
-        aboutus: markRaw(AboutUs),
-        comftrips: markRaw(ComfTrips)
+        'Calculate': markRaw(CalculateTrip),
+        'My Trips': markRaw(MyTrips),
+        'About Us': markRaw(AboutUs),
+        'Comfort': markRaw(ComfTrips)
       } as PagesProps
     }
   },
@@ -59,7 +59,7 @@ export default {
 
 <template>
   <div class="container">
-    <DashboardBar :setPage="setCurrent" />
+    <DashboardBar :setPage="setCurrent" :page="current" />
     <div class="page">
       <component v-if="current" :is="pages[current]" />
       <Welcome v-if="!current" :setPage="setCurrent" />
@@ -84,7 +84,7 @@ export default {
 }
 
 /** */
-@media (max-width: 55rem) {
+@media (max-width: 900px) {
   .container {
     flex-direction: column;
   }

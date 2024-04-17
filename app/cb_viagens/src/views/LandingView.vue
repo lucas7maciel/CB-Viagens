@@ -122,9 +122,11 @@ export default {
 /**Art */
 .art {
   text-align: center;
-  animation: show_art 0.8s both;
+
   display: flex;
   justify-content: end;
+
+  animation: show_art 0.8s both;
 }
 
 .art .guy {
@@ -155,25 +157,17 @@ export default {
 @media (max-width: 1000px) {
   .container {
     flex-direction: column-reverse;
-    align-items: center;
-  }
-
-  .container .art {
-    flex: 0;
-    align-items: center;
-
-    width: 40%;
-    padding: 1rem;
-
-    border: solid 1px;
   }
 
   .intro {
     align-items: center;
+    text-align: center;
   }
 
-  .intro .title, .intro .subtitle {
-    text-align: center;
+  .art {
+    justify-content: center;
+
+    max-height: 15%;
   }
 }
 </style>

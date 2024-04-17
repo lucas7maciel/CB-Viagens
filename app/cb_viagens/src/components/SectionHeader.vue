@@ -33,7 +33,7 @@ export default {
 }
 
 /** */
-@media (max-width: 55rem) {
+@media (max-width: 900px) {
   .title {
     display: none;
   }
