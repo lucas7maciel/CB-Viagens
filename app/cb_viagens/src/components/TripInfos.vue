@@ -2,38 +2,20 @@
 export default {
   props: ['trip', 'add', 'cancel'],
   methods: {
-    getCookie(name: string) {
-      const value: string | null = `; ${document.cookie}`
-
-      if (!value) return ''
-      const parts: string[] = value.split(`; ${name}=`)
-      if (parts.length === 2) return parts.pop()?.split(';').shift()
-    },
     //verificar se ta com permissao antes
-    addTrip() {
-      const data = {
-        trip: this.trip.id,
-        customer: 1
-      }
-
-      const options: Object = {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': this.getCookie('csrftoken')
-        },
-        body: JSON.stringify(data)
-      }
-
-      fetch('http://localhost:3000/trips/book', options)
+    bookTrip() {
+      fetch(`${import.meta.env.VITE_API_URL}/trips/book/${this.trip.id}/${14}/`) // Pegar parametros corretamente
+        .then((res) => res.json())
+        .then(console.log)
+        .catch(console.log)
+    },
+    cancelTrip() {
+      fetch(`${import.meta.env.VITE_API_URL}/trips/cancel/${this.trip.id}/`) // Pegar parametros corretamente
         .then((res) => res.json())
         .then(console.log)
         .catch(console.log)
     }
-  },
-  mounted() {
-    console.log('Montou')
-  },
+  }
 }
 </script>
 
@@ -46,9 +28,11 @@ export default {
       <span class="prop">Leito</span>|<span class="value">{{ trip.seat }}</span>
       <span class="prop">Preço</span>|<span class="value">{{ trip.price_confort }}</span>
     </div>
-    <div v-if="!cancel">
-      <p class="message">O voo adicionado poderá ser visto em Minhas Viagens</p>
-      <button class="add" @click="add">Adicionar</button>
+
+    <p v-if="cancel || add" class="message">O voo adicionado poderá ser visto em Minhas Viagens</p>
+    <div v-if="cancel || add" class="buttons">
+      <button v-if="cancel" class="cancel" @click="cancelTrip">Cancelar</button>
+      <button v-if="add" class="add" @click="bookTrip">Adicionar</button>
     </div>
   </div>
 </template>
@@ -96,7 +80,16 @@ export default {
   padding-inline: 10%;
 }
 
-.add {
+/** Buttons */
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 1rem;
+}
+
+button {
   font-weight: bold;
   font-size: 1.3rem;
   color: white;
@@ -113,7 +106,7 @@ export default {
   transition: background-color 0.3s;
 }
 
-.add:hover {
+button:hover {
   background-color: lightgray;
 }
 </style>

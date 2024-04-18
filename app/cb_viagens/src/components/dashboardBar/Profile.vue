@@ -111,6 +111,7 @@ export default {
   margin: 1rem 0;
   padding-inline: 1.2rem;
 
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -141,6 +142,7 @@ export default {
 .profile .name {
   flex: 1;
   font-weight: bold;
+  text-overflow: ellipsis;
 }
 
 /* options */

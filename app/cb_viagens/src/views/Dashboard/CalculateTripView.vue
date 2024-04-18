@@ -132,6 +132,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  text-align: center;
 
   height: calc(100vh - 1rem);
   overflow: hidden;

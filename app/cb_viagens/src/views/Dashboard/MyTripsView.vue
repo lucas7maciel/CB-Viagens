@@ -1,7 +1,7 @@
 <script lang="ts">
 // Components
 import Modal from '@/components/Modal.vue'
-import AddTrip from '@/components/AddTrip.vue'
+import TripInfos from '@/components/TripInfos.vue'
 import Row from '@/components/Row.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 // Types
@@ -11,7 +11,7 @@ export default {
   components: {
     Modal,
     Row,
-    AddTrip,
+    TripInfos,
     SectionHeader
   },
   data() {
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     getTrips() {
-      fetch(`${import.meta.env.VITE_API_URL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`)
+      fetch(`${import.meta.env.VITE_API_URL}/trips/booked/${14}/`) // Passar args certinho
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
@@ -56,7 +56,6 @@ export default {
     <SectionHeader title="Minhas Viagens"></SectionHeader>
     <div class="content">
       <Row :header="true" />
-      <hr />
       <div class="results">
         <Row
           v-for="(trip, key) in trips"
@@ -71,7 +70,7 @@ export default {
 
   <transition name="custom-animation"
     ><Modal :close="closeTrip" title="Conferir Viagem" v-if="tripModal.active"
-      ><template #content> <AddTrip :trip="tripModal.current" :cancel="true" /> </template></Modal
+      ><template #content> <TripInfos :trip="tripModal.current" :cancel="true" /> </template></Modal
   ></transition>
 </template>
 
@@ -165,6 +164,13 @@ export default {
 
   100% {
     opacity: 0;
+  }
+}
+
+/** */
+@media (max-width: 950px) {
+  .properties.header {
+    display: none;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 // Components
 import Modal from '@/components/Modal.vue'
-import AddTrip from '@/components/AddTrip.vue'
+import TripInfos from '@/components/TripInfos.vue'
 import Row from '@/components/Row.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import DateInput from '@/components/DateInput.vue'
@@ -13,7 +13,7 @@ export default {
   components: {
     Modal,
     Row,
-    AddTrip,
+    TripInfos,
     SectionHeader,
     DateInput,
     LayoutInput
@@ -22,7 +22,7 @@ export default {
     return {
       trips: [] as TripProps[],
       cityInput: '' as string,
-      layout: 'grid_mode' as 'grid_mode' | 'list_mode',
+      layout: 'list_mode' as 'grid_mode' | 'list_mode',
       tripModal: {
         active: false as boolean,
         current: null as TripProps | null
@@ -65,8 +65,7 @@ export default {
         <LayoutInput :layout="layout" :setLayout="setLayout" />
       </div>
       <hr />
-      <Row :header="true" />
-      <hr />
+      <Row v-if="layout == 'list_mode'" :header="true" />
       <div class="results">
         <Row
           v-for="(trip, key) in trips"
@@ -81,7 +80,7 @@ export default {
 
   <transition name="custom-animation"
     ><Modal :close="closeTrip" title="Adicionar Viagem" v-if="tripModal.active"
-      ><template #content> <AddTrip :trip="tripModal.current" /> </template></Modal
+      ><template #content> <TripInfos :trip="tripModal.current" :add="true" /> </template></Modal
   ></transition>
 </template>
 
@@ -180,4 +179,32 @@ export default {
 }
 
 /** */
+@media (max-width: 950px) {
+  /** Inputs */
+  .inputs {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    
+    height: auto;
+
+    margin-bottom: 0.7rem;
+  }
+
+  .inputs .city, .inputs .date {
+    flex: 1 1 40%;
+
+    justify-content: center;
+  }
+
+  /** City */
+  .inputs .city input {
+    flex: 1;
+    padding-block: 0.5rem; /** Ver isso */
+  }
+
+  /** */
+  .inputs .layout, .inputs .properties .header {
+    display: none; /** Trocar isso */
+  }
+}
 </style>

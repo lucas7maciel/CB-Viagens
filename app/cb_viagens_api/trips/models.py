@@ -17,4 +17,4 @@ class Trip(models.Model):
     bed = models.CharField(max_length=3)
 
     # A viagem pode estar associada ou nao a um usuario
-    customer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True) #IntegerField(blank=True, null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from django.contrib.auth.models import User
+from users.models import CustomUser
 from . import models
 
 # Returns a list of trips | Params (city, date)
@@ -10,7 +10,7 @@ def search(request):
     date = request.GET.get('date', '')
     city = request.GET.get('city', '')
     
-    queryset = models.Trip.objects.all()
+    queryset = models.Trip.objects.all().filter(customer=None) # Setar essa propriedade pra outras views
 
     if city:
         queryset = queryset.filter(city__icontains=city)
@@ -60,13 +60,22 @@ def calculate(request):
 
     return JsonResponse({"quickest": quickestTrip, "cheapest": cheapestTrip}, status=200, safe=False)
 
+def getBooked(request, id):
+    if not id:
+        return JsonResponse({"message": "Please provide Id"})
+    
+    tripsQuery = models.Trip.objects.all().filter(customer=id)
+    trips = list(tripsQuery.values())
+
+    return JsonResponse(trips, safe=False)
+
 # Associates a trip record with a customer, changing the 'Customer' field
 def book(request, tripId, userId):      # AJEITAR POSSÍVEIS ERROS
     if not tripId or not userId:
         return JsonResponse({"message": "Please inform Trip and User ID"})
 
     trip = get_object_or_404(models.Trip, pk=tripId)
-    user = get_object_or_404(User, pk=userId)
+    user = get_object_or_404(CustomUser, pk=userId)
 
     trip.customer = user
     trip.save()
@@ -74,11 +83,11 @@ def book(request, tripId, userId):      # AJEITAR POSSÍVEIS ERROS
     return JsonResponse({"message": "Sucesso"})
 
 def cancel(request, tripId):
-    if not tripId:
+    if tripId is None:
         return JsonResponse({"message": "Please inform trip ID"})
     
     trip = get_object_or_404(models.Trip, pk=tripId)
-
+    print(tripId)
     trip.customer = None
     trip.save()
 

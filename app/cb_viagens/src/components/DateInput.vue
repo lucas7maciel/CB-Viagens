@@ -46,8 +46,7 @@ export default {
         :format="format"
         :enable-time-picker="false"
         :min-date="new Date()"
-      >
-      </VueDatePicker>
+      />
 
       <div class="hider"></div>
       <span>{{ dateOutput }}</span>
@@ -113,4 +112,14 @@ export default {
   position: relative;
   z-index: 3;
 }
+
+/** */
+@media (max-width: 950px) {
+  .date .container .hider {
+    /** Based on new header measures (comfTrips, myTrips) */
+    top: -0.5rem;
+    height: calc(100% + 1.2rem);
+  }
+}
+
 </style>
