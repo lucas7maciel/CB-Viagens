@@ -2,14 +2,14 @@
 import PlaneIcon from '@/components/icons/IconPlane.vue'
 
 export default {
-  props: ['trip', 'header', 'openTrip'],
+  props: ['trip', 'grid', 'header', 'openTrip'],
   components: {
     PlaneIcon
   }
 }
 
 /**
- * .properties {
+ * .properties.list{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +22,7 @@ export default {
   opacity: 0.2;
 }
 
-.properties .plane {
+.properties.list.plane {
   max-height: 1rem;
   max-width: 1rem;
 
@@ -36,7 +36,7 @@ export default {
   color: #d9d9d9;
 }
 
-.properties span {
+.properties.listspan {
   flex: 1;
 
   font-weight: 600;
@@ -51,31 +51,40 @@ export default {
 </script>
 
 <template>
-  <div class="properties" :class="header ? 'header' : ''">
-    <PlaneIcon class="plane" @click="openTrip(trip)" />
-    <span>{{ header ? 'Cidade' : trip.city }}</span
-    ><span>{{ header ? 'Compania' : trip.name }}</span
-    ><span>{{ header ? 'Duração' : `${trip.duration}h` }}</span>
-    <span>{{ header ? 'Preço' : trip.price_confort }}</span>
+  <div class="properties" :class="`${grid ? 'grid' : 'list'} ${header ? 'header' : ''}`" @click="openTrip(trip)">
+    <PlaneIcon class="plane" />
+    <span class="city">{{ header ? 'Cidade' : trip.city }}</span
+    ><span class="company">{{ header ? 'Compania' : trip.name }}</span
+    ><span class="duration">{{ header ? 'Duração' : `${trip.duration}h` }}</span>
+    <span class="price">{{ header ? 'Preço' : trip.price_confort }}</span>
   </div>
   <hr v-if="header" />
 </template>
 
 <style scoped>
-.properties {
+/** List */
+.properties.list {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
 
   margin-block: 0.5rem;
+
+  cursor: pointer;
 }
 
-.properties.header .plane {
+.properties.list.header { /** Aligns header with rows list (padding caused by scrollbar) */
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+.properties.list.header .plane {
   opacity: 0.2;
 }
 
-.properties .plane {
+.properties.list .plane {
   max-height: 1rem;
   max-width: 1rem;
 
@@ -84,21 +93,68 @@ export default {
   cursor: pointer;
 }
 
-.properties.header span {
+.properties.list.header span {
   font-weight: bold;
   color: #d9d9d9;
 }
 
-.properties span {
+.properties.list span {
   flex: 1;
 
   font-weight: 600;
 }
 
-.header { /** Aligns header with rows list (padding caused by scrollbar) */
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-gutter: stable;
+/** Grid */
+.properties.grid {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.2rem;
+
+  width: 100%;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+
+  background-color: white;
+  border-radius: 1rem;
+}
+
+.properties.grid .city {
+  flex: 1 1 100%;
+
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
+
+  padding: 0.2rem 0.4rem;
+
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  background-color: black;
+}
+
+.properties.grid .company {
+  flex: 1 1 100%;
+  
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.properties.grid .duration::after {
+  content: "  -  ";
+}
+
+.properties.grid .price::before {
+  content: "R$ ";
+}
+
+.properties.grid .plane {
+  display: none;
 }
 
 </style>

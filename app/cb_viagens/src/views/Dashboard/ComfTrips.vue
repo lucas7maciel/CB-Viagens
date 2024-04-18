@@ -22,7 +22,7 @@ export default {
     return {
       trips: [] as TripProps[],
       cityInput: '' as string,
-      layout: 'list_mode' as 'grid_mode' | 'list_mode',
+      layout: 'grid_mode' as 'grid_mode' | 'list_mode',
       tripModal: {
         active: false as boolean,
         current: null as TripProps | null
@@ -31,7 +31,9 @@ export default {
   },
   methods: {
     getTrips() {
-      fetch(`${import.meta.env.VITE_API_URL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`)
+      fetch(
+        `${import.meta.env.VITE_API_URL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`
+      )
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
@@ -60,16 +62,19 @@ export default {
     <SectionHeader title="Viagens Comfort"></SectionHeader>
     <div class="content">
       <div class="inputs">
-        <div class="city"><input placeholder="Cidade" v-model="cityInput" @input="getTrips()" /></div>
+        <div class="city">
+          <input placeholder="Cidade" v-model="cityInput" @input="getTrips()" />
+        </div>
         <DateInput />
         <LayoutInput :layout="layout" :setLayout="setLayout" />
       </div>
       <hr />
       <Row v-if="layout == 'list_mode'" :header="true" />
-      <div class="results">
+      <div class="results" :class="layout == 'grid_mode' ? 'grid' : ''">
         <Row
           v-for="(trip, key) in trips"
           :header="false"
+          :grid="layout == 'grid_mode'"
           :trip="trip"
           :openTrip="openTrip"
           :key="key"
@@ -161,6 +166,15 @@ export default {
   flex: 1;
   overflow-y: scroll;
   scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+.results.grid { /** in grid mode */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the width as needed */
+  gap: 1rem;
+
+  padding-top: 0.6rem;
 }
 
 /* Modal*/
@@ -184,13 +198,14 @@ export default {
   .inputs {
     flex-wrap: wrap;
     gap: 0.5rem;
-    
+
     height: auto;
 
     margin-bottom: 0.7rem;
   }
 
-  .inputs .city, .inputs .date {
+  .inputs .city,
+  .inputs .date {
     flex: 1 1 40%;
 
     justify-content: center;
@@ -203,7 +218,8 @@ export default {
   }
 
   /** */
-  .inputs .layout, .inputs .properties .header {
+  .inputs .layout,
+  .inputs .properties .header {
     display: none; /** Trocar isso */
   }
 }
