@@ -22,7 +22,7 @@ export default {
     return {
       trips: [] as TripProps[],
       cityInput: '' as string,
-      layout: 'grid_mode' as 'grid_mode' | 'list_mode',
+      layout: 'list' as 'grid' | 'list',
       tripModal: {
         active: false as boolean,
         current: null as TripProps | null
@@ -40,8 +40,8 @@ export default {
         })
     },
     setLayout() {
-      if (this.layout == 'grid_mode') this.layout = 'list_mode'
-      else this.layout = 'grid_mode'
+      if (this.layout == 'grid') this.layout = 'list'
+      else this.layout = 'grid'
     },
     openTrip(trip: TripProps) {
       this.tripModal.active = true
@@ -49,10 +49,17 @@ export default {
     },
     closeTrip() {
       this.tripModal.active = false
+    }, handleResize() {
+      this.layout = window.innerWidth <= 950 ? 'grid' : 'list'
     }
   },
   mounted() {
     this.getTrips()
+    this.handleResize()
+
+    window.addEventListener("resize", this.handleResize.bind(this))
+  }, beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize.bind(this))
   }
 }
 </script>
@@ -69,12 +76,12 @@ export default {
         <LayoutInput :layout="layout" :setLayout="setLayout" />
       </div>
       <hr />
-      <Row v-if="layout == 'list_mode'" :header="true" />
-      <div class="results" :class="layout == 'grid_mode' ? 'grid' : ''">
+      <Row v-if="layout == 'list'" :header="true" />
+      <div class="results" :class="layout == 'grid' ? 'grid' : ''">
         <Row
           v-for="(trip, key) in trips"
           :header="false"
-          :grid="layout == 'grid_mode'"
+          :grid="layout == 'grid'"
           :trip="trip"
           :openTrip="openTrip"
           :key="key"
@@ -172,7 +179,7 @@ export default {
 .results.grid { /** in grid mode */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the width as needed */
-  gap: 1rem;
+  gap: 1.2rem;
 
   padding-top: 0.6rem;
 }

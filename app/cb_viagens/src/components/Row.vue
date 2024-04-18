@@ -115,34 +115,40 @@ export default {
   gap: 0.2rem;
 
   width: 100%;
+  max-height: 8rem;
+
+  padding-bottom: 0.8rem;
 
   white-space: nowrap;
   text-overflow: ellipsis;
   cursor: pointer;
 
   background-color: white;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
   border-radius: 1rem;
 }
 
 .properties.grid .city {
   flex: 1 1 100%;
-
-  font-size: 1.4rem;
+  align-self: start;
+  
+  font-size: 1.25rem;
   font-weight: bold;
   color: white;
 
-  padding: 0.2rem 0.4rem;
+  padding: 0.5rem 0.4rem;
 
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  background-color: black;
+  background-color: #2a3041;
 }
 
 .properties.grid .company {
   flex: 1 1 100%;
   
-  font-size: 1.1rem;
   font-weight: 600;
+
+  margin-top: 0.4rem;
 }
 
 .properties.grid .duration::after {

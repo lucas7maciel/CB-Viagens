@@ -216,12 +216,6 @@ export default {
   background-color: #48516c;
 }
 
-/*Tabela*/
-.results {
-  flex: 1;
-  overflow-y: scroll;
-}
-
 /*Modal*/
 .custom-animation-leave-active {
   animation: fade-out 0.2s;
@@ -277,9 +271,6 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 3rem;
-
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 .trips .subinfos {
@@ -305,6 +296,7 @@ export default {
   padding-bottom: 1rem;
 
   color: #2a3041;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
   background-color: white;
   border-radius: 1rem;
 
@@ -360,6 +352,18 @@ export default {
 @media (max-width: 900px) {
   .inputs {
     flex-wrap: wrap;
+    gap: 0.7rem;
+
+    height: auto;
+  }
+
+  .inputs .city, .inputs .date {
+    flex: 1 1 45%;
+    justify-content: center;
+  }
+
+  .inputs .city, .inputs .search {
+    height: 2rem; /** Ajeitar isso */
   }
 }
 </style>

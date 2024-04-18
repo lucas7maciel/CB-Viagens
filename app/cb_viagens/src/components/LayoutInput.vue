@@ -12,13 +12,12 @@ export default {
 </script>
 
 <template>
-  <div class="layout">
+  <div class="layout" :class="`${layout}_mode`">
     <div class="container" @click="setLayout">
       <div
         class="selected"
-        :class="{ grid_mode: layout === 'grid_mode', list_mode: layout === 'list_mode' }"
       ></div>
-      <div class="grid" style="filter: invert(1)">
+      <div class="grid">
         <GridIcon class="icon" />
         <span>Grid</span>
       </div>
@@ -39,7 +38,7 @@ export default {
   justify-content: center;
   gap: 0.5rem;
 
-  padding: 0 /*.5rem*/ 1rem;
+  padding: 0 1rem;
   background-color: white;
 
   border-radius: 2rem;
@@ -71,17 +70,22 @@ export default {
   backdrop-filter: invert(100%);
 }
 
-.layout .selected:hover {
-  background-color: gray;
+.layout:hover .selected  {
+  background-color: rgb(43, 43, 43);
 }
 
-.layout .selected.list_mode {
+.layout.list_mode .selected {
   left: 50%;
 }
 
-.layout .container .grid,
-.layout .container .list {
+.layout.list_mode .list, .layout.grid_mode .grid {
+  filter: invert(1);
+}
+
+.layout .grid,
+.layout .list {
   position: relative;
+  z-index: 2;
 
   display: flex;
   align-items: center;
@@ -91,7 +95,11 @@ export default {
 
   padding-inline: 0.7rem;
 
-  z-index: 2;
+  transition: filter 0.6s 0.05s;
+}
+
+.grid span, .list span {
+  font-weight: semibold;
 }
 
 .grid .icon,
