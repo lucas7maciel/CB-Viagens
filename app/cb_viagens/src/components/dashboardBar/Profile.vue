@@ -112,6 +112,7 @@ export default {
   padding-inline: 1.2rem;
 
   white-space: nowrap;
+  text-overflow: ellipsis;
   cursor: pointer;
 }
 
@@ -165,12 +166,12 @@ export default {
 .options p {
   width: 100%;
 
-  padding: 0.3rem 0.4rem;
+  padding: 0.3rem 0.8rem;
   margin: 0.1rem 0.2rem;
 
   border-radius: 1rem;
 
-  transition: background-color 0.5s;
+  transition: background-color 0.4s;
 }
 
 .options p:hover {

@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      current: 'Comfort' as string | null,
+      current: 'Calculate' as string | null,
       pages: {
         'Calculate': markRaw(CalculateTrip),
         'My Trips': markRaw(MyTrips),

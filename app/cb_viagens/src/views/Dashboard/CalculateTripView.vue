@@ -3,23 +3,18 @@
 import Modal from '@/components/Modal.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import DateInput from '@/components/DateInput.vue'
+import CalculatedTrip from '@/components/CalculatedTrip.vue'
 // Icons
 import AlertIcon from '@/components/icons/IconAlert.vue'
 // Types
 import type { TripProps } from '@/types/trip'
-
-/**
- * Mudar:
- * .trip para component
- * Responsividade de .trip
- * Dados tratados no back
- */
 
 export default {
   components: {
     Modal,
     SectionHeader,
     DateInput,
+    CalculatedTrip,
     AlertIcon
   },
   data() {
@@ -57,13 +52,26 @@ export default {
       fetch(`${import.meta.env.VITE_API_URL}/trips/calculate?city=${this.cityInput}`)
         .then((res) => res.json())
         .then((data) => {
-          this.cheapestTrip = data.cheapest;
-          this.quickestTrip = data.quickest;
+          this.cheapestTrip = data.cheapest
+          this.quickestTrip = data.quickest
         })
+    },
+    handleKeyboard(e: KeyboardEvent) {
+      const focused: Element | null = document.activeElement
+
+      if (e.key === 'Enter' || e.key === ' ') {
+        focused?.blur()
+        this.search()
+      }
     }
   },
   mounted() {
     this.getCities()
+
+    document.addEventListener("keydown", this.handleKeyboard)
+  },
+  beforeUnmount() {
+    document.removeEventListener("keydown", this.handleKeyboard)
   }
 }
 </script>
@@ -85,30 +93,9 @@ export default {
       <hr />
       <div class="trips">
         <h1 v-if="!cheapestTrip && !quickestTrip" style="font-weight: 600">{{ message }}</h1>
-        <div class="trip" v-if="cheapestTrip">
-          <h1 class="SectionHeader">Mais Barata</h1>
-          <p class="company">{{ cheapestTrip?.name || 'Sem Nome' }}</p>
-          <div class="subinfos">
-            <p class="prop">Leito</p>
-            <p class="prop">Tempo Estimado</p>
-            <p class="value">{{ cheapestTrip?.seat || '?' }}</p>
-            <p class="value">{{ cheapestTrip?.duration || '?' }}</p>
-          </div>
-          <p class="prop">Preço</p>
-          <p class="value">{{ cheapestTrip?.price_econ || '???' }}</p>
-        </div>
-        <div class="trip" v-if="quickestTrip">
-          <h1 class="SectionHeader">Mais Rápida</h1>
-          <p class="company">{{ quickestTrip?.name || 'Sem Nome' }}</p>
-          <div class="subinfos">
-            <p class="prop">Leito</p>
-            <p class="prop">Tempo Estimado</p>
-            <p class="value">{{ quickestTrip?.seat || '?' }}</p>
-            <p class="value">{{ quickestTrip?.duration || '?' }}</p>
-          </div>
-          <p class="prop">Preço</p>
-          <p class="value">{{ quickestTrip?.price_econ || '???' }}</p>
-        </div>
+
+        <CalculatedTrip title="Mais Barata" :trip="cheapestTrip" />
+        <CalculatedTrip title="Mais Rápida" :trip="quickestTrip" />
       </div>
     </div>
   </div>
@@ -135,7 +122,6 @@ export default {
   text-align: center;
 
   height: calc(100vh - 1rem);
-  overflow: hidden;
 }
 
 .content {
@@ -149,7 +135,8 @@ export default {
   border-radius: 1rem;
   padding: 1rem 1rem;
 
-  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .content hr {
@@ -265,87 +252,21 @@ export default {
 /** Trips */
 .trips {
   flex: 1;
+  align-self: stretch;
+  gap: 1rem;
 
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
-}
 
-.trips .subinfos {
-  display: flex;
   text-align: center;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+
+  padding-inline: 5%;
 }
 
-.trips .subinfos * {
-  flex: 1 1 40%;
-}
-
-.trips .trip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-  gap: 0.6rem;
-
-  padding-bottom: 1rem;
-
-  color: #2a3041;
-  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
-  background-color: white;
-  border-radius: 1rem;
-
-  animation: fadein 0.6s;
-}
-
-@keyframes fadein {
-  0% {
-    transform: translateY(3rem);
-    opacity: 0;
-  }
-
-  80% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(0rem);
-  }
-}
-
-.trips .trip > * {
-  min-width: 20rem;
-}
-
-.trips .trip .SectionHeader {
-  font-weight: bold;
-
-  padding: 1rem 1rem 0.5rem 1rem;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-
-  color: white;
-  background-color: #2a3041;
-}
-
-.trips .trip .company {
-  margin-top: 0.5rem;
-  font-size: 1.4rem;
-  font-weight: bold;
-}
-
-.trips .trip .prop {
-  color: gray;
-  font-weight: 500;
-}
-
-.trips .trip .value {
-  font-weight: bold;
+h1, button {
+  user-select: none;
 }
 
 /** */
@@ -357,12 +278,14 @@ export default {
     height: auto;
   }
 
-  .inputs .city, .inputs .date {
+  .inputs .city,
+  .inputs .date {
     flex: 1 1 45%;
     justify-content: center;
   }
 
-  .inputs .city, .inputs .search {
+  .inputs .city,
+  .inputs .search {
     height: 2rem; /** Ajeitar isso */
   }
 }

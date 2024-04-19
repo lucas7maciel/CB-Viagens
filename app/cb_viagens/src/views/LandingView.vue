@@ -7,10 +7,18 @@ export default {
   methods: {
     signin() {
       this.$router.push('/signin')
+    }, handleKeyboard(e: KeyboardEvent) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        this.signin()
+      }
     }
   },
   beforeCreate() {
     document.title = 'Home'
+  }, mounted() {
+    document.addEventListener("keydown", this.handleKeyboard)
+  }, beforeUnmount() {
+    document.removeEventListener("keydown", this.handleKeyboard)
   }
 }
 </script>
@@ -164,10 +172,28 @@ export default {
     text-align: center;
   }
 
+  .intro .title, .intro .subtitle, .intro .signin {
+    transform: translateY(-3rem);
+  }
+
   .art {
     justify-content: center;
 
     max-height: 15%;
+  }
+}
+
+@media (max-width: 300px) {
+  .intro .title {
+    font-size: 2rem;
+  }
+
+  .intro .title, .intro .subtitle, .intro .signin {
+    transform: translateY(0);
+  }
+
+  .art {
+    display: none;
   }
 }
 </style>

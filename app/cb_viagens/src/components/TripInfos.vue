@@ -22,11 +22,11 @@ export default {
 <template>
   <div class="add_trip">
     <div class="infos">
-      <span class="prop">Compania</span>|<span class="value">{{ trip.name }}</span>
-      <span class="prop">Cidade</span>|<span class="value">{{ trip.city }}</span>
-      <span class="prop">Duração</span>|<span class="value">{{ trip.duration }}</span>
-      <span class="prop">Leito</span>|<span class="value">{{ trip.seat }}</span>
-      <span class="prop">Preço</span>|<span class="value">{{ trip.price_confort }}</span>
+      <span class="prop">Compania</span><span class="value">{{ trip.name }}</span>
+      <span class="prop">Cidade</span><span class="value">{{ trip.city }}</span>
+      <span class="prop">Duração</span><span class="value">{{ trip.duration }}</span>
+      <span class="prop">Leito</span><span class="value">{{ trip.seat }}</span>
+      <span class="prop">Preço</span><span class="value">{{ trip.price_confort }}</span>
     </div>
 
     <p v-if="cancel || add" class="message">O voo adicionado poderá ser visto em Minhas Viagens</p>
@@ -78,6 +78,7 @@ export default {
   text-align: center;
 
   padding-inline: 10%;
+  user-select: none;
 }
 
 /** Buttons */
@@ -87,6 +88,8 @@ export default {
   align-items: center;
 
   gap: 1rem;
+
+  user-select: none;
 }
 
 button {
@@ -109,4 +112,17 @@ button {
 button:hover {
   background-color: lightgray;
 }
+
+/** */
+@media (orientation: portrait) {
+  .add_trip .infos {
+    flex-direction: column;
+  }
+
+  .add_trip .infos .value {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+  }
+}
+
 </style>

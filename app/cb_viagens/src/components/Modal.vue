@@ -154,6 +154,7 @@ hr {
 
   color: black;
   font-weight: bold;
+  user-select: none;
 }
 
 .modal .header .close {
@@ -171,6 +172,13 @@ hr {
 
   90% {
     opacity: 1;
+  }
+}
+
+/** */
+@media (orientation: portrait) {
+  .modal {
+    min-width: 75%;
   }
 }
 </style>

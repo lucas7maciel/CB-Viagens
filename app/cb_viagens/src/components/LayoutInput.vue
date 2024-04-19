@@ -71,7 +71,7 @@ export default {
 }
 
 .layout:hover .selected  {
-  background-color: rgb(43, 43, 43);
+  background-color: rgb(92, 92, 92);
 }
 
 .layout.list_mode .selected {

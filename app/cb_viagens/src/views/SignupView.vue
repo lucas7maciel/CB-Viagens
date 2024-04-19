@@ -11,6 +11,7 @@ import {
   checkLastName,
   confirmPassword
 } from '@/utils/checkInputs'
+import {translateError} from '@/utils/translateError'
 
 export default {
   data() {
@@ -63,7 +64,7 @@ export default {
     submitForm() {
       if (!this.checkInputs()) return
 
-      this.message = 'Enviando dados'
+      this.message = 'Enviando dados...'
 
       const usernameInput = this.$refs.username as HTMLInputElement
       const passwordInput = this.$refs.password as HTMLInputElement
@@ -84,10 +85,16 @@ export default {
           'Content-type': 'application/json; charset=UTF-8'
         }
       })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res)
-          this.message = 'Usuário criado com sucesso!'
+        .then((res: Response) => res.json())
+        .then((data: Object) => {
+          console.log(data)
+          if (Object.hasOwnProperty.call(data, 'success')) {
+            this.message = 'Usuário criado com sucesso!'
+          } else {
+            const errors: Array<string> = Object.values(data)[0]
+              
+            this.message = translateError(errors[0])
+          }
         })
         .catch(console.log)
     }
@@ -239,6 +246,10 @@ export default {
   text-align: center;
 
   cursor: pointer;
+  user-select: none;
+}
+
+h1, h2, label, br {
   user-select: none;
 }
 

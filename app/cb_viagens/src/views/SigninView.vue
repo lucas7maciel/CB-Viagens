@@ -66,12 +66,15 @@ export default {
             this.message = 'Senha ou usuário incorretos'
           }
         })
-      //.catch()
+      .catch((error) => {
+        this.message = "Erro ao fazer login"
+        console.error(error)
+      })
     }
   },
   beforeCreate() {
     document.title = 'Sign In'
-  },
+  }
 }
 </script>
 
@@ -219,7 +222,14 @@ export default {
 .signup {
   color: white;
   font-weight: 600;
+
   margin-top: 0.3rem;
+
+  transition: color 0.5s;
+}
+
+.signup:hover {
+  color: rgb(216, 216, 216);
 }
 
 /** */

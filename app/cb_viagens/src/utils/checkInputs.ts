@@ -4,6 +4,8 @@ const animDuration: number = 1000 //ms
 function playErrorAnim(ref: HTMLInputElement) {
   try {
     ref.classList.add('error_input')
+    ref?.focus()
+
     setTimeout(() => {
       ref.classList.remove('error_input')
     }, animDuration)
@@ -43,8 +45,8 @@ export function checkPassword(
 
   if (!value) {
     setMessage('Senha vazia')
-  } else if (value.length < 4) {
-    setMessage('Senha deve ter ao menos 4 caracteres')
+  } else if (value.length < 8) {
+    setMessage('Senha deve ter ao menos 8 caracteres')
   } else if (value.length > 15) {
     setMessage('Senha deve ter no máximo 15 caracteres')
   } else {

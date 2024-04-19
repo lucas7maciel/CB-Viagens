@@ -157,6 +157,8 @@ hr {
   .menu {
     max-width: 2rem;
     max-height: 2rem;
+
+    cursor: pointer;
   }
 
   .title {

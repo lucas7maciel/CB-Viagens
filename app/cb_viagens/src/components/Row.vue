@@ -7,47 +7,6 @@ export default {
     PlaneIcon
   }
 }
-
-/**
- * .properties.list{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  margin-block: 0.5rem;
-}
-
-.properties.header .plane {
-  opacity: 0.2;
-}
-
-.properties.list.plane {
-  max-height: 1rem;
-  max-width: 1rem;
-
-  filter: invert(1);
-
-  cursor: pointer;
-}
-
-.properties.header span {
-  font-weight: bold;
-  color: #d9d9d9;
-}
-
-.properties.listspan {
-  flex: 1;
-
-  font-weight: 600;
-}
-
-.header {
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-gutter: stable;
-}
- */
 </script>
 
 <template>
@@ -72,6 +31,7 @@ export default {
   margin-block: 0.5rem;
 
   cursor: pointer;
+  user-select: none;
 }
 
 .properties.list.header { /** Aligns header with rows list (padding caused by scrollbar) */
@@ -91,6 +51,7 @@ export default {
   filter: invert(1);
 
   cursor: pointer;
+  transition: filter 0.3s;
 }
 
 .properties.list.header span {
@@ -102,6 +63,16 @@ export default {
   flex: 1;
 
   font-weight: 600;
+  
+  transition: color 0.3s;
+}
+
+.properties.list .plane:hover {
+  filter: invert(0.3);
+}
+
+.properties.list span:hover {
+  color: rgb(161, 161, 161);
 }
 
 /** Grid */
@@ -121,11 +92,18 @@ export default {
 
   white-space: nowrap;
   text-overflow: ellipsis;
+  user-select: none;
   cursor: pointer;
 
   background-color: white;
   box-shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
   border-radius: 1rem;
+
+  transition: transform 0.2s;
+}
+
+.properties.grid:hover {
+  transform: translateY(-0.4rem);
 }
 
 .properties.grid .city {
