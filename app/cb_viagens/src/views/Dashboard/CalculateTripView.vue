@@ -48,20 +48,36 @@ export default {
         return
       }
 
-      this.message = 'Sem viagens para a data solicitada'
+      this.message = 'Pesquisando...'
+
       fetch(`${import.meta.env.VITE_API_URL}/trips/calculate?city=${this.cityInput}`)
         .then((res) => res.json())
         .then((data) => {
           this.cheapestTrip = data.cheapest
           this.quickestTrip = data.quickest
+          
+          if (this.message === 'Pesquisando'){//!data?.cheapest && !data?.quickest) {
+            this.message = `Nenhuma viagem encontrada para ${this.cityInput} no dia selecionado`
+          }
+        })
+        .catch((error) => {
+          this.cheapestTrip = null
+          this.quickestTrip = null
+
+          this.message = "Falha ao pesquisar viagens"
+          console.error(error)
         })
     },
     handleKeyboard(e: KeyboardEvent) {
       const focused: Element | null = document.activeElement
 
       if (e.key === 'Enter' || e.key === ' ') {
-        focused?.blur()
-        this.search()
+        if (this.modal) {
+          this.close()
+        } else {
+          focused?.blur()
+          this.search()
+        }
       }
     }
   },

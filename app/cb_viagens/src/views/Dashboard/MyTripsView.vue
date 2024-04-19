@@ -22,15 +22,28 @@ export default {
       tripModal: {
         active: false as boolean,
         current: null as TripProps | null
-      } as TripModalProps
+      } as TripModalProps,
+      message: '' as string
     }
   },
   methods: {
     getTrips() {
+      this.message = 'Pesquisando...'
+
       fetch(`${import.meta.env.VITE_API_URL}/trips/booked/${14}/`) // Passar args certinho
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
+
+          if (!this.trips.length) {
+            this.message = this.cityInput ? `Sem viagens para ${this.cityInput}` : 'Sem viagens disponíveis'
+          }
+        })
+        .catch((error) => {
+          this.message = 'Falha ao pesquisar viagens'
+          this.trips = []
+
+          console.error(error)
         })
     },
     setLayout() {
@@ -42,6 +55,8 @@ export default {
       this.tripModal.current = trip
     },
     closeTrip() {
+      this.getTrips()
+
       this.tripModal.active = false
     }, handleResize() {
       this.layout = window.innerWidth <= 950 ? 'grid' : 'list';
@@ -72,6 +87,10 @@ export default {
           :openTrip="openTrip"
           :key="key"
         />
+
+        <div v-if="!trips.length" class="message">
+          <h1>{{ message }}</h1>
+        </div>
       </div>
     </div>
   </div>
@@ -155,7 +174,10 @@ export default {
 
 /*Tabela*/
 .results {
+  position: relative;
+
   flex: 1;
+
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-gutter: stable;
@@ -167,6 +189,30 @@ export default {
   gap: 1.2rem;
 
   padding-top: 0.6rem;
+}
+
+.results .message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  /** Absolute positioned so the div wont be affected
+      by results' display */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100%;
+  height: 100%;
+
+  padding-inline: 4%;
+}
+
+.results .message h1 {
+  font-weight: bold;
+  color: rgb(67, 67, 67);
 }
 
 /*Modal*/

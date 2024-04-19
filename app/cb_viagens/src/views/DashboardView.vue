@@ -1,16 +1,17 @@
 <script lang="ts">
+// Components
 import DashboardBar from '../components/dashboardBar/DashboardBar.vue'
-//Pages
 import Welcome from '@/views/Dashboard/WelcomeView.vue'
+// Views
 import CalculateTrip from '@/views/Dashboard/CalculateTripView.vue'
 import MyTrips from '@/views/Dashboard/MyTripsView.vue'
 import AboutUs from '@/views/Dashboard/AboutUsView.vue'
 import ComfTrips from '@/views/Dashboard/ComfTrips.vue'
-//
-import { markRaw } from 'vue'
-import axios from 'axios'
 // Types
 import type { PagesProps } from '@/types/pages'
+// 
+import { markRaw } from 'vue'
+import axios from 'axios'
 
 export default {
   components: {

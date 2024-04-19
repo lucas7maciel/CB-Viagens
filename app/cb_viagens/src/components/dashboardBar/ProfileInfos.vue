@@ -1,10 +1,18 @@
 <script lang="ts">
+// Icons
 import IconProfile from '@/components/icons/IconProfile.vue';
+// Functions
+import { formatDate } from '@/utils/formatDate';
 
 export default {
     props: ["user"],
     components: {
         IconProfile
+    }, data() {
+        return {
+            name: `${this.user.first_name} ${this.user.last_name}` as string,
+            joined: formatDate(new Date(this.user.date_joined), true) 
+        }
     }
 }
 
@@ -15,8 +23,8 @@ export default {
         <div class="profile">
         <IconProfile class="pic" />
     </div>
-    <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
-    <p class="since">Desde ontem</p>
+    <p class="name">{{ name }}</p>
+    <p class="since">Desde {{ joined }}</p>
     </div>
 </template>
 

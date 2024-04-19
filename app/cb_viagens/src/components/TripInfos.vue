@@ -1,20 +1,60 @@
 <script lang="ts">
 export default {
   props: ['trip', 'add', 'cancel'],
+  data() {
+    return {
+      message: 'Informações do voo selecionado' as string
+    }
+  },
   methods: {
     //verificar se ta com permissao antes
     bookTrip() {
+      this.message = "Reservando voo..."
+
       fetch(`${import.meta.env.VITE_API_URL}/trips/book/${this.trip.id}/${14}/`) // Pegar parametros corretamente
         .then((res) => res.json())
-        .then(console.log)
-        .catch(console.log)
+        .then((data) => {
+          // Checar exceções no django
+          this.message = "Voo reservado com sucesso!"
+
+          console.log(data)
+        })
+        .catch((error) => {
+          this.message = "Falha ao reservar voo"
+
+          console.error(error)
+        })
     },
     cancelTrip() {
+      this.message = "Cancelando voo..."
       fetch(`${import.meta.env.VITE_API_URL}/trips/cancel/${this.trip.id}/`) // Pegar parametros corretamente
         .then((res) => res.json())
-        .then(console.log)
-        .catch(console.log)
+        .then((data) => {
+          this.message = "Voo cancelado"
+
+          console.log(data)
+        })
+        .catch((error) => {
+          this.message = "Falha ao cancelar voo"
+
+          console.error(error)
+        })
+    },
+    handleKeyboard(e: KeyboardEvent) {
+      if (e.key !== 'Enter' && e.key !== ' ') {
+        return;
+      }
+
+      if (this.add) {
+        this.bookTrip()
+      } else if (this.cancel) {
+        this.cancelTrip()
+      }
     }
+  }, mounted() {
+    document.addEventListener("keydown", this.handleKeyboard)
+  }, beforeUnmount() {
+    document.addEventListener("keydown", this.handleKeyboard)
   }
 }
 </script>
@@ -29,7 +69,7 @@ export default {
       <span class="prop">Preço</span><span class="value">{{ trip.price_confort }}</span>
     </div>
 
-    <p v-if="cancel || add" class="message">O voo adicionado poderá ser visto em Minhas Viagens</p>
+    <p v-if="cancel || add" class="message">{{ message }}</p>
     <div v-if="cancel || add" class="buttons">
       <button v-if="cancel" class="cancel" @click="cancelTrip">Cancelar</button>
       <button v-if="add" class="add" @click="bookTrip">Adicionar</button>
