@@ -68,6 +68,7 @@ export default {
         })
       .catch((error) => {
         this.message = "Erro ao fazer login"
+        
         console.error(error)
       })
     }
@@ -89,7 +90,7 @@ export default {
           <input type="text" v-model="username" ref="username" placeholder="Digite seu username" />
           <label>Senha</label>
           <input type="password" v-model="password" ref="password" placeholder="Digite sua senha" />
-          <span class="forgot">Esqueceu a senha?</span>
+          <span class="forgot" @click="setMessage('Ainda não disponível')">Esqueceu a senha?</span>
           <span class="message">{{ message }}</span>
           <button class="signin" type="submit">Entrar</button>
         </form>
@@ -180,6 +181,8 @@ export default {
 
 .forms_section .inputs .forgot {
   font-weight: bold;
+  cursor: pointer;
+
   margin-top: 0.8rem;
 }
 

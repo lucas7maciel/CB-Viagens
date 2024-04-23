@@ -35,6 +35,11 @@ export default {
         .then((data) => {
           this.cities = data
         })
+        .catch((error) => {
+          this.message = 'Falha ao pesquisar cidades'
+
+          console.error(error)
+        })
     },
     close() {
       this.modal = false
@@ -56,7 +61,7 @@ export default {
           this.cheapestTrip = data.cheapest
           this.quickestTrip = data.quickest
           
-          if (this.message === 'Pesquisando'){//!data?.cheapest && !data?.quickest) {
+          if (data.message === 'Pesquisando...'){//!data?.cheapest && !data?.quickest) {
             this.message = `Nenhuma viagem encontrada para ${this.cityInput} no dia selecionado`
           }
         })
@@ -69,16 +74,25 @@ export default {
         })
     },
     handleKeyboard(e: KeyboardEvent) {
-      const focused: Element | null = document.activeElement
-
       if (e.key === 'Enter' || e.key === ' ') {
-        if (this.modal) {
+        if (!this.cityInput) {
+          const citySelect = this.$refs.city as HTMLSelectElement
+          citySelect?.focus()
+        } else if (!this.dateInput) {
+          const dateRef = this.$refs.date as {openPicker: () => void}
+          dateRef?.openPicker()
+        } else if (this.modal) {
           this.close()
         } else {
-          focused?.blur()
           this.search()
         }
       }
+    }
+  },
+  watch: {
+    cityInput() {
+      const cityRef = this.$refs.city as HTMLSelectElement;
+      cityRef?.blur()
     }
   },
   mounted() {
@@ -98,12 +112,12 @@ export default {
     <div class="content">
       <div class="inputs">
         <div class="city">
-          <select v-model="cityInput">
+          <select ref="city" v-model="cityInput">
             <option disabled selected value="">Escolha a cidade</option>
             <option v-for="(city, key) in cities" :key="key">{{ city }}</option>
           </select>
         </div>
-        <DateInput :setDate="setDate" />
+        <DateInput ref="date" :setDate="setDate" />
         <button class="search" @click="search">Buscar</button>
       </div>
       <hr />
@@ -151,7 +165,6 @@ export default {
   border-radius: 1rem;
   padding: 1rem 1rem;
 
-  overflow-y: auto;
   scrollbar-width: thin;
 }
 
@@ -279,6 +292,8 @@ export default {
   text-align: center;
 
   padding-inline: 5%;
+
+  overflow-y: auto;
 }
 
 h1, button {

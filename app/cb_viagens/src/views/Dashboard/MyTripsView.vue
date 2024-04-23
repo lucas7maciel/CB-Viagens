@@ -4,6 +4,8 @@ import Modal from '@/components/Modal.vue'
 import TripInfos from '@/components/TripInfos.vue'
 import Row from '@/components/Row.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
+// Functions
+import { getId } from '@/utils/authData'
 // Types
 import type { TripProps, TripModalProps } from '@/types/trip'
 
@@ -27,16 +29,28 @@ export default {
     }
   },
   methods: {
-    getTrips() {
+    async getTrips() {
       this.message = 'Pesquisando...'
 
-      fetch(`${import.meta.env.VITE_API_URL}/trips/booked/${14}/`) // Passar args certinho
+      let id;
+
+      try {
+        id = await getId();
+        
+      } catch(error) {
+        this.message = "Falha ao obter dados do usuário"
+        console.error(error)
+
+        return
+      }
+
+      fetch(`${import.meta.env.VITE_API_URL}/trips/booked/${id}/`) // Passar args certinho
         .then((res) => res.json())
         .then((data) => {
           this.trips = data
 
           if (!this.trips.length) {
-            this.message = this.cityInput ? `Sem viagens para ${this.cityInput}` : 'Sem viagens disponíveis'
+            this.message = 'Sem viagens reservadas'
           }
         })
         .catch((error) => {

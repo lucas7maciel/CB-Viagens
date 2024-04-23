@@ -63,8 +63,6 @@ export default {
   flex: 1;
 
   font-weight: 600;
-  
-  transition: color 0.3s;
 }
 
 .properties.list .plane:hover {
@@ -73,6 +71,7 @@ export default {
 
 .properties.list span:hover {
   color: rgb(161, 161, 161);
+  transition: color 0.3s;
 }
 
 /** Grid */

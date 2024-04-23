@@ -10,6 +10,6 @@ export interface UserProps {
     email: string | null,
     is_staff: boolean,
     is_active: boolean,
-    date_joined: string | null,
+    date_joined: string,
     phone_number: string | null
 }

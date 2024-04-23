@@ -9,24 +9,42 @@ import QuestionIcon from '@/components/icons/IconQuestion.vue'
 import PremiumIcon from '@/components/icons/IconPremium.vue'
 import MenuIcon from '@/components/icons/IconMenu.vue'
 // Functions
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 defineProps<{
-  page: string | null,
+  page: string | null
   setPage: (page: string) => void
 }>()
 
-const isPortrait = ref(!(window.innerWidth > 900))
-const menuOptions = ref(false)
+const isPortrait = ref<boolean>(window.innerWidth <= 900)
+
+const options = ref<HTMLDivElement | null>(null) // Menu div element
+const menuOptions = ref<boolean>(false)
+
+function handleResize() {
+  isPortrait.value = window.innerWidth <= 900
+}
+
+function handleClickOutside() {
+  if (!menuOptions.value) return
+    
+  const options = document.querySelector('.menu_options') as HTMLElement;
+    
+  if (options) {
+    menuOptions.value = false;
+  }
+}
 
 onMounted(() => {
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 900) {
-      isPortrait.value = false
-    } else {
-      isPortrait.value = true
-    }
-  })
+  handleResize()
+
+  document.addEventListener('click', handleClickOutside)
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
@@ -46,14 +64,14 @@ onMounted(() => {
     <Profile />
   </div>
   <div class="dashboard_bar" v-else>
-    <MenuIcon @click="menuOptions = !menuOptions" class="menu" />
-    <div v-if="menuOptions" class="menu_options">
+    <MenuIcon @click.stop="menuOptions = !menuOptions" class="menu" />
+    <div v-if="menuOptions" ref="options" class="menu_options">
       <p @click="setPage('Calculate')">Calcular Viagem</p>
       <p @click="setPage('Comfort')">Viagens Comfort</p>
       <p @click="setPage('My Trips')">Minhas Viagens</p>
       <p @click="setPage('About Us')">Sobre Nós</p>
     </div>
-    <h1 class="title">{{ page || "Welcome" }}</h1>
+    <h1 class="title">{{ page || 'Welcome' }}</h1>
     <Profile />
   </div>
 </template>
@@ -101,12 +119,12 @@ hr {
 /** Menu options *Otimizar com options do perfil */
 .menu_options {
   position: absolute;
-  top: 100%;
+  top: 90%;
   left: 1.2rem;
   z-index: 5;
 
-  background: gray;
-  
+  background: #03a8b5;
+
   padding: 0.5rem 0.8rem;
 
   border-radius: 1rem;
@@ -117,7 +135,7 @@ hr {
 .menu_options p {
   width: 100%;
 
-  padding: 0.3rem 0.4rem;
+  padding: 0.3rem 0.8rem;;
   margin: 0.1rem 0.2rem;
 
   border-radius: 1rem;

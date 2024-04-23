@@ -1,4 +1,7 @@
 <script lang="ts">
+// Functions
+import { getId } from '@/utils/authData'
+
 export default {
   props: ['trip', 'add', 'cancel'],
   data() {
@@ -8,14 +11,26 @@ export default {
   },
   methods: {
     //verificar se ta com permissao antes
-    bookTrip() {
+    async bookTrip() {
       this.message = "Reservando voo..."
 
-      fetch(`${import.meta.env.VITE_API_URL}/trips/book/${this.trip.id}/${14}/`) // Pegar parametros corretamente
+      let id;
+
+      try {
+        id = await getId();
+        
+      } catch(error) {
+        this.message = "Falha ao obter dados do usuário"
+        console.error(error)
+
+        return
+      }
+
+      fetch(`${import.meta.env.VITE_API_URL}/trips/book/${this.trip.id}/${id}/`) // Pegar parametros corretamente
         .then((res) => res.json())
         .then((data) => {
           // Checar exceções no django
-          this.message = "Voo reservado com sucesso!"
+          this.message = 'success' in data ? data.success : data.message
 
           console.log(data)
         })
@@ -30,7 +45,7 @@ export default {
       fetch(`${import.meta.env.VITE_API_URL}/trips/cancel/${this.trip.id}/`) // Pegar parametros corretamente
         .then((res) => res.json())
         .then((data) => {
-          this.message = "Voo cancelado"
+          this.message = 'success' in data ? data.success : data.message
 
           console.log(data)
         })

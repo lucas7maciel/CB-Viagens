@@ -96,7 +96,11 @@ export default {
             this.message = translateError(errors[0])
           }
         })
-        .catch(console.log)
+        .catch((error) => {
+          this.message = "Falha ao registrar usuário"
+
+          console.error(error)
+        })
     }
   }
 }

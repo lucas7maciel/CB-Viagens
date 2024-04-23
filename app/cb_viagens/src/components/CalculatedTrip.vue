@@ -1,33 +1,59 @@
 <script lang="ts">
+// Components
+import Modal from '@/components/Modal.vue'
+import TripInfos from '@/components/TripInfos.vue'
+
 export default {
-  props: ['title', 'trip']
+  props: ['title', 'trip'],
+  components: {
+    Modal,
+    TripInfos
+  },
+  data() {
+    return {
+      modal: false as boolean
+    }
+  },
+  methods: {
+    open() {
+      this.modal = true
+    },
+    close() {
+      this.modal = false
+    }
+  }
 }
 </script>
 
 <template>
   <div v-if="trip" class="container">
-    <div class="trip">
-    <h1 class="title">{{ title }}</h1>
-    <p class="company">{{ trip?.name || 'Sem Nome' }}</p>
-    <div class="subinfos">
-      <p class="prop">Leito</p>
-      <p class="prop">Preço</p>
-      <p class="prop">Duração</p>
-      <p class="value">{{ trip?.seat || '?' }}</p>
-      <p class="value">R$ {{ trip?.price_econ || '???' }}</p>
-      <p class="value">{{ trip?.duration || '? ' }}h</p>
+    <div class="trip" @click="open">
+      <h1 class="title">{{ title }}</h1>
+      <p class="company">{{ trip?.name || 'Sem Nome' }}</p>
+      <div class="subinfos">
+        <p class="prop">Leito</p>
+        <p class="prop">Preço</p>
+        <p class="prop">Duração</p>
+        <p class="value">{{ trip?.seat || '?' }}</p>
+        <p class="value">R$ {{ trip?.price_econ || '???' }}</p>
+        <p class="value">{{ trip?.duration || '? ' }}h</p>
+      </div>
     </div>
-  </div>
+
+    <transition name="custom-animation"
+    ><Modal :close="close" :title="title" v-if="modal"
+      ><template #content> <TripInfos :trip="trip" :add="true" /> </template></Modal
+  ></transition>
   </div>
 </template>
 
 <style scoped>
 .container {
-    flex: 1;
+  flex: 1;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .trip {
@@ -71,7 +97,6 @@ export default {
   background-color: #2a3041;
 }
 
-
 .trips .trip .company {
   margin-top: 0.5rem;
   font-size: 1.4rem;
@@ -114,4 +139,18 @@ export default {
   }
 }
 
+/** Modal */
+.custom-animation-leave-active {
+  animation: fade-out 0.2s;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
 </style>

@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from users.models import CustomUser
 from . import models
 
@@ -25,7 +25,7 @@ def search(request):
 
 # Returns a list of all available cities trip
 def getCities(request):
-    queryset = models.Trip.objects.all().values_list('city', flat=True)
+    queryset = models.Trip.objects.all().filter(customer=None).values_list('city', flat=True)
     data = list(set(queryset))
 
     #Returns response in JSON format
@@ -37,9 +37,11 @@ def calculate(request):
     city = request.GET.get('city', '')          # PROGRAMAR CASOS EM QUE VALORES N SÃO ENCONTRADOS
 
     if not city:
-        return JsonResponse({"message": "Please inform a city"})
+        return JsonResponse({"message": "Informe a cidade"})
     
-    trips = models.Trip.objects.all().filter(city__icontains=city)
+    # Colocar aqui pra informar a dara
+    
+    trips = models.Trip.objects.all().filter(customer=None).filter(city__icontains=city)
     
     # Cheapest trip
     econPrices = trips.values_list('price_econ', flat=True)
@@ -52,10 +54,7 @@ def calculate(request):
     cheapestTrip = list(cheapestTripQuery.values())[0]
 
     # Quickest trip
-    durationsStr = list(trips.values_list('duration', flat=True))
-    durations = [int(x) for x in durationsStr]
-    
-    quickestTripQuery = trips.filter(duration=min(durations))
+    quickestTripQuery = trips.order_by('duration')
     quickestTrip = list(quickestTripQuery.values())[0]
 
     return JsonResponse({"quickest": quickestTrip, "cheapest": cheapestTrip}, status=200, safe=False)
@@ -74,21 +73,40 @@ def book(request, tripId, userId):      # AJEITAR POSSÍVEIS ERROS
     if not tripId or not userId:
         return JsonResponse({"message": "Please inform Trip and User ID"})
 
-    trip = get_object_or_404(models.Trip, pk=tripId)
-    user = get_object_or_404(CustomUser, pk=userId)
+    try:
+        user = get_object_or_404(CustomUser, pk=userId)
+    except Http404:
+        return JsonResponse({"message": "Usuário não encontrado"})
+
+    try:
+        trip = get_object_or_404(models.Trip, pk=tripId)
+    except Http404:
+        return JsonResponse({"message": "Viagem não encontrada"})
+
+    if trip.customer is not None:
+        if trip.customer.id == userId:
+            return JsonResponse({"message": "Você já reservou esta viagem"})
+        
+        return JsonResponse({"message": "Viagem já reservada"})
 
     trip.customer = user
     trip.save()
 
-    return JsonResponse({"message": "Sucesso"})
+    return JsonResponse({"success": "Viagem reservada com sucesso"})
 
 def cancel(request, tripId):
     if tripId is None:
-        return JsonResponse({"message": "Please inform trip ID"})
+        return JsonResponse({"message": "Informe o ID da viagem"})
     
-    trip = get_object_or_404(models.Trip, pk=tripId)
-    print(tripId)
+    try:
+        trip = get_object_or_404(models.Trip, pk=tripId)
+    except Http404:
+        return JsonResponse({"message": "Viagem não encontrada"})
+    
+    if trip.customer is None:
+        return JsonResponse({"message": "Viagem já cancelada"})
+
     trip.customer = None
     trip.save()
 
-    return JsonResponse({"message": "Cancelado"})
+    return JsonResponse({"success": "Viagem cancelada com sucesso"})

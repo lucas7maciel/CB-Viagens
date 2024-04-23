@@ -5,7 +5,6 @@ import ProfileInfos from '@/components/dashboardBar/ProfileInfos.vue'
 // Icons
 import ProfileIcon from '../icons/IconProfile.vue'
 // Types
-import type { Ref } from 'vue'
 import type {UserProps} from '@/types/user'
 
 export default {
@@ -37,7 +36,7 @@ export default {
         }
 
         const user = await res.json(); // *consertar isso
-        console.log(user.data);
+        //console.log(user.data);
 
         if (!user) {
             throw new Error('Falha ao identificar usuário');
@@ -60,9 +59,9 @@ export default {
       this.options = !this.options
     },
     handleClickOutside(event: any /** Ver isso */) {
-      const profileRef = this.$refs.profileRef as Ref<HTMLDivElement>
-      if (this.options && !profileRef.value.contains(event.target)) {
-        console.log('Clicou fora, fechando')
+      const profileRef = this.$refs.profileRef as HTMLDivElement
+
+      if (this.options && !profileRef.contains(event.target)) {
         this.options = false
       }
     },
@@ -122,6 +121,7 @@ export default {
   width: 2rem;
   height: 2rem;
 
+  background: #03a8b5;
   border-radius: 50%;
   border: solid white 2.5px;
 
@@ -157,7 +157,7 @@ export default {
 
   padding: 0.5rem;
 
-  background-color: gray;
+  background-color: #03a8b5;
   border-radius: 1rem;
 
   animation: show_options 0.3s;

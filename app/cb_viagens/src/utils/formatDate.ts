@@ -30,10 +30,8 @@ export function formatDate(date: Date, year?: boolean) {
 
   // Year mode
   if (year) {
-    const yearVal: number = date.getFullYear() % 100
-    const yearStr: string = yearVal.toString().padStart(2, '0')
-
-    return `${dateNum} de ${month.substring(0, 3)}, ${yearStr}`
+    const yearVal: number = date.getFullYear()
+    return `${dateNum} de ${month.substring(0, 3)}, ${yearVal}`
   }
 
   return `${day}, ${dateNum} de ${month.substring(0, 3)}`

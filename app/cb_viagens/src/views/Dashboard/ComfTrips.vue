@@ -66,6 +66,16 @@ export default {
       this.tripModal.active = false
     }, handleResize() {
       this.layout = window.innerWidth <= 950 ? 'grid' : 'list'
+    }, handleKeyboard(e: KeyboardEvent) {
+      if (window.innerWidth <= 950) return
+
+      if (e.key === 'ArrowRight') {
+        this.layout = 'grid'
+      } else if (e.key === 'ArrowLeft') {
+        this.layout = 'list'
+      } else if (e.key === ' ' || e.key === 'Enter') {
+        this.setLayout()
+      }
     }
   },
   mounted() {
@@ -73,8 +83,10 @@ export default {
     this.handleResize()
 
     window.addEventListener("resize", this.handleResize.bind(this))
+    document.addEventListener("keydown", this.handleKeyboard)
   }, beforeUnmount() {
     window.removeEventListener("resize", this.handleResize.bind(this))
+    document.removeEventListener("keydown", this.handleKeyboard)
   }
 }
 </script>

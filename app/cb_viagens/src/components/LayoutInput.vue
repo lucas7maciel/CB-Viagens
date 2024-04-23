@@ -17,13 +17,13 @@ export default {
       <div
         class="selected"
       ></div>
-      <div class="grid">
-        <GridIcon class="icon" />
-        <span>Grid</span>
-      </div>
       <div class="list">
         <ListIcon class="icon" />
         <span>Lista</span>
+      </div>
+      <div class="grid">
+        <GridIcon class="icon" />
+        <span>Grid</span>
       </div>
     </div>
   </div>
@@ -74,7 +74,7 @@ export default {
   background-color: rgb(92, 92, 92);
 }
 
-.layout.list_mode .selected {
+.layout.grid_mode .selected {
   left: 50%;
 }
 
