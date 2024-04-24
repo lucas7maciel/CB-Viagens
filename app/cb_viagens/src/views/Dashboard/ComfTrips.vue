@@ -7,7 +7,9 @@ import SectionHeader from '@/components/SectionHeader.vue'
 import DateInput from '@/components/DateInput.vue'
 import LayoutInput from '@/components/LayoutInput.vue'
 // Types
-import type { TripProps, TripModalProps } from '@/types/trip'
+import type { TripProps } from '@/types/trip'
+// Functions
+import { getHeaders } from '@/utils/authData'
 
 export default {
   components: {
@@ -20,53 +22,58 @@ export default {
   },
   data() {
     return {
-      trips: [] as TripProps[],
       cityInput: '' as string,
       layout: 'list' as 'grid' | 'list',
-      tripModal: {
-        active: false as boolean,
-        current: null as TripProps | null
-      } as TripModalProps,
+      trips: [] as TripProps[],
+      selectedTrip: null as TripProps | null,
       message: '' as string
     }
   },
   methods: {
-    getTrips() {
+    async getTrips() {
       this.message = "Pesquisando..."
 
-      fetch(
-        `${import.meta.env.VITE_API_URL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          this.trips = data
+      try {
+        const url: string = `${import.meta.env.VITE_API_URL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`
+        const res = await fetch(url, getHeaders())
 
-          if (!this.trips.length) {
-            this.message = this.cityInput ? `Sem viagens para ${this.cityInput}` : 'Sem viagens disponíveis'
-          }
-        })
-        .catch((error) => {
-          this.message = 'Falha ao pesquisar viagens'
+        if (!res.ok) {
+          this.message = res.status === 401 ? "Usuário não autorizado" : "Falha ao pesquisar viagens"
           this.trips = []
 
-          console.error(error)
-        })
-    },
-    setLayout() {
-      if (this.layout == 'grid') this.layout = 'list'
-      else this.layout = 'grid'
-    },
-    openTrip(trip: TripProps) {
-      this.tripModal.active = true
-      this.tripModal.current = trip
-    },
-    closeTrip() {
-      this.getTrips()
+          throw new Error(res.status === 401 ? 'Unauthorized request' : '')
+        }
+        
+        this.trips = await res.json()
 
-      this.tripModal.active = false
-    }, handleResize() {
+        if (!this.trips.length) {
+          this.message = this.cityInput ? `Sem viagens para ${this.cityInput}` : 'Sem viagens disponíveis'
+        }
+      
+      } catch(error) {
+        this.message = 'Falha ao pesquisar viagens'
+        this.trips = []
+
+        console.error(error)
+      }
+    },
+    // Layout input
+    toggleLayout() {
+      this.layout = this.layout === 'grid' ? 'list' : 'grid'
+    },
+    // Modal
+    openTrip(trip: TripProps) {
+      this.selectedTrip = trip // Modal's content
+
+      const modal = this.$refs.modal as any;
+      modal?.open()
+    },
+    // Event Listeners
+    handleResize() {
+      // Toggles between grid and list mode based on screen size (list for wider screens)
       this.layout = window.innerWidth <= 950 ? 'grid' : 'list'
-    }, handleKeyboard(e: KeyboardEvent) {
+    }, 
+    handleKeyboard(e: KeyboardEvent) {
       if (window.innerWidth <= 950) return
 
       if (e.key === 'ArrowRight') {
@@ -74,7 +81,7 @@ export default {
       } else if (e.key === 'ArrowLeft') {
         this.layout = 'list'
       } else if (e.key === ' ' || e.key === 'Enter') {
-        this.setLayout()
+        this.toggleLayout()
       }
     }
   },
@@ -84,7 +91,8 @@ export default {
 
     window.addEventListener("resize", this.handleResize.bind(this))
     document.addEventListener("keydown", this.handleKeyboard)
-  }, beforeUnmount() {
+  }, 
+  beforeUnmount() {
     window.removeEventListener("resize", this.handleResize.bind(this))
     document.removeEventListener("keydown", this.handleKeyboard)
   }
@@ -95,26 +103,28 @@ export default {
   <div class="calculate_trip">
     <SectionHeader title="Viagens Comfort"></SectionHeader>
     <div class="content">
+      <!-- Header inputs (city, date, layout) -->
       <div class="inputs">
         <div class="city">
           <input placeholder="Cidade" v-model="cityInput" @input="getTrips()" />
         </div>
         <DateInput />
-        <LayoutInput :layout="layout" :setLayout="setLayout" />
+        <LayoutInput :layout="layout" :setLayout="toggleLayout" />
       </div>
       <hr />
 
+      <!-- Comfort trips list -->
       <Row v-if="layout == 'list'" :header="true" />
       <div class="results" :class="layout == 'grid' ? 'grid' : ''">
         <Row
           v-for="(trip, key) in trips"
-          :header="false"
-          :grid="layout == 'grid'"
           :trip="trip"
           :openTrip="openTrip"
+          :grid="layout == 'grid'"
           :key="key"
         />
 
+        <!-- In case of exception or no trips available -->
         <div v-if="!trips.length" class="message">
           <h1>{{ message }}</h1>
         </div>
@@ -122,10 +132,10 @@ export default {
     </div>
   </div>
 
-  <transition name="custom-animation"
-    ><Modal :close="closeTrip" title="Adicionar Viagem" v-if="tripModal.active"
-      ><template #content> <TripInfos :trip="tripModal.current" :add="true" /> </template></Modal
-  ></transition>
+  <!-- Displays trip infos -->
+  <Modal ref="modal" title="Adicionar Viagem" :on_close="getTrips">
+    <TripInfos :trip="selectedTrip" :add="true" />
+  </Modal>
 </template>
 
 <style scoped>
@@ -241,21 +251,6 @@ export default {
 .results .message h1 {
   font-weight: bold;
   color: rgb(67, 67, 67);
-}
-
-/* Modal*/
-.custom-animation-leave-active {
-  animation: fade-out 0.2s;
-}
-
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
 }
 
 /** */

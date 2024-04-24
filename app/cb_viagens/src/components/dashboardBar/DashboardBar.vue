@@ -16,15 +16,17 @@ defineProps<{
   setPage: (page: string) => void
 }>()
 
+// Defines dashboard display (sidebar or navbar)
 const isPortrait = ref<boolean>(window.innerWidth <= 900)
-
-const options = ref<HTMLDivElement | null>(null) // Menu div element
-const menuOptions = ref<boolean>(false)
+// Defines pages modal
+const options = ref<HTMLDivElement | null>(null) // Modal container
+const menuOptions = ref<boolean>(false)          // If modal is open
 
 function handleResize() {
   isPortrait.value = window.innerWidth <= 900
 }
 
+// If the options modal is open and the user clicks elsewhere, the modal closes
 function handleClickOutside() {
   if (!menuOptions.value) return
     
@@ -36,7 +38,7 @@ function handleClickOutside() {
 }
 
 onMounted(() => {
-  handleResize()
+  handleResize() // Sets initial dashboard display
 
   document.addEventListener('click', handleClickOutside)
   window.addEventListener('resize', handleResize)
@@ -54,6 +56,7 @@ onUnmounted(() => {
       <img class="logo" src="../../assets/logo.png" />
       <hr />
     </header>
+    <!-- Section that displays application pages -->
     <div class="links">
       <Link :Icon="CalculatorIcon" :title="'Calcular Viagem'" @click="setPage('Calculate')" />
       <Link :Icon="PremiumIcon" :title="'Viagens Comfort'" @click="setPage('Comfort')" />
@@ -61,8 +64,10 @@ onUnmounted(() => {
       <Link :Icon="QuestionIcon" :title="'Sobre Nós'" @click="setPage('About Us')" />
     </div>
     <hr />
+    <!-- Profile section. If you click, it opens its options -->
     <Profile />
   </div>
+  <!-- Dashboard in portrait mode -->
   <div class="dashboard_bar" v-else>
     <MenuIcon @click.stop="menuOptions = !menuOptions" class="menu" />
     <div v-if="menuOptions" ref="options" class="menu_options">

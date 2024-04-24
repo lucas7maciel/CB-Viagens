@@ -5,9 +5,10 @@ import TripInfos from '@/components/TripInfos.vue'
 import Row from '@/components/Row.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 // Functions
-import { getId } from '@/utils/authData'
+import { getHeaders, getId } from '@/utils/authData'
 // Types
-import type { TripProps, TripModalProps } from '@/types/trip'
+import type { TripProps } from '@/types/trip'
+import type { ModalProps } from '@/types/modal'
 
 export default {
   components: {
@@ -18,13 +19,10 @@ export default {
   },
   data() {
     return {
-      trips: [] as TripProps[],
       cityInput: '' as string,
       layout: 'grid' as 'grid' | 'list',
-      tripModal: {
-        active: false as boolean,
-        current: null as TripProps | null
-      } as TripModalProps,
+      trips: [] as TripProps[],
+      selectedTrip: null as TripProps | null,
       message: '' as string
     }
   },
@@ -32,57 +30,62 @@ export default {
     async getTrips() {
       this.message = 'Pesquisando...'
 
-      let id;
-
       try {
-        id = await getId();
-        
-      } catch(error) {
-        this.message = "Falha ao obter dados do usuário"
-        console.error(error)
+        const id = await getId()
 
-        return
-      }
+        if (!id) {
+          this.message = "Usuário não autorizado"
+          return
+        }        
 
-      fetch(`${import.meta.env.VITE_API_URL}/trips/booked/${id}/`) // Passar args certinho
-        .then((res) => res.json())
-        .then((data) => {
-          this.trips = data
+        const url: string = `${import.meta.env.VITE_API_URL}/trips/booked/${id}/`
+        const res = await fetch(url, getHeaders())
 
-          if (!this.trips.length) {
-            this.message = 'Sem viagens reservadas'
-          }
-        })
-        .catch((error) => {
-          this.message = 'Falha ao pesquisar viagens'
+        if (!res.ok) {
+          this.message =
+            res.status === 401 ? 'Usuário não autorizado' : 'Falha ao pesquisar viagens'
           this.trips = []
 
-          console.error(error)
-        })
+          throw new Error(res.status === 401 ? 'Unauthorized request' : '')
+        }
+
+        this.trips = await res.json()
+
+        if (!this.trips.length) {
+          this.message = this.cityInput
+            ? `Sem viagens para ${this.cityInput}`
+            : 'Sem viagens disponíveis'
+        }
+      } catch (error) {
+        this.message = 'Falha ao pesquisar viagens'
+        this.trips = []
+
+        console.error(error)
+      }
     },
     setLayout() {
-      if (this.layout == 'grid') this.layout = 'list'
-      else this.layout = 'grid'
+      this.layout = this.layout == 'grid' ? 'list' : 'grid'
     },
+    // Trip infos modal
     openTrip(trip: TripProps) {
-      this.tripModal.active = true
-      this.tripModal.current = trip
-    },
-    closeTrip() {
-      this.getTrips()
+      this.selectedTrip = trip
 
-      this.tripModal.active = false
-    }, handleResize() {
-      this.layout = window.innerWidth <= 950 ? 'grid' : 'list';
+      const modal = this.$refs.modal as ModalProps | null
+      modal?.open()
+    },
+    // Event listeners
+    handleResize() {
+      this.layout = window.innerWidth <= 950 ? 'grid' : 'list'
     }
   },
   mounted() {
     this.getTrips()
     this.handleResize()
 
-    window.addEventListener("resize", this.handleResize.bind(this))
-  }, beforeUnmount() {
-    window.removeEventListener("resize", this.handleResize.bind(this))
+    window.addEventListener('resize', this.handleResize.bind(this))
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize.bind(this))
   }
 }
 </script>
@@ -90,18 +93,20 @@ export default {
 <template>
   <div class="my_trips">
     <SectionHeader title="Minhas Viagens"></SectionHeader>
+
     <div class="content">
+      <!-- Trips list -->
       <Row v-if="layout == 'list'" :header="true" />
       <div class="results" :class="layout == 'grid' ? 'grid' : ''">
         <Row
           v-for="(trip, key) in trips"
-          :header="false"
-          :grid="layout == 'grid'"
+          :key="key"
           :trip="trip"
           :openTrip="openTrip"
-          :key="key"
+          :grid="layout == 'grid'"
         />
 
+        <!-- In case there aren't trips or exception -->
         <div v-if="!trips.length" class="message">
           <h1>{{ message }}</h1>
         </div>
@@ -109,10 +114,9 @@ export default {
     </div>
   </div>
 
-  <transition name="custom-animation"
-    ><Modal :close="closeTrip" title="Conferir Viagem" v-if="tripModal.active"
-      ><template #content> <TripInfos :trip="tripModal.current" :cancel="true" /> </template></Modal
-  ></transition>
+  <Modal ref="modal" title="Conferir Viagem" :on_close="getTrips">
+    <TripInfos :trip="selectedTrip" :cancel="true"/>
+  </Modal>
 </template>
 
 <style scoped>
@@ -197,7 +201,8 @@ export default {
   scrollbar-gutter: stable;
 }
 
-.results.grid { /** in grid mode */
+.results.grid {
+  /** in grid mode */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the width as needed */
   gap: 1.2rem;

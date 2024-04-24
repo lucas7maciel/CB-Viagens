@@ -1,6 +1,6 @@
 <script lang="ts">
 // Functions
-import { getId } from '@/utils/authData'
+import { getId, getHeaders } from '@/utils/authData'
 
 export default {
   props: ['trip', 'add', 'cancel'],
@@ -10,54 +10,72 @@ export default {
     }
   },
   methods: {
-    //verificar se ta com permissao antes
     async bookTrip() {
-      this.message = "Reservando voo..."
-
-      let id;
+      this.message = 'Reservando voo...'
 
       try {
-        id = await getId();
-        
-      } catch(error) {
-        this.message = "Falha ao obter dados do usuário"
+        const id = await getId()
+
+        if (!id) {
+          this.message = 'Falha ao obter dados do usuário\n(Verifique está logado)'
+          return
+        }
+
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/trips/book/${this.trip.id}/${id}/`,
+          getHeaders()
+        )
+
+        if (!res.ok) {
+          this.message = 'Falha ao agendar viagem'
+          return
+        }
+
+        if (res.status === 401) {
+          this.message = 'Usuário não autorizado'
+          return
+        }
+
+        const data = await res.json()
+
+        this.message = 'success' in data ? data.success : data.message
+      } catch (error) {
+        this.message = 'Falha ao reservar viagem'
+
         console.error(error)
-
-        return
       }
-
-      fetch(`${import.meta.env.VITE_API_URL}/trips/book/${this.trip.id}/${id}/`) // Pegar parametros corretamente
-        .then((res) => res.json())
-        .then((data) => {
-          // Checar exceções no django
-          this.message = 'success' in data ? data.success : data.message
-
-          console.log(data)
-        })
-        .catch((error) => {
-          this.message = "Falha ao reservar voo"
-
-          console.error(error)
-        })
     },
-    cancelTrip() {
-      this.message = "Cancelando voo..."
-      fetch(`${import.meta.env.VITE_API_URL}/trips/cancel/${this.trip.id}/`) // Pegar parametros corretamente
-        .then((res) => res.json())
-        .then((data) => {
-          this.message = 'success' in data ? data.success : data.message
+    async cancelTrip() {
+      this.message = 'Cancelando voo...'
 
-          console.log(data)
-        })
-        .catch((error) => {
-          this.message = "Falha ao cancelar voo"
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/trips/cancel/${this.trip.id}/`,
+          getHeaders()
+        )
 
-          console.error(error)
-        })
+        if (res.status === 401) {
+          this.message = 'Usuário não autorizado'
+          return
+        }
+
+        if (!res.ok) {
+          this.message = 'Falha ao cancelar viagem'
+          return
+        }
+
+        const data = await res.json()
+
+        this.message = 'success' in data ? data.success : data.message
+      } catch (error) {
+        this.message = 'Falha ao cancelar viagem'
+
+        console.error(error)
+      }
     },
     handleKeyboard(e: KeyboardEvent) {
       if (e.key !== 'Enter' && e.key !== ' ') {
-        return;
+        return
       }
 
       if (this.add) {
@@ -66,16 +84,19 @@ export default {
         this.cancelTrip()
       }
     }
-  }, mounted() {
-    document.addEventListener("keydown", this.handleKeyboard)
-  }, beforeUnmount() {
-    document.addEventListener("keydown", this.handleKeyboard)
+  },
+  mounted() {
+    document.addEventListener('keydown', this.handleKeyboard)
+  },
+  beforeUnmount() {
+    document.addEventListener('keydown', this.handleKeyboard)
   }
 }
 </script>
 
 <template>
   <div class="add_trip">
+    <!-- Trip data -->
     <div class="infos">
       <span class="prop">Compania</span><span class="value">{{ trip.name }}</span>
       <span class="prop">Cidade</span><span class="value">{{ trip.city }}</span>
@@ -84,7 +105,9 @@ export default {
       <span class="prop">Preço</span><span class="value">{{ trip.price_confort }}</span>
     </div>
 
+    <!-- Book | Cancel section -->
     <p v-if="cancel || add" class="message">{{ message }}</p>
+
     <div v-if="cancel || add" class="buttons">
       <button v-if="cancel" class="cancel" @click="cancelTrip">Cancelar</button>
       <button v-if="add" class="add" @click="bookTrip">Adicionar</button>
@@ -179,5 +202,4 @@ button:hover {
     margin-bottom: 0.3rem;
   }
 }
-
 </style>

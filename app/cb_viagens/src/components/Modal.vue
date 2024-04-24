@@ -3,25 +3,53 @@
 import CloseIcon from '@/components/icons/IconClose.vue'
 
 export default {
-  props: ['title', 'close', 'content', 'no_header'],
+  props: ['title', 'content', 'no_header', 'on_close'],
   components: {
     CloseIcon
+  },
+  data() {
+    return {
+      opened: false as boolean
+    }
+  },
+  methods: {
+    open() {
+      this.opened = true
+    },
+    close() {
+      if (this.on_close) {
+        this.on_close()
+      }
+
+      this.opened = false
+    }
   }
 }
 </script>
 
 <template>
-  <div>
-    <div class="shadow" @click="close"></div>
-    <div class="modal">
-      <div class="header" v-if="!no_header">
-        <h3 class="title">{{ title }}</h3>
-        <CloseIcon class="close" @click="close" />
+  <transition name="custom-animation">
+    <div v-if="opened">
+      <!-- Decorative shadow -->
+      <div class="shadow" @click="close"></div>
+
+      <!-- Actual container -->
+      <div class="modal">
+
+        <!-- Modal header (optional) -->
+        <div class="header" v-if="!no_header">
+          <h3 class="title">{{ title }}</h3>
+          <CloseIcon class="close" @click="close" />
+        </div>
+
+        <!-- Line that divides header (if active) from content -->
+        <hr v-if="!no_header" />
+        
+        <!-- Modal's content -->
+        <slot></slot>
       </div>
-      <hr v-if="!no_header" />
-      <slot name="content"></slot>
     </div>
-  </div>
+  </transition>
 </template>
 
 <style scoped>
@@ -115,6 +143,21 @@ export default {
   }
   to {
     opacity: 1;
+  }
+}
+
+/** Transition */
+.custom-animation-leave-active {
+  animation: fade-out 0.2s;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }
 

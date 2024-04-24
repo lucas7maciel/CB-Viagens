@@ -5,7 +5,10 @@ import ProfileInfos from '@/components/dashboardBar/ProfileInfos.vue'
 // Icons
 import ProfileIcon from '../icons/IconProfile.vue'
 // Types
+import type { ModalProps } from '@/types/modal'
 import type {UserProps} from '@/types/user'
+// Functions
+import { getHeaders, logout } from '@/utils/authData'
 
 export default {
   components: {
@@ -16,27 +19,23 @@ export default {
   data() {
     return {
       options: false as boolean,
-      modal: false as boolean,
       user: null as UserProps | null
     }
   },
   methods: {
     async getName() {
       try {
-        // Identificar usuário
-        // Setting headers
-        const token: string | null = localStorage.getItem("token")
-        const headers: HeadersInit | undefined = {
-          'Authorization': `Token ${token}`
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/me`, getHeaders());
+
+        if (res.status === 401) {
+          throw new Error('Unauthorized request');
         }
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/me`, {headers});
 
         if (!res.ok) {
             throw new Error('Falha no servidor');
         }
 
-        const user = await res.json(); // *consertar isso
-        //console.log(user.data);
+        const user = await res.json();
 
         if (!user) {
             throw new Error('Falha ao identificar usuário');
@@ -49,31 +48,33 @@ export default {
     },
     // Modal
     openModal() {
-      this.modal = true
+      const modal = this.$refs.modal as ModalProps | null
+      modal?.open()
     },
     closeModal() {
-      this.modal = false
+      const modal = this.$refs.modal as ModalProps | null
+      modal?.close()
     },
     // Options
     handleOptions() {
       this.options = !this.options
     },
-    handleClickOutside(event: any /** Ver isso */) {
+    handleClickOutside(event: MouseEvent) {
       const profileRef = this.$refs.profileRef as HTMLDivElement
 
-      if (this.options && !profileRef.contains(event.target)) {
+      if (this.options && !profileRef.contains(event.target as Node)) {
         this.options = false
       }
     },
+    //
     logout() {
-      localStorage.setItem('token', '')
-      this.$router.push('signin')
+      logout(this.$router)
     }
   },
   mounted() {
-    //otimizar isso
-    document.addEventListener('click', this.handleClickOutside)
     this.getName()
+
+    document.addEventListener('click', this.handleClickOutside)
   },
   beforeUnmount() {
     document.removeEventListener('click', this.handleClickOutside)
@@ -83,17 +84,23 @@ export default {
 
 <template>
   <div class="profile" ref="profileRef" @click="handleOptions">
-    <div class="pic"><ProfileIcon class="svg" /></div>
-    <p class="name">{{ user ? user.first_name ? `${user.first_name} ${user.last_name}` : "(Sem Nome)" : "Carregando..." }}</p>
+    <div class="pic">
+      <ProfileIcon class="svg" />
+    </div>
+    <p class="name">
+      {{ user ? user.first_name ? `${user.first_name} ${user.last_name}` : "(Sem Nome)" : "Carregando..." }}
+    </p>
 
+    <!-- Options Modal -->
     <div v-if="options" class="options" ref="options">
       <p @click="openModal">Ver Perfil</p>
       <p @click="logout">Logout</p>
     </div>
 
-    <Modal :close="closeModal" title="Seu Perfil" v-if="modal"
-      ><template #content><ProfileInfos :user="user" /></template
-    ></Modal>
+    <!-- User information modal -->
+    <Modal ref="modal" title="Seu Perfil">
+      <ProfileInfos :user="user" />
+    </Modal>
   </div>
 </template>
 

@@ -24,6 +24,7 @@ const setPage = (page: string) => {
   <div class="welcome">
     <h1>Seja bem vindo ao dashboard</h1>
     <h2>Utilize os links da <span class="navbar">Navbar</span> para navegar entre nossas opções</h2>
+    
     <div class="links">
       <Link :Icon="CalculatorIcon" :title="'Calcular Viagem'" @click="setPage('Calculate')" />
       <Link :Icon="PremiumIcon" :title="'Viagens Comfort'" @click="setPage('Comfort')" />

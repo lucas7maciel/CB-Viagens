@@ -1,10 +1,19 @@
+export function getHeaders() {
+  const token: string | null = localStorage.getItem('token')
+  const headers: HeadersInit | undefined = {
+    Authorization: `Token ${token}`
+  }
+
+  return {headers}
+}
+
 export async function getId() {
   try {
-    const token: string | null = localStorage.getItem('token')
-    const headers: HeadersInit | undefined = {
-      Authorization: `Token ${token}`
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/me`, getHeaders())
+
+    if (res.status === 401) {
+      throw new Error('Unauthorized request');
     }
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/me`, { headers })
 
     if (!res.ok) {
       throw new Error('Falha no servidor')
@@ -21,5 +30,10 @@ export async function getId() {
     console.error(error)
   }
 
-  return null
+  return undefined
+}
+
+export function logout(router: any) {
+  localStorage.setItem('token', '')
+  router.push('signin')
 }

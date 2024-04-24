@@ -1,9 +1,13 @@
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.http import Http404, JsonResponse
 from users.models import CustomUser
 from . import models
 
 # Returns a list of trips | Params (city, date)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def search(request):
     # If city or date are not specified, the value will be ''
     # So automatically all values will be returned
@@ -33,8 +37,10 @@ def getCities(request):
 
 
 # Returns the cheapest and the quickest trip to a desired city
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def calculate(request):
-    city = request.GET.get('city', '')          # PROGRAMAR CASOS EM QUE VALORES N SÃO ENCONTRADOS
+    city = request.GET.get('city', '')
 
     if not city:
         return JsonResponse({"message": "Informe a cidade"})
@@ -59,6 +65,9 @@ def calculate(request):
 
     return JsonResponse({"quickest": quickestTrip, "cheapest": cheapestTrip}, status=200, safe=False)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getBooked(request, id):
     if not id:
         return JsonResponse({"message": "Please provide Id"})
@@ -69,7 +78,9 @@ def getBooked(request, id):
     return JsonResponse(trips, safe=False)
 
 # Associates a trip record with a customer, changing the 'Customer' field
-def book(request, tripId, userId):      # AJEITAR POSSÍVEIS ERROS
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def book(request, tripId, userId):
     if not tripId or not userId:
         return JsonResponse({"message": "Please inform Trip and User ID"})
 
@@ -94,6 +105,9 @@ def book(request, tripId, userId):      # AJEITAR POSSÍVEIS ERROS
 
     return JsonResponse({"success": "Viagem reservada com sucesso"})
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def cancel(request, tripId):
     if tripId is None:
         return JsonResponse({"message": "Informe o ID da viagem"})

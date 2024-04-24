@@ -10,13 +10,37 @@ export default {
 </script>
 
 <template>
-  <div class="properties" :class="`${grid ? 'grid' : 'list'} ${header ? 'header' : ''}`" @click="openTrip(trip)">
+  <!-- If container has 'header' class, it doesn't display any info -->
+  <!-- Only its definition -->
+  <div 
+    class="properties" 
+    @click="openTrip(trip)"
+    :class="`
+      ${grid ? 'grid' : 'list'}
+      ${header ? 'header' : ''}`"
+  >
+    <!-- Decorative icon (List Mode) -->
     <PlaneIcon class="plane" />
-    <span class="city">{{ header ? 'Cidade' : trip.city }}</span
-    ><span class="company">{{ header ? 'Compania' : trip.name }}</span
-    ><span class="duration">{{ header ? 'Duração' : `${trip.duration}h` }}</span>
-    <span class="price">{{ header ? 'Preço' : trip.price_confort }}</span>
+
+    <!-- Data display -->
+    <span class="city">
+      {{ header ? 'Cidade' : trip.city }}
+    </span>
+  
+    <span class="company">
+      {{ header ? 'Compania' : trip.name }}
+    </span>
+    
+    <span class="duration">
+      {{ header ? 'Duração' : `${trip.duration}h` }}
+    </span>
+
+    <span class="price">
+      {{ header ? 'Preço' : trip.price_confort }}
+    </span>
   </div>
+
+  <!-- Decorative, used to separate from actual rows -->
   <hr v-if="header" />
 </template>
 

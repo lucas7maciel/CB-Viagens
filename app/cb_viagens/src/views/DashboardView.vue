@@ -9,9 +9,9 @@ import AboutUs from '@/views/Dashboard/AboutUsView.vue'
 import ComfTrips from '@/views/Dashboard/ComfTrips.vue'
 // Types
 import type { PagesProps } from '@/types/pages'
-// 
+// Functions
+import { getHeaders } from '@/utils/authData'
 import { markRaw } from 'vue'
-import axios from 'axios'
 
 export default {
   components: {
@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      current: 'Comfort' as string | null,
+      current: null as string | null,
       pages: {
         'Calculate': markRaw(CalculateTrip),
         'My Trips': markRaw(MyTrips),
@@ -30,6 +30,7 @@ export default {
     }
   },
   methods: {
+    // Switches page
     setCurrent(current: string) {
       this.current = current
     }
@@ -38,20 +39,16 @@ export default {
     document.title = 'Dashboard'
   },
   beforeMount() {
-    //checks if user is logged
-    const provisorio: number = 1
-
-    if (provisorio) return
-
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/auth/users/me/`)
-      .then((data: any /*Ajeitar isso*/) => {
-        if (data.response?.status == 401 || !localStorage.getItem('token')) {
+    // Checks if user is logged
+    fetch(`${import.meta.env.VITE_API_URL}/auth/users/me/`, getHeaders())
+      .then(res => {
+        if (res.status === 401) {
           this.$router.push('/signin')
-          return
         }
       })
-      .catch(() => {
+      .catch(error => {
+        console.log(error)
+
         this.$router.push('/signin')
       })
   },
@@ -63,7 +60,7 @@ export default {
     <DashboardBar :setPage="setCurrent" :page="current" />
     <div class="page">
       <component v-if="current" :is="pages[current]" />
-      <Welcome v-if="!current" :setPage="setCurrent" />
+      <Welcome v-else :setPage="setCurrent" />
     </div>
   </div>
 </template>

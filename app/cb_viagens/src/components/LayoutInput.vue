@@ -2,6 +2,7 @@
 // Icons
 import GridIcon from '@/components/icons/IconGrid.vue'
 import ListIcon from '@/components/icons/IconList.vue'
+
 export default {
   props: ['layout', 'setLayout'],
   components: {
@@ -12,19 +13,25 @@ export default {
 </script>
 
 <template>
+  <!-- Grid mode state is stored in parent component -->
+  <!-- But toggle function is passed as props -->
   <div class="layout" :class="`${layout}_mode`">
     <div class="container" @click="setLayout">
-      <div
-        class="selected"
-      ></div>
+      <!-- Black section that stands behind selected mode -->
+      <div class="selected"></div>
+
+      <!-- List Mode -->
       <div class="list">
         <ListIcon class="icon" />
         <span>Lista</span>
       </div>
+
+      <!-- Grid Mode -->
       <div class="grid">
         <GridIcon class="icon" />
         <span>Grid</span>
       </div>
+
     </div>
   </div>
 </template>

@@ -2,6 +2,8 @@
 // Components
 import Modal from '@/components/Modal.vue'
 import TripInfos from '@/components/TripInfos.vue'
+// Types
+import type {ModalProps} from '@/types/modal'
 
 export default {
   props: ['title', 'trip'],
@@ -9,41 +11,44 @@ export default {
     Modal,
     TripInfos
   },
-  data() {
-    return {
-      modal: false as boolean
-    }
-  },
   methods: {
+    // Modal
     open() {
-      this.modal = true
+      const modal = this.$refs.modal as ModalProps | null
+      modal?.open()
     },
     close() {
-      this.modal = false
+      const modal = this.$refs.modal as ModalProps | null
+      modal?.close()
     }
   }
 }
 </script>
 
 <template>
+  <!-- Trip infos -->
   <div v-if="trip" class="container">
     <div class="trip" @click="open">
       <h1 class="title">{{ title }}</h1>
       <p class="company">{{ trip?.name || 'Sem Nome' }}</p>
+
       <div class="subinfos">
+        <!-- Props -->
         <p class="prop">Leito</p>
         <p class="prop">Preço</p>
         <p class="prop">Duração</p>
+        
+        <!-- Values -->
         <p class="value">{{ trip?.seat || '?' }}</p>
         <p class="value">R$ {{ trip?.price_econ || '???' }}</p>
         <p class="value">{{ trip?.duration || '? ' }}h</p>
       </div>
     </div>
 
-    <transition name="custom-animation"
-    ><Modal :close="close" :title="title" v-if="modal"
-      ><template #content> <TripInfos :trip="trip" :add="true" /> </template></Modal
-  ></transition>
+    <!-- Trip infos modal / Booking page -->
+    <Modal ref="modal" :title="title">
+      <TripInfos :trip="trip" :add="true" />
+    </Modal>
   </div>
 </template>
 

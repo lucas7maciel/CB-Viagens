@@ -1,13 +1,12 @@
 <script lang="ts">
-//components
+// Components
 import VueDatePicker from '@vuepic/vue-datepicker'
-//styling
+// Styling
 import '@vuepic/vue-datepicker/dist/main.css'
-//functions
+// Functions
 import { formatDate } from '@/utils/formatDate'
-//icons
+// Icons
 import ExpandIcon from '@/components/icons/IconExpand.vue'
-
 
 export default {
   props: ['setDate'],
@@ -21,17 +20,21 @@ export default {
     }
   },
   methods: {
+    // This function its gonna format the date selected in date picker
     format(date: Date) {
-      if (date) {
-        this.setDate(date)
-        this.dateOutput = formatDate(date)
-        return this.dateOutput;
+      if (!date) {
+        return ''
       }
-      return "";
+
+      this.setDate(date)
+      this.dateOutput = formatDate(date) // @/utils/formatDate
+
+      return this.dateOutput
     },
+    // Opens date picker modal
     openPicker() {
-      const datePicker = this.$refs.datepicker as any;
-      datePicker?.openMenu();
+      const datePicker = this.$refs.datepicker as any
+      datePicker?.openMenu()
     }
   }
 }
@@ -40,6 +43,7 @@ export default {
 <template>
   <div class="date">
     <div class="container" @click="openPicker">
+      <!-- Original component -->
       <VueDatePicker
         class="datepicker"
         ref="datepicker"
@@ -48,7 +52,11 @@ export default {
         :min-date="new Date()"
       />
 
+      <!-- This div is gonna cover original's component appearence, so i cant edit it in my way -->
+      <!-- Only its original modal it's gonna be used -->
       <div class="hider"></div>
+
+      <!-- My own stylying -->
       <span>{{ dateOutput }}</span>
       <ExpandIcon class="expand" />
     </div>
@@ -121,5 +129,4 @@ export default {
     height: calc(100% + 1.2rem);
   }
 }
-
 </style>

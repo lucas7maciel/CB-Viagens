@@ -1,9 +1,10 @@
 <script lang="ts">
-//must be a flexbox pipipipopopo
+
 export default {
   props: ['title']
 }
 </script>
+
 <template>
   <div class="title">
     <h1>{{ title }}</h1>

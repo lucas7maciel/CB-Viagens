@@ -6,8 +6,11 @@ import DateInput from '@/components/DateInput.vue'
 import CalculatedTrip from '@/components/CalculatedTrip.vue'
 // Icons
 import AlertIcon from '@/components/icons/IconAlert.vue'
+// Functions
+import { getHeaders } from '@/utils/authData'
 // Types
 import type { TripProps } from '@/types/trip'
+import type { ModalProps } from '@/types/modal'
 
 export default {
   components: {
@@ -19,78 +22,108 @@ export default {
   },
   data() {
     return {
+      cityInput: '' as string,
+      dateInput: null as Date | null,
       cities: [] as string[],
       cheapestTrip: null as TripProps | null,
       quickestTrip: null as TripProps | null,
-      cityInput: '' as string,
-      dateInput: null as Date | null,
-      modal: false as boolean,
       message: 'Digite os dados para encontrar a viagem ideal' as string
     }
   },
   methods: {
-    getCities() {
-      fetch(`${import.meta.env.VITE_API_URL}/trips/cities`)
-        .then((res) => res.json())
-        .then((data) => {
-          this.cities = data
-        })
-        .catch((error) => {
-          this.message = 'Falha ao pesquisar cidades'
+    // Lists cities with available trips for select element
+    async getCities() {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/trips/cities`)
 
-          console.error(error)
-        })
+        if (!res.ok) {
+          this.message = "Falha ao pesquisar cidades"
+          return
+        }
+
+        this.cities = await res.json()
+      
+      } catch(error) {
+        this.message = "Exceção ao pesquisar cidades"
+
+        console.error(error)
+      }
     },
-    close() {
-      this.modal = false
-    },
-    setDate(value: Date) {
-      this.dateInput = value
-    },
-    search() {
+    // Searchs quickest and cheapest trips available in selected date and city
+    async getTrips() {
       if (!this.cityInput || !this.dateInput) {
-        this.modal = true
+        this.open()
         return
       }
 
       this.message = 'Pesquisando...'
 
-      fetch(`${import.meta.env.VITE_API_URL}/trips/calculate?city=${this.cityInput}`)
-        .then((res) => res.json())
-        .then((data) => {
-          this.cheapestTrip = data.cheapest
-          this.quickestTrip = data.quickest
-          
-          if (data.message === 'Pesquisando...'){//!data?.cheapest && !data?.quickest) {
-            this.message = `Nenhuma viagem encontrada para ${this.cityInput} no dia selecionado`
-          }
-        })
-        .catch((error) => {
+      try {
+        const url : string = `${import.meta.env.VITE_API_URL}/trips/calculate?city=${this.cityInput}`
+        const res = await fetch(url, getHeaders())
+
+        if (!res.ok) {
           this.cheapestTrip = null
           this.quickestTrip = null
+          this.message = res.status === 401 ? "Usuário não autorizado" : "Falha ao pesquisar viagens"
 
-          this.message = "Falha ao pesquisar viagens"
-          console.error(error)
-        })
+          throw new Error(res.status === 401 ? "Unauthorized user" : "")
+        }
+
+        const data = await res.json()
+
+        this.cheapestTrip = data.cheapest
+        this.quickestTrip = data.quickest
+
+        if (data.message === 'Pesquisando...') { // And (cheapest | quickest) trips are null
+          this.message = `Nenhuma viagem encontrada para ${this.cityInput} no dia selecionado`
+        }
+      } catch(error) {
+        this.cheapestTrip = null
+        this.quickestTrip = null
+        this.message = "Falha ao pesquisar viagens"
+
+        console.error(error)
+      }
     },
+    // Modal
+    open() {
+      const modal = this.$refs.modal as ModalProps | null
+      modal?.open()
+    },
+    close() {
+      const modal = this.$refs.modal as ModalProps | null
+      modal?.close()
+    },
+    // Date Input
+    setDate(value: Date) {
+      this.dateInput = value
+    },
+    // Event listeners
     handleKeyboard(e: KeyboardEvent) {
+      const modal = this.$refs.modal as ModalProps | null
+
       if (e.key === 'Enter' || e.key === ' ') {
-        if (!this.cityInput) {
+        document.activeElement?.blur()
+
+        if (modal?.opened) {
+          this.close()
+        } else if (!this.cityInput) {
           const citySelect = this.$refs.city as HTMLSelectElement
           citySelect?.focus()
         } else if (!this.dateInput) {
           const dateRef = this.$refs.date as {openPicker: () => void}
           dateRef?.openPicker()
-        } else if (this.modal) {
-          this.close()
         } else {
-          this.search()
+          this.getTrips()
         }
       }
     }
   },
   watch: {
     cityInput() {
+      // After user selects city, focus from select element is removed, so user
+      // can activate date picker using keyboard
       const cityRef = this.$refs.city as HTMLSelectElement;
       cityRef?.blur()
     }
@@ -110,6 +143,7 @@ export default {
   <div class="calculate_trip">
     <SectionHeader title="Calcular Viagem"></SectionHeader>
     <div class="content">
+      <!-- Inputs (city, date and search button) -->
       <div class="inputs">
         <div class="city">
           <select ref="city" v-model="cityInput">
@@ -118,9 +152,11 @@ export default {
           </select>
         </div>
         <DateInput ref="date" :setDate="setDate" />
-        <button class="search" @click="search">Buscar</button>
+        <button class="search" @click="getTrips">Buscar</button>
       </div>
       <hr />
+
+      <!-- Trips container -->
       <div class="trips">
         <h1 v-if="!cheapestTrip && !quickestTrip" style="font-weight: 600">{{ message }}</h1>
 
@@ -130,18 +166,15 @@ export default {
     </div>
   </div>
 
-  <transition name="custom-animation">
-    <Modal :close="close" SectionHeader="Preencha os Formulários" :no_header="true" v-if="modal"
-      ><template #content>
-        <div class="fill_forms">
-          <AlertIcon class="icon" />
+  <!-- 'Fill city and date' message -->
+  <Modal ref="modal" :no_header="true">
+    <div class="fill_forms">
+      <AlertIcon class="icon" />
 
-          <p class="message">Informe cidade e data para pesquisar</p>
-          <button class="close" @click="close">Fechar</button>
-        </div>
-      </template></Modal
-    >
-  </transition>
+      <p class="message">Informe cidade e data para pesquisar</p>
+      <button class="close" @click="close">Fechar</button>
+    </div>
+  </Modal>
 </template>
 
 <style scoped>

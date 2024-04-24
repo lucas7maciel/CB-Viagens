@@ -5,7 +5,7 @@ import IconProfile from '@/components/icons/IconProfile.vue'
 import { formatDate } from '@/utils/formatDate'
 
 export default {
-  props: ["user"],
+  props: ['user'],
   components: {
     IconProfile
   },
@@ -24,8 +24,8 @@ export default {
       <IconProfile class="pic" />
     </div>
     <hr />
-    <p class="name">{{ user?.first_name ? name : "(Sem Nome)" }}</p>
-    <p class="since">{{ user ? `Desde ${joined}` : "Carregando..." }}</p>
+    <p class="name">{{ user?.first_name ? name : '(Sem Nome)' }}</p>
+    <p class="since">{{ user ? `Desde ${joined}` : 'Carregando...' }}</p>
   </div>
 </template>
 

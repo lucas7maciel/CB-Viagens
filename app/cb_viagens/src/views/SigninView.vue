@@ -3,12 +3,9 @@
 import Art from '@/components/signIn/Art.vue'
 // Functions
 import { checkUsername, checkPassword } from '@/utils/checkInputs'
-// Types
 
 export default {
-  components: {
-    Art
-  },
+  components: { Art },
   data() {
     return {
       message: 'Digite suas credenciais',
@@ -21,6 +18,7 @@ export default {
       this.message = value
     },
     checkInputs() {
+      // Checks all required inputs in login process, before submit
       const usernameInput = this.$refs.username as HTMLInputElement
       const passwordInput = this.$refs.password as HTMLInputElement
 
@@ -34,43 +32,55 @@ export default {
 
       return true
     },
-    submitForm() {
+    async submitForm() {
       if (!this.checkInputs()) return
+
       this.message = 'Conferindo dados...'
-      
-      // Mudar pra pegar da ref
+
+      // Request settings
+      const usernameInput = this.$refs.username as HTMLInputElement
+      const passwordInput = this.$refs.password as HTMLInputElement
+
       const forms = {
-        username: this.username,
-        password: this.password
+        username: usernameInput.value,
+        password: passwordInput.value
       }
 
-      fetch(`${import.meta.env.VITE_API_URL}/auth/token/login/`, {
+      const options = {
         method: 'POST',
         body: JSON.stringify(forms),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          const token = data.auth_token
-          const store = this.$store as any
+      }
 
-          store.commit('setToken', token)
-          //axios.defaults.headers.common['Authorization'] = `Token ${token}`
-          localStorage.setItem('token', token)
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/token/login/`, options)
 
-          if (token) {
-            this.$router.push('dashboard')
-          } else {
-            this.message = 'Senha ou usuário incorretos'
-          }
-        })
-      .catch((error) => {
-        this.message = "Erro ao fazer login"
-        
+        // If login is incorrect, Djoser (used in backend) returns 401
+        if (!res.ok) {
+          this.message = 'Senha ou usuário incorretos'
+        }
+
+        const data = await res.json()
+
+        const token = data.auth_token
+        const store = this.$store as any
+
+        // Stores my access token for future requests
+        store.commit('setToken', token)
+        localStorage.setItem('token', token)
+
+        if (token) {
+          this.$router.push('dashboard')
+        } else {
+          this.message = 'Senha ou usuário incorretos'
+        }
+      } catch (error) {
+        this.message = 'Erro ao fazer login'
+
         console.error(error)
-      })
+      }
     }
   },
   beforeCreate() {
@@ -81,21 +91,41 @@ export default {
 
 <template>
   <div class="page">
+    <!-- Art and Login section -->
     <div class="container">
+      <!-- Placed on the left -->
       <div class="forms_section">
         <img class="logo" src="../assets/logo.png" />
 
         <form class="inputs" @submit.prevent="submitForm">
           <label>Username</label>
-          <input type="text" v-model="username" ref="username" placeholder="Digite seu username" />
+          <input 
+            ref="username"
+            type="text"  
+            placeholder="Digite seu username" 
+          />
+
           <label>Senha</label>
-          <input type="password" v-model="password" ref="password" placeholder="Digite sua senha" />
-          <span class="forgot" @click="setMessage('Ainda não disponível')">Esqueceu a senha?</span>
+          <input
+            ref="password" 
+            type="password" 
+            placeholder="Digite sua senha" 
+          />
+
+          <span 
+            class="forgot" 
+            @click="setMessage('Ainda não disponível')"
+            >Esqueceu a senha?
+          </span>
+
           <span class="message">{{ message }}</span>
           <button class="signin" type="submit">Entrar</button>
         </form>
+        
         <span class="signup" @click="$router.push('/signup')">Registrar</span>
       </div>
+
+      <!-- Only decorative -->
       <Art />
     </div>
   </div>

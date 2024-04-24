@@ -11,25 +11,23 @@ import {
   checkLastName,
   confirmPassword
 } from '@/utils/checkInputs'
-import {translateError} from '@/utils/translateError'
+import { translateError } from '@/utils/translateError'
 
 export default {
+  components: {
+    Intro
+  },
   data() {
     return {
       message: 'Digite suas credenciais'
     }
-  },
-  components: {
-    Intro
-  },
-  beforeCreate() {
-    document.title = 'Sign Up'
   },
   methods: {
     setMessage(value: string): void {
       this.message = value
     },
     checkInputs(): boolean {
+      // Checks if inputs are correctly filled before submitting
       const firstnameInput = this.$refs.firstname as HTMLInputElement
       const lastnameInput = this.$refs.lastname as HTMLInputElement
       const usernameInput = this.$refs.username as HTMLInputElement
@@ -61,11 +59,12 @@ export default {
     navigate(route: string) {
       ;(this.$router as Router).push(route)
     },
-    submitForm() {
+    async submitForm() {
       if (!this.checkInputs()) return
 
       this.message = 'Enviando dados...'
 
+      // Gets input data
       const usernameInput = this.$refs.username as HTMLInputElement
       const passwordInput = this.$refs.password as HTMLInputElement
       const frstnameInput = this.$refs.firstname as HTMLInputElement
@@ -78,63 +77,107 @@ export default {
         last_name: lastnameInput.value
       }
 
-      fetch(`${import.meta.env.VITE_API_URL}/auth/users/`, {
+      const options: object = {
         method: 'POST',
         body: JSON.stringify(forms),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }
-      })
-        .then((res: Response) => res.json())
-        .then((data: Object) => {
-          console.log(data)
-          if (Object.hasOwnProperty.call(data, 'success')) {
-            this.message = 'Usuário criado com sucesso!'
-          } else {
-            const errors: Array<string> = Object.values(data)[0]
-              
-            this.message = translateError(errors[0])
-          }
-        })
-        .catch((error) => {
-          this.message = "Falha ao registrar usuário"
+      }
 
-          console.error(error)
-        })
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/`, options)
+
+        if (!res.ok) {
+          this.message = 'Falha ao criar usuário'
+          return
+        }
+
+        const data: Object = await res.json()
+
+        if (Object.hasOwnProperty.call(data, 'success')) {
+          this.message = 'Usuário criado com sucesso!'
+        } else {
+          const errors: Array<string> = Object.values(data)[0]
+
+          this.message = translateError(errors[0])
+        }
+      } catch (error) {
+        this.message = 'Falha ao registrar usuário'
+
+        console.error(error)
+      }
     }
+  },
+  beforeCreate() {
+    document.title = 'Sign Up'
   }
 }
 </script>
 
 <template>
   <div class="container">
+    <!-- Only decorative (propaganda) -->
     <Intro />
+
+    <!-- Sign up section -->
     <div class="inputs">
       <h1>Registrar</h1>
       <h2>Digite suas credenciais para que possamos registrá-lo no sistema</h2>
+
       <form class="forms" @submit.prevent="submitForm">
         <div class="name">
           <div>
             <label>Nome</label><br />
-            <input placeholder="Digite seu nome" ref="firstname" type="text" />
+            <input 
+              ref="firstname" 
+              type="text" 
+              placeholder="Digite seu nome" 
+            />
           </div>
           <div>
             <label>Sobrenome</label><br />
-            <input placeholder="Digite seu sobrenome" ref="lastname" type="text" />
+            <input 
+              ref="lastname" 
+              type="text" 
+              placeholder="Digite seu sobrenome" 
+            />
           </div>
         </div>
+
         <label>Username</label>
-        <input placeholder="Digite seu username" ref="username" type="text" />
+        <input 
+          ref="username" 
+          type="text" 
+          placeholder="Digite seu username"
+        />
+
         <label>Senha</label>
-        <input placeholder="Digite sua senha" ref="password" type="password" />
+        <input 
+          ref="password" 
+          type="password"
+          placeholder="Digite sua senha"
+        />
+
         <label>Confirmar Senha</label>
-        <input placeholder="Confirme sua senha" ref="confirm" type="password" />
+        <input 
+          ref="confirm" 
+          type="password"
+          placeholder="Confirme sua senha" 
+        />
+
         <p class="message">{{ message }}</p>
         <div class="buttons">
           <button class="signup" type="submit">Criar Conta</button>
         </div>
+
       </form>
-      <p class="back" @click="navigate('/signin')">Voltar</p>
+
+      <p 
+        @click="navigate('/signin')"
+        class="back" 
+        >Voltar
+      </p>
     </div>
   </div>
 </template>
@@ -253,7 +296,10 @@ export default {
   user-select: none;
 }
 
-h1, h2, label, br {
+h1,
+h2,
+label,
+br {
   user-select: none;
 }
 
