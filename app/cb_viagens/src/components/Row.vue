@@ -141,7 +141,7 @@ export default {
 
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  background-color: #2a3041;
+  background-color: var(--primary-color);
 }
 
 .properties.grid .company {

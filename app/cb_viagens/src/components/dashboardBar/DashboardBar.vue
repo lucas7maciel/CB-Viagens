@@ -95,7 +95,7 @@ onUnmounted(() => {
   padding: 1rem 0 0 0;
 
   color: white;
-  background-color: #2a3041;
+  background-color: var(--primary-color);
   border-radius: 1rem;
 
   user-select: none;
@@ -128,7 +128,7 @@ hr {
   left: 1.2rem;
   z-index: 5;
 
-  background: #03a8b5;
+  background: var(--secondary-color);
 
   padding: 0.5rem 0.8rem;
 

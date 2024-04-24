@@ -121,7 +121,7 @@ export default {
           <span class="message">{{ message }}</span>
           <button class="signin" type="submit">Entrar</button>
         </form>
-        
+
         <span class="signup" @click="$router.push('/signup')">Registrar</span>
       </div>
 
@@ -147,7 +147,7 @@ export default {
 .container {
   display: flex;
   max-width: 60%;
-  background-color: #cceaf7; /*#2a3041;*/
+  background-color: #cceaf7;
   color: white;
 
   border-radius: 1.5rem;
@@ -168,7 +168,7 @@ export default {
 
   padding: 3rem 2rem;
 
-  background-color: #2a3041;
+  background-color: var(--primary-color);
 
   border-top-right-radius: 1.5rem;
   border-bottom-right-radius: 1.5rem;
@@ -296,7 +296,7 @@ export default {
 
 @media (max-height: 550px) and (orientation: landscape) {
   .page {
-    background-color: #2a3041;
+    background-color: var(--primary-color);
   }
 
   .container {

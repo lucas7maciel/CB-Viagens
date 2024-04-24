@@ -70,7 +70,7 @@ export default {
 
   padding-bottom: 1rem;
 
-  color: #2a3041;
+  color: var(--primary-color);
   user-select: none;
   white-space: nowrap;
   text-align: center;
@@ -99,7 +99,7 @@ export default {
   border-top-right-radius: 1rem;
 
   color: white;
-  background-color: #2a3041;
+  background-color: var(--primary-color);
 }
 
 .trips .trip .company {

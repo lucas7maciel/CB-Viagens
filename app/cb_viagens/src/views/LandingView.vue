@@ -49,7 +49,7 @@ export default {
   display: flex;
   align-items: stretch;
 
-  background-color: #2a3041;
+  background-color: var(--primary-color);
   color: white;
 
   user-select: none;

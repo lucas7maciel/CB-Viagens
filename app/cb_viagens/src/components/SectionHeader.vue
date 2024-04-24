@@ -22,7 +22,7 @@ export default {
   padding: 0.5rem;
   margin-bottom: 1rem;
 
-  background-color: #2a3041;
+  background-color: var(--primary-color);
   border-radius: 1rem;
   color: white;
 

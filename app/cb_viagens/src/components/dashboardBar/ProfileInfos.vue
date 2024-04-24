@@ -47,7 +47,7 @@ export default {
   border: solid 3px white;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 
-  background-color: #03a8b5;
+  background-color: var(--secondary-color);
 
   overflow: hidden;
 }

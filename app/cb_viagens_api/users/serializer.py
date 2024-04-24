@@ -20,10 +20,7 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
             "success": "true",
             "data": data | tokens
         }
-        print(data)
         
         token, created = Token.objects.get_or_create(user=instance)
-        print(token)
-        print(created)
 
         return data

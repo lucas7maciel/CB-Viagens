@@ -30,7 +30,7 @@ export default {
   flex-direction: column;
 
   color: white;
-  background-color: #2a3041;
+  background-color: var(--primary-color);
   user-select: none;
 
   max-width: 30%;

@@ -252,7 +252,7 @@ export default {
 
 /** Search */
 .search {
-  background-color: #2a3041;
+  background-color: var(--primary-color);
   padding-inline: 4rem;
   color: white;
   font-weight: bold;

@@ -128,7 +128,7 @@ export default {
   width: 2rem;
   height: 2rem;
 
-  background: #03a8b5;
+  background: var(--secondary-color);
   border-radius: 50%;
   border: solid white 2.5px;
 
@@ -164,7 +164,7 @@ export default {
 
   padding: 0.5rem;
 
-  background-color: #03a8b5;
+  background-color: var(--secondary-color);
   border-radius: 1rem;
 
   animation: show_options 0.3s;

@@ -87,12 +87,6 @@ export default {
 
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/`, options)
-
-        if (!res.ok) {
-          this.message = 'Falha ao criar usuário'
-          return
-        }
-
         const data: Object = await res.json()
 
         if (Object.hasOwnProperty.call(data, 'success')) {
