@@ -217,7 +217,7 @@ export default {
 
   position: relative;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-gutter: stable;
 }
