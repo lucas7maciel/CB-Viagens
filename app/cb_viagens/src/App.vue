@@ -1,10 +1,10 @@
 <script lang="ts">
-import axios from 'axios'
-import type { ComponentOptions } from 'vue';
+//import axios from 'axios'
+//import type { ComponentOptions } from 'vue';
 
 export default {
   name: 'App',
-  beforeCreate(this: ComponentOptions<any>) {
+  /*beforeCreate(this: ComponentOptions<any>) {
     const store = this.$store as any;
     const token = store.state.token
 
@@ -13,7 +13,7 @@ export default {
     } else {
       axios.defaults.headers.common['Authorization'] = ''
     }
-  }
+  }*/
 }
 </script>
 <template>

@@ -5,7 +5,7 @@ import TripInfos from '@/components/TripInfos.vue'
 import Row from '@/components/Row.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 // Functions
-import { getHeaders, getId } from '@/utils/authData'
+import { apiURL, getHeaders, getId } from '@/utils/authData'
 // Types
 import type { TripProps } from '@/types/trip'
 import type { ModalProps } from '@/types/modal'
@@ -38,7 +38,7 @@ export default {
           return
         }        
 
-        const url: string = `${import.meta.env.VITE_API_URL}/trips/booked/${id}/`
+        const url: string = `${import.meta.env.VITE_API_URL || apiURL}/trips/booked/${id}/`
         const res = await fetch(url, getHeaders())
 
         if (!res.ok) {

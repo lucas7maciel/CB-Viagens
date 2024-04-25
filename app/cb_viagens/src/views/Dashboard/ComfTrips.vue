@@ -9,7 +9,7 @@ import LayoutInput from '@/components/LayoutInput.vue'
 // Types
 import type { TripProps } from '@/types/trip'
 // Functions
-import { getHeaders } from '@/utils/authData'
+import { apiURL, getHeaders } from '@/utils/authData'
 
 export default {
   components: {
@@ -34,7 +34,7 @@ export default {
       this.message = "Pesquisando..."
 
       try {
-        const url: string = `${import.meta.env.VITE_API_URL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`
+        const url: string = `${import.meta.env.VITE_API_URL || apiURL}/trips/${this.cityInput ? `?city=${this.cityInput}` : ''}`
         const res = await fetch(url, getHeaders())
 
         if (!res.ok) {

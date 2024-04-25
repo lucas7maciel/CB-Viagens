@@ -7,7 +7,7 @@ import CalculatedTrip from '@/components/CalculatedTrip.vue'
 // Icons
 import AlertIcon from '@/components/icons/IconAlert.vue'
 // Functions
-import { getHeaders } from '@/utils/authData'
+import { apiURL, getHeaders } from '@/utils/authData'
 // Types
 import type { TripProps } from '@/types/trip'
 import type { ModalProps } from '@/types/modal'
@@ -34,7 +34,7 @@ export default {
     // Lists cities with available trips for select element
     async getCities() {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/trips/cities`)
+        const res = await fetch(`${import.meta.env.VITE_API_URL || apiURL}/trips/cities`)
 
         if (!res.ok) {
           this.message = "Falha ao pesquisar cidades"
@@ -59,7 +59,7 @@ export default {
       this.message = 'Pesquisando...'
 
       try {
-        const url : string = `${import.meta.env.VITE_API_URL}/trips/calculate?city=${this.cityInput}`
+        const url : string = `${import.meta.env.VITE_API_URL || apiURL}/trips/calculate?city=${this.cityInput}`
         const res = await fetch(url, getHeaders())
 
         if (!res.ok) {
@@ -104,7 +104,7 @@ export default {
       const modal = this.$refs.modal as ModalProps | null
 
       if (e.key === 'Enter' || e.key === ' ') {
-        document.activeElement?.blur()
+        (document.activeElement as HTMLElement | null)?.blur();
 
         if (modal?.opened) {
           this.close()

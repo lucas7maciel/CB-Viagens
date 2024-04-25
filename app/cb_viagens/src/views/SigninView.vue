@@ -3,6 +3,7 @@
 import Art from '@/components/signIn/Art.vue'
 // Functions
 import { checkUsername, checkPassword } from '@/utils/checkInputs'
+import { apiURL } from '@/utils/authData'
 
 export default {
   components: { Art },
@@ -55,7 +56,7 @@ export default {
       }
 
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/token/login/`, options)
+        const res = await fetch(`${import.meta.env.VITE_API_URL || apiURL}/auth/token/login/`, options)
 
         // If login is incorrect, Djoser (used in backend) returns 401
         if (!res.ok) {
@@ -65,10 +66,10 @@ export default {
         const data = await res.json()
 
         const token = data.auth_token
-        const store = this.$store as any
+        //const store = this.$store as any // Not using vuex anymore
 
         // Stores my access token for future requests
-        store.commit('setToken', token)
+        //store.commit('setToken', token)
         localStorage.setItem('token', token)
 
         if (token) {

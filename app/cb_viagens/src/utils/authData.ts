@@ -1,3 +1,6 @@
+
+export const apiURL: string = 'https://lucas7maciel.pythonanywhere.com/'
+
 export function getHeaders() {
   const token: string | null = localStorage.getItem('token')
   const headers: HeadersInit | undefined = {
@@ -9,7 +12,7 @@ export function getHeaders() {
 
 export async function getId() {
   try {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/me`, getHeaders())
+    const res = await fetch(`${import.meta.env.VITE_API_URL || apiURL}/auth/users/me`, getHeaders())
 
     if (res.status === 401) {
       throw new Error('Unauthorized request');

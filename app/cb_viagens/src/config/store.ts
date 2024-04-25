@@ -1,4 +1,5 @@
 
+/* Not using vuex anymore
 import type { InjectionKey } from 'vue'
 import { createStore, Store } from 'vuex'
 
@@ -6,7 +7,7 @@ import type { StateProps } from '@/types/state'
 
 export const key: InjectionKey<Store<StateProps>> = Symbol()
 
-export const store = createStore<StateProps>({
+export const store: any = createStore<StateProps>({
   state: {
     token: '',
     authenticated: false
@@ -34,3 +35,4 @@ export const store = createStore<StateProps>({
   actions: {},
   modules: {}
 })
+*/

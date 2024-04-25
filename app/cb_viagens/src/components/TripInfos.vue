@@ -1,6 +1,6 @@
 <script lang="ts">
 // Functions
-import { getId, getHeaders } from '@/utils/authData'
+import { apiURL, getId, getHeaders } from '@/utils/authData'
 
 export default {
   props: ['trip', 'add', 'cancel'],
@@ -22,7 +22,7 @@ export default {
         }
 
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/trips/book/${this.trip.id}/${id}/`,
+          `${import.meta.env.VITE_API_URL || apiURL}/trips/book/${this.trip.id}/${id}/`,
           getHeaders()
         )
 
@@ -50,7 +50,7 @@ export default {
 
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/trips/cancel/${this.trip.id}/`,
+          `${import.meta.env.VITE_API_URL || apiURL}/trips/cancel/${this.trip.id}/`,
           getHeaders()
         )
 

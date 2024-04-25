@@ -8,7 +8,7 @@ import ProfileIcon from '../icons/IconProfile.vue'
 import type { ModalProps } from '@/types/modal'
 import type {UserProps} from '@/types/user'
 // Functions
-import { getHeaders, logout } from '@/utils/authData'
+import { apiURL, getHeaders, logout } from '@/utils/authData'
 
 export default {
   components: {
@@ -25,7 +25,7 @@ export default {
   methods: {
     async getName() {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/me`, getHeaders());
+        const res = await fetch(`${import.meta.env.VITE_API_URL || apiURL}/auth/users/me`, getHeaders());
 
         if (res.status === 401) {
           throw new Error('Unauthorized request');

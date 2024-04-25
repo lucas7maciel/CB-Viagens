@@ -12,6 +12,7 @@ import {
   confirmPassword
 } from '@/utils/checkInputs'
 import { translateError } from '@/utils/translateError'
+import { apiURL } from '@/utils/authData'
 
 export default {
   components: {
@@ -86,7 +87,7 @@ export default {
       }
 
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users/`, options)
+        const res = await fetch(`${import.meta.env.VITE_API_URL || apiURL}/auth/users/`, options)
         const data: Object = await res.json()
 
         if (Object.hasOwnProperty.call(data, 'success')) {

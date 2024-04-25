@@ -4,7 +4,7 @@ from django.urls import path, include
 
 urlpatterns = [
     # Admin's interface
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
     # Trips routes
     path('trips/', include('trips.urls')),
     # Authentication routes

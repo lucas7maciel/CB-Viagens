@@ -6,10 +6,12 @@ import CalculatorIcon from '@/components/icons/IconCalculator.vue'
 import PlaneIcon from '@/components/icons/IconPlane.vue'
 import QuestionIcon from '@/components/icons/IconQuestion.vue'
 import PremiumIcon from '@/components/icons/IconPremium.vue'
+// Types
+import type { PropType } from 'vue'
 
 const props = defineProps({
   setPage: {
-    type: Function as () => void,
+    type: Function as PropType<(page: string) => void>,
     required: true
   }
 })

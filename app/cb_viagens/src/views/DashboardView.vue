@@ -10,7 +10,7 @@ import ComfTrips from '@/views/Dashboard/ComfTrips.vue'
 // Types
 import type { PagesProps } from '@/types/pages'
 // Functions
-import { getHeaders } from '@/utils/authData'
+import { apiURL, getHeaders } from '@/utils/authData'
 import { markRaw } from 'vue'
 
 export default {
@@ -40,7 +40,7 @@ export default {
   },
   beforeMount() {
     // Checks if user is logged
-    fetch(`${import.meta.env.VITE_API_URL}/auth/users/me/`, getHeaders())
+    fetch(`${import.meta.env.VITE_API_URL || apiURL}/auth/users/me/`, getHeaders())
       .then(res => {
         if (res.status === 401) {
           this.$router.push('/signin')
