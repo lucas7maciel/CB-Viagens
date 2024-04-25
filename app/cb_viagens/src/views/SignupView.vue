@@ -189,6 +189,8 @@ export default {
   width: 100dvw;
 
   padding: 1rem 1rem;
+
+  background-color: white;
 }
 
 /** General */

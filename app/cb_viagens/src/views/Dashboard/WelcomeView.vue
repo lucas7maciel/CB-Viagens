@@ -53,6 +53,8 @@ const setPage = (page: string) => {
 
   background-color: #f3f3f3;
   border-radius: 1rem;
+
+  user-select: none;
 }
 
 .welcome h1 {
