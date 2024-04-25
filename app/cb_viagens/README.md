@@ -4,7 +4,6 @@ Com esta interface podemos conferir e manusear as informações guardadas no ser
 ## Imagens
 ![Home](../../recording/home.png)
 ![Login](../../recording/login.png)
-![Dashboard](../../recording/dashboard.png)
 
 ## Requerimentos
 - Node.js;
@@ -16,23 +15,29 @@ Com esta interface podemos conferir e manusear as informações guardadas no ser
 - Página de login - "/signin";
 - Página de cadastro - "/signup";
 - Dashboard - "/dashboard"
-- Calculate Trip - (Seção do dashboard);
+- Calcular Viagem - (Seção do dashboard);
+- Viagens Comfort - (Seção do dashboard)
 - Minhas Viagens - (Seção do dashboard);
 - Sobre Nós - (Seção do dashboard);
 
 ## Bibliotecas Utilizadas
 - vue-datepicker: ^8.3.1;
-- axios: ^1.6.8;
 - pinia: ^2.1.7;
 - vue: ^3.4.21;
 - vue-router: ^4.3.0;
-- vuex: "^4.0.2";
 
 ## Como Executar
 _O projeto está sendo executado na port 8080, caso tenha outra preferência, altere em vite.config.ts_
 Para executar o projeto inteiro (backend e frontend), você pode executar /app/run.sh ou seguir este passo a passo (apenas front).
 
 ### Passo 1: Setup
+Caso queira definir uma URL própria para a API, crie um arquivo _.env_ na raíz do projeto e defina
+
+```.env
+VITE_API_URL=<URL_da_sua_API>
+```
+
+_Este passo não é necessário. Casa nada seja definido, as requests serão feitas para a API oficial_
 
 ```sh
 # Só é necessário executar este comando na primeira vez

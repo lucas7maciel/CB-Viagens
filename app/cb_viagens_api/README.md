@@ -5,9 +5,15 @@ Nele podemos manusear e conferir as informações das viagens armazenadas em um 
 - Python;
 
 ## Rotas
+### Viagens
 - /trips (GET) (city, date)                 | Retorna as viagens filtradas;
 - /trips/cities (GET)                       | Retorna todas as cidades disponíveis;
+- /trips/calculate (GET) (city, date)       | Retorna a viagem mais rápida e a viagem mais barata
+- /trips/booked (GET) (user)                | Retorna as viagens reservadas por este usuário
 - /trips/book (POST) (customer, trip)       | Associa uma viagem a um cliente;
+- /trips/cancel (PUT) (trip)                | Cancela uma viagem reservada
+### Autenticação
+- /auth/users (POST) (token)                | Retorna dados do usuário logado
 - /auth/users (POST) (username, password)   | Registra um usuário
 - /auth/login/ (POST) (username, password)  | Realiza o login do usuário
 
@@ -16,28 +22,40 @@ Alguns dos modelos utilizados nas tabelas
 
 ### Trips
 ```
-id : number (pr)
-name : CharField(max_length=40)
-price_confort : CharField(max_length=15)
-price_econ : CharField(max_length=15)
-city : CharField(max_length=40)
-duration : CharField(max_length=10)
-seat : CharField(max_length=3)
-bed : models.CharField(max_length=3)
+id: IntegerField(primary_key=True)
 
-customerId : IntegerField(blank=True, null=True)
+name: CharField(max_length=40)
+price_confort: DecimalField(max_digits=10, decimal_places=2)
+price_econ: DecimalField(max_digits=10, decimal_places=2)
+city: CharField(max_length=40)
+date: DateField(default=date.today)
+duration: CharField(max_length=10)
+seat: CharField(max_length=3)
+bed: CharField(max_length=3)
+
+customer : ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 ```
 
 ### Users
 ```
-firstname : CharField(max_length=30)
-lastname : CharField(max_length=30)
-username : CharField(max_length=50)
-email : charField(max_length=100)
-last_loged : DateField()
+firstname: CharField(max_length=30)
+lastname: CharField(max_length=30)
+username: CharField(max_length=50)
+email: charField(max_length=100)
+last_loged: DateField()
+date_joined: DateField()
 ```
 
 ## Como Executar
+### Opcional: Defina a secret key
+Crie um arquivo _.env_ na raíz do projeto e defina sua secret key
+
+```.env
+SECRET_KEY=<sua_secret_key>
+```
+
+_Caso não ache necessário, o servidor gerará uma chave própria_
+
 ### Passo 1: Instale as Dependências
 Na raíz do projeto, abra o prompt de comandos e execute a seguinte linha:
 
