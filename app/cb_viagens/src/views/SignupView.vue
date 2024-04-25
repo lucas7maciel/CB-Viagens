@@ -190,7 +190,15 @@ export default {
   padding: 1rem 1rem;
 }
 
-/** Inputs */
+/** General */
+h1,
+h2,
+label,
+br {
+  user-select: none;
+}
+
+/** Sign up section */
 .inputs {
   flex: 1;
 
@@ -290,14 +298,7 @@ export default {
   user-select: none;
 }
 
-h1,
-h2,
-label,
-br {
-  user-select: none;
-}
-
-/** */
+/** Queries */
 @media (max-width: 900px) {
   .intro {
     display: none;

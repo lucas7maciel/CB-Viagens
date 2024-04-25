@@ -30,12 +30,21 @@ export default {
 </template>
 
 <style scoped>
+/** Container */
 .container {
   text-align: center;
 
   padding: 1rem 0;
 }
 
+/** General */
+hr {
+  width: 50%;
+
+  margin: 1.5rem auto 0.4rem auto;
+}
+
+/** Picture */
 .profile {
   max-height: 8rem;
   max-width: 8rem;
@@ -59,21 +68,16 @@ export default {
   object-fit: contain;
 }
 
-hr {
-  width: 50%;
-
-  margin: 1.5rem auto 0.4rem auto;
-}
-
+/** Name */
 .name {
+  color: black;
   font-weight: bold;
   font-size: 2.3rem;
 
   margin-bottom: 0.2rem;
-
-  color: black;
 }
 
+/** Since */
 .since {
   font-weight: 600;
   font-size: 1rem;

@@ -35,6 +35,7 @@ const setPage = (page: string) => {
 </template>
 
 <style scoped>
+/** Page container */
 .welcome {
   flex: 1;
 
@@ -56,11 +57,13 @@ const setPage = (page: string) => {
   font-weight: bold;
 }
 
+/** Highlighted text */
 .navbar {
   font-weight: 600;
   color: #05a8b4;
 }
 
+/** Displayed Navbar links */
 .links {
   margin-top: 1.5rem;
 

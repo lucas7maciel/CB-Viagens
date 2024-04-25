@@ -40,6 +40,7 @@ export default {
 </template>
 
 <style scoped>
+/** Page */
 .container {
   height: 100vh;
   height: 100dvh;
@@ -56,12 +57,13 @@ export default {
   overflow: hidden;
 }
 
+/** General */
 .container .intro,
 .container .art {
   flex: 1;
 }
 
-/**Intro */
+/** Section with texts, logo and enter button */
 .intro {
   display: flex;
   align-items: start;
@@ -74,27 +76,12 @@ export default {
   animation-delay: 0.5s;
 }
 
-@keyframes show_intro {
-  0% {
-    transform: translateY(-3rem);
-    opacity: 0;
-  }
-
-  80% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
-
 .intro .title {
   margin-top: auto;
   font-size: 3rem;
 }
 
-.signin {
+.intro .signin { /** Button */
   font-weight: bold;
   font-size: 1.7rem;
   color: white;
@@ -112,11 +99,11 @@ export default {
   align-self: center;
 }
 
-.signin:hover {
+.intro .signin:hover {
   background-color: #08bbc8;
 }
 
-.intro .logo {
+.intro .logo { /** Logo displayed on the bottom of page */
   margin-top: auto;
   justify-self: center;
   align-self: center;
@@ -127,7 +114,7 @@ export default {
   max-width: 10rem;
 }
 
-/**Art */
+/** Art displayed */
 .art {
   text-align: center;
 
@@ -146,6 +133,22 @@ export default {
   transform: translateY(1.2rem);
 }
 
+/** Animations */
+@keyframes show_intro {
+  0% {
+    transform: translateY(-3rem);
+    opacity: 0;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 @keyframes show_art {
   0% {
     transform: translate(3rem, 1.2rem);
@@ -161,12 +164,13 @@ export default {
   }
 }
 
-/** Media queries */
+/** Queries */
 @media (max-width: 1000px) {
   .container {
     flex-direction: column-reverse;
   }
 
+  /** Intro */
   .intro {
     align-items: center;
     text-align: center;
@@ -176,6 +180,7 @@ export default {
     transform: translateY(-3rem);
   }
 
+  /** Art */
   .art {
     justify-content: center;
 
@@ -184,6 +189,7 @@ export default {
 }
 
 @media (max-width: 300px) {
+  /** Intro */
   .intro .title {
     font-size: 2rem;
   }
@@ -192,6 +198,7 @@ export default {
     transform: translateY(0);
   }
 
+  /** Art */
   .art {
     display: none;
   }

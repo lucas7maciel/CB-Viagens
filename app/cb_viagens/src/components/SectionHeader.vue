@@ -1,17 +1,12 @@
-<script lang="ts">
-
-export default {
-  props: ['title']
-}
-</script>
 
 <template>
   <div class="title">
-    <h1>{{ title }}</h1>
+    <h1><slot></slot></h1>
   </div>
 </template>
 
 <style scoped>
+/** Container */
 .title {
   flex: 0;
 
@@ -33,7 +28,7 @@ export default {
   font-weight: bold;
 }
 
-/** */
+/** Queries */
 @media (max-width: 900px) {
   .title {
     display: none;

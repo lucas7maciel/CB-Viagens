@@ -92,7 +92,7 @@ export default {
 
 <template>
   <div class="my_trips">
-    <SectionHeader title="Minhas Viagens"></SectionHeader>
+    <SectionHeader>Minhas Viagens</SectionHeader>
 
     <div class="content">
       <!-- Trips list -->
@@ -120,6 +120,7 @@ export default {
 </template>
 
 <style scoped>
+/** Page container */
 .my_trips {
   display: flex;
   flex-direction: column;
@@ -129,6 +130,7 @@ export default {
   overflow: hidden;
 }
 
+/** Content section (rows) */
 .content {
   flex: 1;
 
@@ -147,69 +149,26 @@ export default {
   color: #d9d9d9;
 }
 
-/*Inputs (header)*/
-.inputs {
-  display: flex;
-  align-items: stretch;
-  gap: 0.2rem;
-
-  height: 2rem;
-
-  margin-bottom: 0.8rem;
-}
-
-.inputs .city,
-.inputs .date,
-.inputs .layout {
-  display: flex;
-  align-items: stretch;
-}
-
-.inputs .city,
-.inputs .date {
-  flex: 1 1 25%;
-  justify-content: start;
-}
-
-.inputs .layout {
-  flex: 1 1 50%;
-  justify-content: end;
-}
-
-/*Inputs -> City*/
-.inputs .city input {
-  border-radius: 1.5rem;
-
-  padding: 0 2.2rem;
-
-  border: none;
-
-  background-image: url('../../assets/search.svg');
-  background-repeat: no-repeat;
-  background-position: 0.5rem center;
-  background-size: 1.2rem 1.2rem;
-}
-
-/*Tabela*/
-.results {
+/* Rows container */
+.results {                /** Default (List mode) */
   position: relative;
 
   flex: 1;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-gutter: stable;
 }
 
-.results.grid {
-  /** in grid mode */
+.results.grid {           /** Grid mode */
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the width as needed */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.2rem;
 
   padding-top: 0.6rem;
 }
 
+/** Message (in case of exceptions or no rows) */
 .results .message {
   display: flex;
   justify-content: center;
@@ -217,7 +176,7 @@ export default {
   text-align: center;
 
   /** Absolute positioned so the div wont be affected
-      by results' display */
+  by results' display */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -234,22 +193,7 @@ export default {
   color: rgb(67, 67, 67);
 }
 
-/*Modal*/
-.custom-animation-leave-active {
-  animation: fade-out 0.2s;
-}
-
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-/** */
+/** Queries */
 @media (max-width: 950px) {
   .properties.header {
     display: none;

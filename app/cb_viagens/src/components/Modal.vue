@@ -53,79 +53,14 @@ export default {
 </template>
 
 <style scoped>
-/*Content (vou mudar)*/
-.content {
-  flex: 1;
-}
-
-.content .infos {
-  display: flex;
-  flex-wrap: wrap;
-
-  margin-top: 1.5rem;
-}
-
-.content .infos .row {
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-}
-
-.content .infos .prop {
-  font-weight: bold;
-  color: gray;
-}
-
-.content .infos .value {
-  font-weight: bold;
-}
-
-.content .infos .prop,
-.content .infos .value {
-  flex: 1 1 49%;
-
-  font-size: 1.2rem;
-}
-
-.message {
-  font-weight: bold;
-  justify-self: center;
-  text-align: center;
-
-  padding-inline: 10%;
-
-  margin-top: 1.5rem;
-}
-
-.add {
-  font-weight: bold;
-  font-size: 1.3rem;
-  color: white;
-
-  padding: 0.5rem 1rem;
-  margin-top: 0.6rem;
-  margin-bottom: 1rem;
-
-  border-radius: 3rem;
-  border: none;
-  background-color: black;
-
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.add:hover {
-  background-color: lightgray;
-}
-
-/**/
+/* General */
 .shadow,
 .modal {
   position: fixed;
   z-index: 999;
 }
 
-/*Shadow*/
+/* Shadow */
 .shadow {
   width: 100%;
   height: 100%;
@@ -137,28 +72,9 @@ export default {
   animation: show_shadow 0.4s;
 }
 
-@keyframes show_shadow {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/** Transition */
+/** Closing transition */
 .custom-animation-leave-active {
   animation: fade-out 0.2s;
-}
-
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
 }
 
 /*Modal*/
@@ -207,6 +123,26 @@ hr {
   cursor: pointer;
 }
 
+/** Animations */
+@keyframes show_shadow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes show_modal {
   0% {
     opacity: 0;
@@ -218,7 +154,7 @@ hr {
   }
 }
 
-/** */
+/** Queries */
 @media (orientation: portrait) {
   .modal {
     min-width: 75%;

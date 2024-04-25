@@ -18,8 +18,10 @@ export default {
 
   padding: 0.6rem 0.8rem;
   margin-inline: 0.4rem;
-  cursor: pointer;
+
   border-radius: 3rem;
+
+  cursor: pointer;
 
   transition:
     filter 0.5s,
@@ -37,8 +39,9 @@ export default {
 }
 
 .link p {
-  padding-left: 0.6rem;
   font-weight: 600;
   font-size: 0.9rem;
+
+  padding-left: 0.6rem;
 }
 </style>

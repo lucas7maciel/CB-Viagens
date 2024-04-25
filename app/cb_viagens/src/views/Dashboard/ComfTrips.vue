@@ -100,8 +100,8 @@ export default {
 </script>
 
 <template>
-  <div class="calculate_trip">
-    <SectionHeader title="Viagens Comfort"></SectionHeader>
+  <div class="comf_trips">
+    <SectionHeader>Viagens Comfort</SectionHeader>
     <div class="content">
       <!-- Header inputs (city, date, layout) -->
       <div class="inputs">
@@ -139,7 +139,8 @@ export default {
 </template>
 
 <style scoped>
-.calculate_trip {
+/** Page container */
+.comf_trips {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -148,6 +149,7 @@ export default {
   overflow: hidden;
 }
 
+/** Content container (inputs and rows) */
 .content {
   flex: 1;
 
@@ -166,7 +168,7 @@ export default {
   color: #d9d9d9;
 }
 
-/*Inputs (header)*/
+/* Inputs (header) */
 .inputs {
   display: flex;
   align-items: stretch;
@@ -195,7 +197,7 @@ export default {
   justify-content: end;
 }
 
-/*Inputs -> City*/
+/* Inputs -> City */
 .inputs .city input {
   border-radius: 1.5rem;
 
@@ -209,9 +211,8 @@ export default {
   background-size: 1.2rem 1.2rem;
 }
 
-/* Tabela*/
-
-.results {
+/* Rows container */
+.results {                  /** Default (List mode) */
   flex: 1;
 
   position: relative;
@@ -221,7 +222,7 @@ export default {
   scrollbar-gutter: stable;
 }
 
-.results.grid { /** in grid mode */
+.results.grid {             /** in grid mode */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.2rem;
@@ -229,6 +230,7 @@ export default {
   padding-top: 0.6rem;
 }
 
+/** Message (in case of exceptions and no rows) */
 .results .message {
   display: flex;
   justify-content: center;
@@ -236,7 +238,7 @@ export default {
   text-align: center;
 
   /** Absolute positioned so the div wont be affected
-      by results' display */
+  by results current display **/
   position: absolute;
   top: 50%;
   left: 50%;
@@ -253,7 +255,7 @@ export default {
   color: rgb(67, 67, 67);
 }
 
-/** */
+/** Queries */
 @media (max-width: 950px) {
   /** Inputs */
   .inputs {
@@ -272,13 +274,12 @@ export default {
     justify-content: center;
   }
 
-  /** City */
+  /** City input */
   .inputs .city input {
     flex: 1;
     padding-block: 0.5rem; /** Ver isso */
   }
 
-  /** */
   .inputs .layout,
   .inputs .properties .header {
     display: none; /** Trocar isso */

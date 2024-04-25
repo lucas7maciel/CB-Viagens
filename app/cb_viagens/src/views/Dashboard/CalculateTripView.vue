@@ -141,7 +141,7 @@ export default {
 
 <template>
   <div class="calculate_trip">
-    <SectionHeader title="Calcular Viagem"></SectionHeader>
+    <SectionHeader>Calcular Viagem</SectionHeader>
     <div class="content">
       <!-- Inputs (city, date and search button) -->
       <div class="inputs">
@@ -178,6 +178,7 @@ export default {
 </template>
 
 <style scoped>
+/** Container */
 .calculate_trip {
   display: flex;
   flex-direction: column;
@@ -187,6 +188,7 @@ export default {
   height: calc(100vh - 1rem);
 }
 
+/** Content section (inputs and trips) */
 .content {
   flex: 1;
 
@@ -207,7 +209,7 @@ export default {
   margin-bottom: 1rem;
 }
 
-/*Inputs (header)*/
+/* Inputs (header) */
 .inputs {
   display: flex;
   align-items: stretch;
@@ -218,6 +220,7 @@ export default {
   margin-bottom: 0.8rem;
 }
 
+/** Setting spacing and alignment */
 .inputs .city,
 .inputs .date {
   display: flex;
@@ -234,7 +237,7 @@ export default {
   flex: 1 1 50%;
 }
 
-/*Inputs -> City*/
+/* City input styling */
 .inputs .city select {
   flex: 1;
 
@@ -250,7 +253,7 @@ export default {
   background-size: 1.1rem 1.1rem;
 }
 
-/** Search */
+/** Search button */
 .search {
   background-color: var(--primary-color);
   padding-inline: 4rem;
@@ -265,11 +268,7 @@ export default {
   background-color: #48516c;
 }
 
-/*Modal*/
-.custom-animation-leave-active {
-  animation: fade-out 0.2s;
-}
-
+/** Fill city and date modal message */
 .fill_forms .icon {
   max-width: 4rem;
   max-height: 4rem;
@@ -301,17 +300,7 @@ export default {
   background-color: #05becb;
 }
 
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-/** Trips */
+/** Trips container */
 .trips {
   flex: 1;
   align-self: stretch;
@@ -329,12 +318,13 @@ export default {
   overflow-y: auto;
 }
 
-h1, button {
+h1, button { /** Message, in case of exceptions or no trips */
   user-select: none;
 }
 
-/** */
+/** Queries */
 @media (max-width: 900px) {
+  /** Inputs spacing and alignment */
   .inputs {
     flex-wrap: wrap;
     gap: 0.7rem;

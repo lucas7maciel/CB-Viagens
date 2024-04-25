@@ -51,7 +51,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="dashboard_bar" v-if="!isPortrait">
+  <div class="dashboard" v-if="!isPortrait">
     <header class="header">
       <img class="logo" src="../../assets/logo.png" />
       <hr />
@@ -68,7 +68,7 @@ onUnmounted(() => {
     <Profile />
   </div>
   <!-- Dashboard in portrait mode -->
-  <div class="dashboard_bar" v-else>
+  <div class="dashboard" v-else>
     <MenuIcon @click.stop="menuOptions = !menuOptions" class="menu" />
     <div v-if="menuOptions" ref="options" class="menu_options">
       <p @click="setPage('Calculate')">Calcular Viagem</p>
@@ -82,56 +82,57 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.dashboard_bar {
-  position: relative;
-
+.dashboard {
   flex: 0 0 16rem;
   align-self: stretch;
+
+  position: relative;
 
   display: flex;
   flex-direction: column;
 
-  /*padding-inline: 1rem;*/
   padding: 1rem 0 0 0;
 
-  color: white;
   background-color: var(--primary-color);
   border-radius: 1rem;
-
+  
+  color: white;
   user-select: none;
 }
 
+/** General */
+hr {
+  margin: 0.3rem 1.5rem;
+  
+  color: white;
+}
+
+/** Header */
 .header {
   text-align: center;
 }
 
 .header .logo {
   width: calc(100% - 2rem);
-  object-fit: contain;
-
   margin-bottom: 0.8rem;
+  object-fit: contain;
 }
 
-hr {
-  color: white;
-  margin: 0.3rem 1.5rem;
-}
-
+/** Links */
 .links {
   flex: 1;
 }
 
-/** Menu options *Otimizar com options do perfil */
+/** Menu options (Portrait) */
 .menu_options {
   position: absolute;
   top: 90%;
   left: 1.2rem;
   z-index: 5;
 
-  background: var(--secondary-color);
-
   padding: 0.5rem 0.8rem;
 
+  background: var(--secondary-color);
   border-radius: 1rem;
 
   animation: show_options 0.3s;
@@ -152,9 +153,10 @@ hr {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-/** */
+/** Media queries */
 @media (max-width: 900px) {
-  .dashboard_bar {
+  /** Container */
+  .dashboard {
     flex: 0;
 
     flex-direction: row;
@@ -163,20 +165,24 @@ hr {
     padding: 0.5rem 2rem;
   }
 
-  .dashboard_bar .header {
+  /** General */
+  hr {
     display: none;
   }
 
+  /** Header */
+  .header {
+    display: none;
+  }
+
+  /** Links */
   .links {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  hr {
-    display: none;
-  }
-
+  /** Menu (Mobile) */
   .menu {
     max-width: 2rem;
     max-height: 2rem;

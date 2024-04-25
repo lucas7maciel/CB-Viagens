@@ -66,6 +66,7 @@ export default {
 </template>
 
 <style scoped>
+/** Whole page */
 .container {
   height: 100vh;
   height: 100dvh;
@@ -77,13 +78,15 @@ export default {
   display: flex;
   gap: 1rem;
 }
+
+/** Current Section */
 .page {
   flex: 1;
 }
 
-/** */
+/** Queries */
 @media (max-width: 900px) {
-  .container {
+  .container { /** Changes dashboard bar display */
     flex-direction: column;
   }
 }

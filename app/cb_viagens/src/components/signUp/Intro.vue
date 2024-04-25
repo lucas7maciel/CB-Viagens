@@ -24,26 +24,29 @@ export default {
 </template>
 
 <style scoped>
+/** Container */
 .intro {
   display: flex;
   align-items: stretch;
   flex-direction: column;
 
   color: white;
-  background-color: var(--primary-color);
-  user-select: none;
 
   max-width: 30%;
 
   padding: 1.3rem 1.5rem;
 
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-color);
   border-radius: 1rem;
 
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
+  user-select: none;
+
   animation: show_intro 0.7s;
 }
 
+/** Logo */
 .intro .logo {
   display: flex;
   justify-content: start;
@@ -63,6 +66,7 @@ export default {
   max-height: 0.8rem;
 }
 
+/** Slogan */
 .intro .slogan {
   flex: 1;
 
@@ -83,12 +87,15 @@ export default {
   font-weight: 500;
 }
 
+/** Alert */
 .intro .alert {
   font-weight: 500;
+
   animation: show_text 1s both;
   animation-delay: 0.3s;
 }
 
+/** Animations */
 @keyframes show_intro {
   from {
     max-width: 0%;

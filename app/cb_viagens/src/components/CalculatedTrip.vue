@@ -53,6 +53,7 @@ export default {
 </template>
 
 <style scoped>
+/** Container */
 .container {
   flex: 1;
 
@@ -61,6 +62,7 @@ export default {
   align-items: center;
 }
 
+/** Trip */
 .trip {
   display: flex;
   align-items: center;
@@ -71,15 +73,16 @@ export default {
   padding-bottom: 1rem;
 
   color: var(--primary-color);
-  user-select: none;
   white-space: nowrap;
   text-align: center;
   text-overflow: ellipsis;
-  cursor: pointer;
 
   box-shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
   background-color: white;
   border-radius: 1rem;
+
+  user-select: none;
+  cursor: pointer;
 
   transition: transform 0.3s;
   animation: fadein 0.6s;
@@ -89,7 +92,8 @@ export default {
   transform: translateY(-1rem);
 }
 
-.trips .trip .title {
+/** Title */
+.trip .title {
   font-weight: bold;
 
   width: 20rem;
@@ -102,12 +106,14 @@ export default {
   background-color: var(--primary-color);
 }
 
-.trips .trip .company {
+/** Company */
+.trip .company {
   margin-top: 0.5rem;
   font-size: 1.4rem;
   font-weight: bold;
 }
 
+/** Infos */
 .trip .subinfos {
   display: flex;
   text-align: center;
@@ -117,18 +123,19 @@ export default {
 }
 
 .trip .subinfos * {
-  flex: 1 1 29%;
+  flex: 1 1 29%; /**3 per row */
 }
 
-.trips .trip .prop {
+.trip .prop {
   color: gray;
   font-weight: 500;
 }
 
-.trips .trip .value {
+.trip .value {
   font-weight: bold;
 }
 
+/** Animations */
 @keyframes fadein {
   0% {
     transform: translateY(3rem);
@@ -141,21 +148,6 @@ export default {
 
   100% {
     transform: translateY(0rem);
-  }
-}
-
-/** Modal */
-.custom-animation-leave-active {
-  animation: fade-out 0.2s;
-}
-
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
   }
 }
 </style>

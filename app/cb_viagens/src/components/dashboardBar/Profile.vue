@@ -105,6 +105,7 @@ export default {
 </template>
 
 <style scoped>
+/** Container */
 .profile {
   position: relative;
 
@@ -122,7 +123,8 @@ export default {
   cursor: pointer;
 }
 
-.profile .pic {
+/** Picture */
+.pic {
   position: relative;
 
   width: 2rem;
@@ -135,7 +137,7 @@ export default {
   overflow: hidden;
 }
 
-.profile .pic .svg {
+.pic .svg {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -147,13 +149,15 @@ export default {
   object-fit: contain;
 }
 
+/** Name */
 .profile .name {
   flex: 1;
+
   font-weight: bold;
   text-overflow: ellipsis;
 }
 
-/* options */
+/* Options Modal */
 .options {
   position: absolute;
   bottom: 130%;
@@ -185,22 +189,26 @@ export default {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-/** */
+/** Media queries */
 @media (max-width: 900px) {
+  /** Container */
   .profile {
     margin: 0;
     padding-inline: 0;
   }
 
+  /** Name */
+  .name {
+    display: none;
+  }
+
+  /** Options Modal */
   .options {
     bottom: initial;
     left: initial;
+
     top: 130%;
     right: 0rem;
-  }
-
-  .name {
-    display: none;
   }
 }
 </style>

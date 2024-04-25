@@ -95,7 +95,7 @@ export default {
 </script>
 
 <template>
-  <div class="add_trip">
+  <div class="trip_infos">
     <!-- Trip data -->
     <div class="infos">
       <span class="prop">Compania</span><span class="value">{{ trip.name }}</span>
@@ -116,11 +116,13 @@ export default {
 </template>
 
 <style scoped>
-.add_trip {
+/** Container */
+.trip_infos {
   flex: 1;
 }
 
-.add_trip .infos {
+/** Infos section */
+.trip_infos .infos {
   display: flex;
   flex-wrap: wrap;
 
@@ -128,28 +130,23 @@ export default {
   margin-bottom: 1rem;
 }
 
-.add_trip .infos .row {
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-}
-
-.add_trip .infos .prop {
-  font-weight: bold;
-  color: gray;
-}
-
-.add_trip .infos .value {
-  font-weight: bold;
-}
-
-.add_trip .infos .prop,
-.add_trip .infos .value {
+.trip_infos .infos .prop,
+.trip_infos .infos .value {
   flex: 1 1 49%;
 
   font-size: 1.2rem;
 }
 
+.trip_infos .infos .prop {
+  font-weight: bold;
+  color: gray;
+}
+
+.trip_infos .infos .value {
+  font-weight: bold;
+}
+
+/** Book | Cancel section */
 .message {
   font-weight: bold;
   justify-self: center;
@@ -159,8 +156,7 @@ export default {
   user-select: none;
 }
 
-/** Buttons */
-.buttons {
+.buttons { /** Buttons container */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -191,13 +187,13 @@ button:hover {
   background-color: lightgray;
 }
 
-/** */
+/** Queries */
 @media (orientation: portrait) {
-  .add_trip .infos {
+  .trip_infos .infos {
     flex-direction: column;
   }
 
-  .add_trip .infos .value {
+  .trip_infos .infos .value {
     font-size: 1.4rem;
     margin-bottom: 0.3rem;
   }

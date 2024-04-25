@@ -143,7 +143,6 @@ export default {
   align-items: center;
 }
 
-/** Inputs Section */
 .container {
   display: flex;
   max-width: 60%;
@@ -157,6 +156,7 @@ export default {
   user-select: none;
 }
 
+/** Sign in section */
 .forms_section {
   flex: 1 1 45%;
 
@@ -178,7 +178,7 @@ export default {
   width: 100%;
 }
 
-.logo {
+.forms_section .logo {
   max-width: 80%;
   max-height: 100%;
 
@@ -265,14 +265,14 @@ export default {
   color: rgb(216, 216, 216);
 }
 
-/** */
+/** Queries */
 @media (max-width: 1000px) {
   .signin {
     width: 9rem;
   }
 }
 
-@media (max-width: 900px) or (orientation: portrait) or (max-height: 550px) {
+@media (max-width: 900px) or (max-height: 550px) or (orientation: portrait) {
   .container {
     flex: 1;
     align-self: stretch;

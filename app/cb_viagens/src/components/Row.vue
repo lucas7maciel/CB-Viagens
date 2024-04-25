@@ -3,8 +3,13 @@ import PlaneIcon from '@/components/icons/IconPlane.vue'
 
 export default {
   props: ['trip', 'grid', 'header', 'openTrip'],
-  components: {
-    PlaneIcon
+  components: { PlaneIcon },
+  methods: {
+    open() {
+      if (this.openTrip) {
+        this.openTrip(this.trip)
+      }
+    }
   }
 }
 </script>
@@ -14,7 +19,7 @@ export default {
   <!-- Only its definition -->
   <div 
     class="properties" 
-    @click="openTrip(trip)"
+    @click="open()"
     :class="`
       ${grid ? 'grid' : 'list'}
       ${header ? 'header' : ''}`"
@@ -45,7 +50,7 @@ export default {
 </template>
 
 <style scoped>
-/** List */
+/** List Mode */
 .properties.list {
   display: flex;
   align-items: center;
@@ -58,7 +63,8 @@ export default {
   user-select: none;
 }
 
-.properties.list.header { /** Aligns header with rows list (padding caused by scrollbar) */
+.properties.list.header {
+  /** Aligns header with rows list (padding caused by scrollbar) */
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-gutter: stable;
@@ -98,7 +104,7 @@ export default {
   transition: color 0.3s;
 }
 
-/** Grid */
+/** Grid Mode */
 .properties.grid {
   display: flex;
   flex-wrap: wrap;

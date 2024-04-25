@@ -10,7 +10,7 @@ export default {
 
 <template>
   <div class="about_us">
-    <SectionHeader title="Sobre Nós" />
+    <SectionHeader>Sobre Nós</SectionHeader>
     <div class="content">
       <h1>Somos uma rede de viagens</h1>
       <h2>Em breve informações serão adicionadas</h2>
@@ -37,6 +37,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 
   background-color: #f3f3f3;
   border-radius: 1rem;

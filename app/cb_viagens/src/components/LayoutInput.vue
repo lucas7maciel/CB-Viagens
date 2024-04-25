@@ -37,6 +37,7 @@ export default {
 </template>
 
 <style scoped>
+/** Container */
 .layout .container {
   position: relative;
 
@@ -56,6 +57,7 @@ export default {
   z-index: 2;
 }
 
+/** Decorative (black bg on current mode) */
 .layout .selected {
   position: absolute;
   top: 0;
@@ -85,10 +87,7 @@ export default {
   left: 50%;
 }
 
-.layout.list_mode .list, .layout.grid_mode .grid {
-  filter: invert(1);
-}
-
+/** General */
 .layout .grid,
 .layout .list {
   position: relative;
@@ -103,6 +102,11 @@ export default {
   padding-inline: 0.7rem;
 
   transition: filter 0.6s 0.05s;
+}
+
+.layout.list_mode .list, .layout.grid_mode .grid {
+  /** So the selected mode icon and name gets visible */
+  filter: invert(1);
 }
 
 .grid span, .list span {

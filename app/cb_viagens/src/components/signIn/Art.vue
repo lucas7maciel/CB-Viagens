@@ -5,19 +5,20 @@
 </template>
 
 <style scoped>
+/** Container */
 .svg_section {
   flex: 1 1 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   background-color: #cceaf7;
+  
   overflow: hidden;
+  white-space: nowrap;
 
   animation: init_svg 0.8s;
-
-  /*Ajeitar*/
-  white-space: nowrap;
 }
 
 .svg_section .art {
@@ -27,6 +28,7 @@
   object-fit: contain;
 }
 
+/** Animations */
 @keyframes init_svg {
   from {
     flex: 0;

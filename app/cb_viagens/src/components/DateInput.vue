@@ -64,26 +64,34 @@ export default {
 </template>
 
 <style scoped>
+/** Container */
 .date .container {
   position: relative;
-
-  /*font-size: 1.2rem;*/
-  font-size: 0.9rem;
-  user-select: none;
-  color: gray;
-
-  padding: 0 /*.4rem*/ 1.5rem;
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
 
+  font-size: 0.9rem;
+  user-select: none;
+  color: gray;
+
+  padding: 0 1.5rem;
+
   border-radius: 1.5rem;
 
   cursor: pointer;
 }
 
+/** General */
+.date .container span,
+.date .container .expand {
+  position: relative;
+  z-index: 3;
+}
+
+/** Output */
 .date .container span {
   white-space: nowrap;
 }
@@ -93,35 +101,29 @@ export default {
   max-height: 1rem;
 }
 
-/*Esconder o input do date picker*/
+/* Hides original component */
 .date .container .datepicker {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-
   z-index: 1;
+  
+  transform: translateX(-50%);
 }
 
 .date .container .hider {
   position: absolute;
   top: -0.3rem;
   left: -0.1rem;
+  z-index: 2;
 
   width: calc(100% + 0.2rem);
   height: calc(100% + 0.6rem);
 
   background-color: #f3f3f3;
-
-  z-index: 2;
 }
 
-.date .container span,
-.date .container .expand {
-  position: relative;
-  z-index: 3;
-}
 
-/** */
+/** Media queries */
 @media (max-width: 950px) {
   .date .container .hider {
     /** Based on new header measures (comfTrips, myTrips) */
