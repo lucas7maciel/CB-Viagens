@@ -188,7 +188,7 @@ export default {
   }
 }
 
-@media (max-width: 300px) or (max-height: 600px) {
+@media (max-width: 300px) or (max-height: 500px) {
   /** Intro */
   .intro .title {
     font-size: 2rem;

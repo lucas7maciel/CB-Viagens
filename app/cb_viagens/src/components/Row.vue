@@ -41,7 +41,7 @@ export default {
     </span>
 
     <span class="price">
-      {{ header ? 'Preço' : trip.price_confort }}
+      {{ header ? 'Preço' : `R$ ${trip.price_confort}` }}
     </span>
   </div>
 
@@ -93,6 +93,7 @@ export default {
   flex: 1;
 
   font-weight: 600;
+  color: #2c3e50;
 }
 
 .properties.list .plane:hover {
@@ -150,6 +151,12 @@ export default {
   background-color: var(--primary-color);
 }
 
+.properties.grid .company, 
+.properties.grid .duration, 
+.properties.grid .price {
+  color: black;
+}
+
 .properties.grid .company {
   flex: 1 1 100%;
   
@@ -160,10 +167,6 @@ export default {
 
 .properties.grid .duration::after {
   content: "  -  ";
-}
-
-.properties.grid .price::before {
-  content: "R$ ";
 }
 
 .properties.grid .plane {

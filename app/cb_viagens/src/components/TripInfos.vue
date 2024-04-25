@@ -100,9 +100,9 @@ export default {
     <div class="infos">
       <span class="prop">Compania</span><span class="value">{{ trip.name }}</span>
       <span class="prop">Cidade</span><span class="value">{{ trip.city }}</span>
-      <span class="prop">Duração</span><span class="value">{{ trip.duration }}</span>
+      <span class="prop">Duração</span><span class="value">{{ trip.duration }}h</span>
       <span class="prop">Leito</span><span class="value">{{ trip.seat }}</span>
-      <span class="prop">Preço</span><span class="value">{{ trip.price_confort }}</span>
+      <span class="prop">Preço</span><span class="value">R$ {{ trip.price_confort }}</span>
     </div>
 
     <!-- Book | Cancel section -->
