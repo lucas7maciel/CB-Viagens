@@ -163,6 +163,7 @@ export default {
 .results.grid {           /** Grid mode */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(3rem, 8rem));
   gap: 1.2rem;
 
   padding-top: 0.6rem;
