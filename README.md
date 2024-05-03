@@ -1,5 +1,5 @@
 # CB Viagens
-Site de uma empresa fictícia de 
+Site de uma empresa fictícia de Viagens
 
 ## Imagens
 ![Home](recording/home.png)
